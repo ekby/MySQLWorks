@@ -8,11 +8,11 @@ public class Course {
     private String ckclb;
     private int ctid;
     private String croom;
-    private int[] ctime;
+    private String ctime;
     private int csigned_num;
     private int cmax_num;
 
-    public Course(int cid, String cname, String cdepartment, float ccredit, String ckclb, int ctid, String croom, int[] ctime, int csigned_num, int cmax_num) {
+    public Course(int cid, String cname, String cdepartment, float ccredit, String ckclb, int ctid, String croom, String ctime, int csigned_num, int cmax_num) {
         this.cid = cid;
         this.cname = cname;
         this.cdepartment = cdepartment;
@@ -81,11 +81,11 @@ public class Course {
         this.croom = croom;
     }
 
-    public int[] getCtime() {
+    public String getCtime() {
         return ctime;
     }
 
-    public void setCtime(int[] ctime) {
+    public void setCtime(String ctime) {
         this.ctime = ctime;
     }
 
@@ -103,5 +103,21 @@ public class Course {
 
     public void setCmax_num(int cmax_num) {
         this.cmax_num = cmax_num;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "cid=" + cid +
+                ", cname='" + cname + '\'' +
+                ", cdepartment='" + cdepartment + '\'' +
+                ", ccredit=" + ccredit +
+                ", ckclb='" + ckclb + '\'' +
+                ", ctid=" + ctid +
+                ", croom='" + croom + '\'' +
+                ", ctime='" + ctime + '\'' +
+                ", csigned_num=" + csigned_num +
+                ", cmax_num=" + cmax_num +
+                '}';
     }
 }

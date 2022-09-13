@@ -18,6 +18,7 @@ public class Main {
 //            throw new RuntimeException(e);
 //        }
 //        whd.modifyCourse_cname("1", "数学");
-        whd.modifyCourse_cdepartment("1", "dsdsds");
+//        whd.modifyCourse_cdepartment("1", "dsdsds");
+
     }
 }

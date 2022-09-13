@@ -77,7 +77,6 @@ public class People {
                 System.out.println("Connected.");
             else
                 System.out.println("Connection Failed.");
-            Statement statement = connection.createStatement();
             String sql = String.format("UPDATE %s SET name = ? WHERE id = ?", tableName);
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, new_name);
@@ -86,8 +85,8 @@ public class People {
                 System.out.println("Conduct successfully.");
             else
                 System.out.println("Conduct failed.");
-            MySQLConnection.close(statement);
-            MySQLConnection.close(connection);
+            preparedStatement.close();
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -101,7 +100,6 @@ public class People {
                 System.out.println("Connected.");
             else
                 System.out.println("Connection Failed.");
-            Statement statement = connection.createStatement();
             String sql = String.format("UPDATE %s SET contact = ? WHERE id = ?", tableName);
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             // 先判断是否为11位，不是直接滚蛋
@@ -131,8 +129,8 @@ public class People {
                 System.out.println("Conduct successfully.");
             else
                 System.out.println("Conduct failed.");
-            MySQLConnection.close(statement);
-            MySQLConnection.close(connection);
+            preparedStatement.close();
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -146,7 +144,6 @@ public class People {
                 System.out.println("Connected.");
             else
                 System.out.println("Connection Failed.");
-            Statement statement = connection.createStatement();
             String sql = String.format("UPDATE %s SET gender = ? WHERE id = ?", tableName);
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, String.valueOf(new_gender));
@@ -155,8 +152,8 @@ public class People {
                 System.out.println("Conduct successfully.");
             else
                 System.out.println("Conduct failed.");
-            MySQLConnection.close(statement);
-            MySQLConnection.close(connection);
+            preparedStatement.close();
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -170,7 +167,6 @@ public class People {
                 System.out.println("Connected.");
             else
                 System.out.println("Connection Failed.");
-            Statement statement = connection.createStatement();
             String sql = String.format("UPDATE %s SET pw = ? WHERE id = ?", tableName);
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             if(new_password.length() != 6){
@@ -187,8 +183,8 @@ public class People {
                 System.out.println("Conduct successfully.");
             else
                 System.out.println("Conduct failed.");
-            MySQLConnection.close(statement);
-            MySQLConnection.close(connection);
+            preparedStatement.close();
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
