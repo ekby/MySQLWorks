@@ -1,9 +1,6 @@
 package jwglxt;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class People {
     private String name;
@@ -81,15 +78,14 @@ public class People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "UPDATE ? SET name = ? WHERE id = ?";
+            String sql = String.format("UPDATE %s SET name = ? WHERE id = ?", tableName);
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, tableName);
-            preparedStatement.setString(2, new_name);
-            preparedStatement.setString(3, uid);
+            preparedStatement.setString(1, new_name);
+            preparedStatement.setString(2, uid);
             if (preparedStatement.executeUpdate() != 0)
-                System.out.println("Name modify successfully.");
+                System.out.println("Conduct successfully.");
             else
-                System.out.println("Name modify failed.");
+                System.out.println("Conduct failed.");
             MySQLConnection.close(statement);
             MySQLConnection.close(connection);
         } catch (SQLException e) {
@@ -97,19 +93,105 @@ public class People {
         }
     }
 
-    public void modifyinfo_contact(String new_contact) {
-        if (new_contact.length() != 11) {
-            System.out.println("联系方式应为11位，联系方式修改为默认联系方式00000000000。");
-            this.contact = "00000000000";
-        } else {
-            for (int i = 0; i < new_contact.length(); i++) {
-                if (!Character.isDigit(new_contact.charAt(i)))
-                    break;
-                System.out.println("联系方式中不能有字符，联系方式修改为默认联系方式00000000000。");
-                this.contact = "00000000000";
+    public void modifyinfo_contact(String new_contact, String tableName, String uid) {
+        Connection connection;
+        try {
+            connection = MySQLConnection.getConnection();
+            if (!connection.isClosed())
+                System.out.println("Connected.");
+            else
+                System.out.println("Connection Failed.");
+            Statement statement = connection.createStatement();
+            String sql = String.format("UPDATE %s SET contact = ? WHERE id = ?", tableName);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            // 先判断是否为11位，不是直接滚蛋
+            if (new_contact.length() != 11) {
+                System.out.println("修改失败，\n联系方式应为11位，修改为默认联系方式00000000000。");
+                preparedStatement.setString(1, "00000000000");
+                preparedStatement.setString(2, uid);
+            } else {
+                //如果是11位，遍历字符串，看有没有字符不是数字，就直接滚蛋
+                for (int i = 0; i < new_contact.length(); i++) {
+                    if (!Character.isDigit(new_contact.charAt(i))) {
+                        System.out.println("联系方式中不能有字符，联系方式修改为默认联系方式00000000000。");
+                        preparedStatement.setString(1, "00000000000");
+                        preparedStatement.setString(2, uid);
+                        break;
+                    }
+                    //如果遍历完了，i+1正好是length，证明没有不是数字的字符，成功
+                    if (i + 1 == new_contact.length()) {
+                        System.out.println("联系方式修改成功！");
+                        preparedStatement.setString(1, new_contact);
+                        preparedStatement.setString(2, uid);
+                    }
+                }
             }
-            System.out.println("修改成功！");
-            this.contact = new_contact;
+
+            if (preparedStatement.executeUpdate() != 0)
+                System.out.println("Conduct successfully.");
+            else
+                System.out.println("Conduct failed.");
+            MySQLConnection.close(statement);
+            MySQLConnection.close(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    public void modifyinfo_gender(char new_gender, String tableName, String uid) {
+        Connection connection;
+        try {
+            connection = MySQLConnection.getConnection();
+            if (!connection.isClosed())
+                System.out.println("Connected.");
+            else
+                System.out.println("Connection Failed.");
+            Statement statement = connection.createStatement();
+            String sql = String.format("UPDATE %s SET gender = ? WHERE id = ?", tableName);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, String.valueOf(new_gender));
+            preparedStatement.setString(2, uid);
+            if (preparedStatement.executeUpdate() != 0)
+                System.out.println("Conduct successfully.");
+            else
+                System.out.println("Conduct failed.");
+            MySQLConnection.close(statement);
+            MySQLConnection.close(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void modifyinfo_password(String new_password, String tableName, String uid) {
+        Connection connection;
+        try {
+            connection = MySQLConnection.getConnection();
+            if (!connection.isClosed())
+                System.out.println("Connected.");
+            else
+                System.out.println("Connection Failed.");
+            Statement statement = connection.createStatement();
+            String sql = String.format("UPDATE %s SET pw = ? WHERE id = ?", tableName);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            if(new_password.length() != 6){
+                System.out.println("密码必须为6位数字、字母或其他字符。");
+                preparedStatement.setString(1, "123456");
+                preparedStatement.setString(2, uid);
+            } else {
+                System.out.println("修改密码成功。");
+                preparedStatement.setString(1, new_password);
+                preparedStatement.setString(2, uid);
+            }
+
+            if (preparedStatement.executeUpdate() != 0)
+                System.out.println("Conduct successfully.");
+            else
+                System.out.println("Conduct failed.");
+            MySQLConnection.close(statement);
+            MySQLConnection.close(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

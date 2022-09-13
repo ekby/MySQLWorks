@@ -18,7 +18,7 @@ public class Xtadmin extends People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO teacher(id, name, tgender, tfirstyear, ttitle, tcollege, tcontact, tpd)  values(?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO teacher(id, name, gender, tfirstyear, ttitle, tcollege, contact, pw)  values(?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, name);
@@ -53,7 +53,7 @@ public class Xtadmin extends People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO student(id, name, sgender, sfirstyear, smajor, sclass, scontact, spw)  values(?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO student(id, name, gender, sfirstyear, smajor, sclass, contact, pw)  values(?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, name);
@@ -88,7 +88,7 @@ public class Xtadmin extends People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO jwadmin(id, name, jgender, jcontact, jpw)  values(?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO jwadmin(id, name, gender, contact, pw)  values(?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, name);
