@@ -12,7 +12,6 @@ public class Course {
     private int csigned_num;
     private int cmax_num;
 
-
     public Course(int cid, String cname, String cdepartment, float ccredit, String ckclb, int ctid, String croom, int[] ctime, int csigned_num, int cmax_num) {
         this.cid = cid;
         this.cname = cname;
