@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Student extends People {
     private int sfirstyear, sclass;
@@ -25,7 +26,7 @@ public class Student extends People {
         try {
             connection = MySQLConnection.getConnection();
             if (!connection.isClosed())
-                System.out.println(String.format("Connected to %s.", connection.getCatalog()));
+                System.out.printf(String.format("Connected to %s.\n", connection.getCatalog()));
             else
                 System.out.println("Connection failed.");
             String sql = "SELECT * FROM course INNER JOIN choosecourse ON course.cid = choosecourse.cccid WHERE choosecourse.ccsid=?";
@@ -33,7 +34,10 @@ public class Student extends People {
             preparedStatement.setString(1, String.valueOf(sid));
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                courseArrayList.add(new Course(Integer.parseInt(resultSet.getString("cid")), resultSet.getNString("cname"), resultSet.getNString("cdepartment"), Float.parseFloat(resultSet.getString("ccredit")), resultSet.getString("ckclb"), Integer.parseInt(resultSet.getString("cteacherid")), resultSet.getNString("croom"), String.valueOf(resultSet.getString("ctime")), Integer.parseInt(resultSet.getString("csigned_num")), Integer.parseInt(resultSet.getString("cmax_num"))));
+                courseArrayList.add(new Course(Integer.parseInt(resultSet.getString("cid")), resultSet.getNString("cname"),
+                        resultSet.getNString("cdepartment"), Float.parseFloat(resultSet.getString("ccredit")), resultSet.getString("ckclb"),
+                        Integer.parseInt(resultSet.getString("cteacherid")), resultSet.getNString("croom"), String.valueOf(resultSet.getString("ctime")),
+                        Integer.parseInt(resultSet.getString("csigned_num")), Integer.parseInt(resultSet.getString("cmax_num"))));
             }
             resultSet.close();
             preparedStatement.close();
