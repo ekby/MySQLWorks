@@ -19,7 +19,7 @@ public class Xtadmin extends People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO teacher(id, name, gender, tfirstyear, ttitle, tcollege, contact, tpd)  values(?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO teacher(id, name, gender, tfirstyear, ttitle, tcollege, contact, pw)  values(?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, name);
