@@ -12,8 +12,6 @@ public class Student extends People {
         this.scollege = scollege;
     }
 
-
-
     public int getSfirstyear() {
         return sfirstyear;
     }
