@@ -18,7 +18,7 @@ public class Xtadmin extends People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO teacher(tid, tname, tgender, tfirstyear, ttitle, tcollege, tcontact, tpd)  values(?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO teacher(id, name, tgender, tfirstyear, ttitle, tcollege, tcontact, tpd)  values(?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, name);
@@ -53,7 +53,7 @@ public class Xtadmin extends People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO student(sid, sname, sgender, sfirstyear, smajor, sclass, scontact, spw)  values(?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO student(id, name, sgender, sfirstyear, smajor, sclass, scontact, spw)  values(?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, name);
@@ -88,7 +88,7 @@ public class Xtadmin extends People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO jwadmin(jid, jname, jgender, jcontact, jpw)  values(?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO jwadmin(id, name, jgender, jcontact, jpw)  values(?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, name);
@@ -117,7 +117,7 @@ public class Xtadmin extends People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "DELETE FROM teacher WHERE tid=?";
+            String sql = "DELETE FROM teacher WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             if (preparedStatement.executeUpdate() != 0)
@@ -140,7 +140,7 @@ public class Xtadmin extends People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "DELETE FROM student WHERE sid=?";
+            String sql = "DELETE FROM student WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             if (preparedStatement.executeUpdate() != 0)
@@ -163,7 +163,7 @@ public class Xtadmin extends People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "DELETE FROM jwadmin WHERE jid=?";
+            String sql = "DELETE FROM jwadmin WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             if (preparedStatement.executeUpdate() != 0)
@@ -187,7 +187,7 @@ public class Xtadmin extends People {
             else
                 System.out.println("Connection Failed.");
             Statement statement = connection.createStatement();
-            String sql = "SELECT * FROM teacher WHERE tid=?";
+            String sql = "SELECT * FROM teacher WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();

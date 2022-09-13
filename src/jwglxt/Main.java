@@ -7,7 +7,8 @@ public class Main {
 //        whd.createStudent("xrc", "0203", "020228", 'm', "null", 1921, "xinxiguanliyuxinxixitong", 201102, "jingjiyuguanli");
 //        whd.createJwadmin("qk", "20110121", "woshiqiaoke", 'f', "?");
 //        whd.deleteTeacher("1");
-        System.out.println(whd.selectTeacher("1"));
+        whd.modifyinfo_name("whd1", "xtadmin", "116");
+//        System.out.println(whd.selectTeacher("1"));
 
     }
 }
