@@ -1,4 +1,4 @@
-package newjwglxt.encrypt;
+package newjwglxt.jwglxt.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
