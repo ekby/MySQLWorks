@@ -1,6 +1,8 @@
 package jwglxt;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class People {
     private String name;
@@ -53,9 +55,9 @@ public class People {
         this.pw = pw;
     }
 
-    public char getGender() {
-        return gender;
-    }
+//    public String getGender() {
+//        return gender;
+//    }
 
     public void setGender(char gender) {
         this.gender = gender;
