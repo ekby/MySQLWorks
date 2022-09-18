@@ -1,45 +1,43 @@
 package newjwglxt.jwglxt.dao;
 
-import newjwglxt.jwglxt.concrete.Teacher;
-
 import java.sql.Connection;
 import java.util.ArrayList;
 
-public class TeacherDaoImpl implements BaseDao<Teacher> {
+public class TeacherDaoImpl implements BaseDao {
     // TODO teacherdaoimpl
 
     @Override
-    public void Insert(Connection connection, Teacher teacher) {
+    public void Insert(Connection connection, Object o) {
 
     }
 
     @Override
-    public void Delete(Connection connection, Teacher teacher) {
+    public void Delete(Connection connection, Object o) {
 
     }
 
     @Override
-    public void Update(Connection connection, Teacher t0, Teacher t1) {
+    public void Update(Connection connection, Object t0, Object t1) {
 
     }
 
     @Override
-    public ArrayList<Teacher> SelectById(Connection connection, int id) {
+    public ArrayList SelectById(Connection connection, int id) {
         return null;
     }
 
     @Override
-    public ArrayList<Teacher> SelectByIdRough(Connection connection, int id) {
+    public ArrayList SelectByIdRough(Connection connection, int id) {
         return null;
     }
 
     @Override
-    public ArrayList<Teacher> SelectByName(Connection connection, String name) {
+    public ArrayList SelectByName(Connection connection, String name) {
         return null;
     }
 
     @Override
-    public ArrayList<Teacher> SelectByNameRough(Connection connection, String name) {
+    public ArrayList SelectByNameRough(Connection connection, String name) {
         return null;
     }
 }
