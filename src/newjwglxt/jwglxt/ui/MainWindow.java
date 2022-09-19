@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class MainFrame extends JFrame {
+public class MainWindow extends JFrame {
     // TODO ui
 
     private JPanel contentPane;
@@ -18,7 +18,7 @@ public class MainFrame extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    MainFrame frame = new MainFrame();
+                    MainWindow frame = new MainWindow();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -30,7 +30,7 @@ public class MainFrame extends JFrame {
     /**
      * Create the frame.
      */
-    public MainFrame() {
+    public MainWindow() {
         setTitle("教务管理系统");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

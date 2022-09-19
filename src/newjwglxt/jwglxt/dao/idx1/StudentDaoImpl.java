@@ -1,44 +1,26 @@
-package newjwglxt.jwglxt.dao;
+package newjwglxt.jwglxt.dao.idx1;
 
-import newjwglxt.jwglxt.concrete.Course;
+import newjwglxt.jwglxt.entity.Student;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class CourseDaoImpl implements BaseDao<Course> {
+public class StudentDaoImpl implements Dao_idx1<Student> {
     @Override
-    public void Insert(Connection connection, Course course) {
+    public void Insert(Connection connection, Student student) {
         DatabaseMetaData databaseMetaData;
         PreparedStatement preparedStatement;
         try {
-            databaseMetaData = connection.getMetaData();
-            preparedStatement = connection.prepareStatement("INSERT INTO course VALUES(?,?,?,?,?,?,?,?,?,?)");
-            preparedStatement.setInt(1, course.getCid());
-            preparedStatement.setString(2, course.getCname());
-            preparedStatement.setString(3, course.getCdepartment());
-            preparedStatement.setDouble(4, course.getCcredit());
-            preparedStatement.setString(5, course.getCkclb());
-            preparedStatement.setInt(6, course.getCteacherid());
-            preparedStatement.setString(7, course.getCroom());
-            preparedStatement.setString(8, course.getCtime());
-            preparedStatement.setInt(9, course.getCsigned_num());
-            preparedStatement.setInt(10, course.getCmax_num());
-            if (preparedStatement.executeUpdate() != 0)
-                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
-            else
-                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
-            preparedStatement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void Delete(Connection connection, Course course) {
-        DatabaseMetaData databaseMetaData;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM course WHERE cid=?");
-            preparedStatement.setInt(1, course.getCid());
+            preparedStatement = connection.prepareStatement("INSERT INTO student(id, name, gender, sfirstyear, smajor, sclass, scollege, contact, pw) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            preparedStatement.setInt(1, student.getId());
+            preparedStatement.setString(2, student.getName());
+            preparedStatement.setString(3, student.getGender());
+            preparedStatement.setInt(4, student.getSfirstyear());
+            preparedStatement.setString(5, student.getSmajor());
+            preparedStatement.setInt(6, student.getSclass());
+            preparedStatement.setString(7, student.getScollege());
+            preparedStatement.setString(8, student.getContact());
+            preparedStatement.setString(9, student.getPw());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
                 System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
@@ -51,20 +33,11 @@ public class CourseDaoImpl implements BaseDao<Course> {
     }
 
     @Override
-    public void Update(Connection connection, Course t0, Course t1) {
+    public void Delete(Connection connection, Student student) {
         DatabaseMetaData databaseMetaData;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE course SET cname=?, cdepartment=?, ccredit=?, ckclb=?, cteacherid=?, croom=?, ctime=?, csigned_num=?, cmax_num=? WHERE cid=?");
-            preparedStatement.setString(1, t1.getCname());
-            preparedStatement.setString(2, t1.getCdepartment());
-            preparedStatement.setDouble(3, t1.getCcredit());
-            preparedStatement.setString(4, t1.getCkclb());
-            preparedStatement.setInt(5, t1.getCteacherid());
-            preparedStatement.setString(6, t1.getCroom());
-            preparedStatement.setString(7, t1.getCtime());
-            preparedStatement.setInt(8, t1.getCsigned_num());
-            preparedStatement.setInt(9, t1.getCmax_num());
-            preparedStatement.setInt(10, t0.getCid());
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM student WHERE id=?");
+            preparedStatement.setInt(1, student.getId());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
                 System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
@@ -77,11 +50,36 @@ public class CourseDaoImpl implements BaseDao<Course> {
     }
 
     @Override
-    public ArrayList<Course> SelectById(Connection connection, int id) {
+    public void Update(Connection connection, Student student0, Student student1) {
         DatabaseMetaData databaseMetaData;
-        ArrayList<Course> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM course WHERE cid=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE student SET name=?, gender=?, sfirstyear=?, smajor=?, sclass=?, scollege=?, contact=?, pw=? WHERE id=?");
+            preparedStatement.setString(1, student1.getName());
+            preparedStatement.setString(2, student1.getGender());
+            preparedStatement.setInt(3, student1.getSfirstyear());
+            preparedStatement.setString(4, student1.getSmajor());
+            preparedStatement.setInt(5, student1.getSclass());
+            preparedStatement.setString(6, student1.getScollege());
+            preparedStatement.setString(7, student1.getContact());
+            preparedStatement.setString(8, student1.getPw());
+            preparedStatement.setInt(9, student0.getId());
+            databaseMetaData = connection.getMetaData();
+            if (preparedStatement.executeUpdate() != 0)
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ArrayList<Student> SelectById(Connection connection, int id) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<Student> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE id=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
@@ -92,9 +90,9 @@ public class CourseDaoImpl implements BaseDao<Course> {
                 System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
             resultSet.beforeFirst();
             while (resultSet.next()) {
-                arrayList.add(new Course(resultSet.getInt("cid"), resultSet.getString("cname"), resultSet.getString("cdepartment"),
-                        resultSet.getDouble("ccredit"), resultSet.getString("ckclb"), resultSet.getInt("cteacherid"),
-                        resultSet.getString("croom"), resultSet.getString("ctime"), resultSet.getInt("csigned_num"), resultSet.getInt("cmax_num")));
+                arrayList.add(new Student(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("sfirstyear"),
+                        resultSet.getInt("sclass"), resultSet.getString("smajor"), resultSet.getString("scollege")));
             }
             resultSet.close();
             preparedStatement.close();
@@ -105,11 +103,11 @@ public class CourseDaoImpl implements BaseDao<Course> {
     }
 
     @Override
-    public ArrayList<Course> SelectByIdRough(Connection connection, int id) {
+    public ArrayList<Student> SelectByIdRough(Connection connection, int id) {
         DatabaseMetaData databaseMetaData;
-        ArrayList<Course> arrayList;
+        ArrayList<Student> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM course WHERE cid LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE id LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setString(1, "%" + id + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
@@ -120,9 +118,9 @@ public class CourseDaoImpl implements BaseDao<Course> {
                 System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
             resultSet.beforeFirst();
             while (resultSet.next()) {
-                arrayList.add(new Course(resultSet.getInt("cid"), resultSet.getString("cname"), resultSet.getString("cdepartment"),
-                        resultSet.getDouble("ccredit"), resultSet.getString("ckclb"), resultSet.getInt("cteacherid"),
-                        resultSet.getString("croom"), resultSet.getString("ctime"), resultSet.getInt("csigned_num"), resultSet.getInt("cmax_num")));
+                arrayList.add(new Student(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("sfirstyear"),
+                        resultSet.getInt("sclass"), resultSet.getString("smajor"), resultSet.getString("scollege")));
             }
             resultSet.close();
             preparedStatement.close();
@@ -133,11 +131,11 @@ public class CourseDaoImpl implements BaseDao<Course> {
     }
 
     @Override
-    public ArrayList<Course> SelectByName(Connection connection, String name) {
+    public ArrayList<Student> SelectByName(Connection connection, String name) {
         DatabaseMetaData databaseMetaData;
-        ArrayList<Course> arrayList;
+        ArrayList<Student> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM course WHERE cname=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE name=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
@@ -148,9 +146,9 @@ public class CourseDaoImpl implements BaseDao<Course> {
                 System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
             resultSet.beforeFirst();
             while (resultSet.next()) {
-                arrayList.add(new Course(resultSet.getInt("cid"), resultSet.getString("cname"), resultSet.getString("cdepartment"),
-                        resultSet.getDouble("ccredit"), resultSet.getString("ckclb"), resultSet.getInt("cteacherid"),
-                        resultSet.getString("croom"), resultSet.getString("ctime"), resultSet.getInt("csigned_num"), resultSet.getInt("cmax_num")));
+                arrayList.add(new Student(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("sfirstyear"),
+                        resultSet.getInt("sclass"), resultSet.getString("smajor"), resultSet.getString("scollege")));
             }
             resultSet.close();
             preparedStatement.close();
@@ -161,11 +159,11 @@ public class CourseDaoImpl implements BaseDao<Course> {
     }
 
     @Override
-    public ArrayList<Course> SelectByNameRough(Connection connection, String name) {
+    public ArrayList<Student> SelectByNameRough(Connection connection, String name) {
         DatabaseMetaData databaseMetaData;
-        ArrayList<Course> arrayList;
+        ArrayList<Student> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM course WHERE cname LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE name LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setString(1, "%" + name + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
@@ -176,9 +174,9 @@ public class CourseDaoImpl implements BaseDao<Course> {
                 System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
             resultSet.beforeFirst();
             while (resultSet.next()) {
-                arrayList.add(new Course(resultSet.getInt("cid"), resultSet.getString("cname"), resultSet.getString("cdepartment"),
-                        resultSet.getDouble("ccredit"), resultSet.getString("ckclb"), resultSet.getInt("cteacherid"),
-                        resultSet.getString("croom"), resultSet.getString("ctime"), resultSet.getInt("csigned_num"), resultSet.getInt("cmax_num")));
+                arrayList.add(new Student(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("sfirstyear"),
+                        resultSet.getInt("sclass"), resultSet.getString("smajor"), resultSet.getString("scollege")));
             }
             resultSet.close();
             preparedStatement.close();

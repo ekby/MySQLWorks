@@ -1,13 +1,11 @@
-package newjwglxt.jwglxt.dao;
+package newjwglxt.jwglxt.dao.idx1;
 
-import newjwglxt.jwglxt.concrete.Jwadmin;
+import newjwglxt.jwglxt.entity.Jwadmin;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class JwadminDaoImpl implements BaseDao<Jwadmin> {
-    // TODO jwadmindao
-
+public class JwadminDaoImpl implements Dao_idx1<Jwadmin> {
     @Override
     public void Insert(Connection connection, Jwadmin jwadmin) {
         DatabaseMetaData databaseMetaData;

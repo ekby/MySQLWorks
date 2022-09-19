@@ -1,4 +1,4 @@
-package newjwglxt.jwglxt.concrete;
+package newjwglxt.jwglxt.entity;
 
 public class Xtadmin extends People {
     public Xtadmin(String name, int id, String pw, String gender, String contact) {

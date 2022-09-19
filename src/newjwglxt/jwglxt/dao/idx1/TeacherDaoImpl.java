@@ -1,26 +1,25 @@
-package newjwglxt.jwglxt.dao;
+package newjwglxt.jwglxt.dao.idx1;
 
-import newjwglxt.jwglxt.concrete.Student;
+import newjwglxt.jwglxt.entity.Teacher;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class StudentDaoImpl implements BaseDao<Student> {
+public class TeacherDaoImpl implements Dao_idx1<Teacher> {
     @Override
-    public void Insert(Connection connection, Student student) {
+    public void Insert(Connection connection, Teacher teacher) {
         DatabaseMetaData databaseMetaData;
         PreparedStatement preparedStatement;
         try {
-            preparedStatement = connection.prepareStatement("INSERT INTO student(id, name, gender, sfirstyear, smajor, sclass, scollege, contact, pw) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            preparedStatement.setInt(1, student.getId());
-            preparedStatement.setString(2, student.getName());
-            preparedStatement.setString(3, student.getGender());
-            preparedStatement.setInt(4, student.getSfirstyear());
-            preparedStatement.setString(5, student.getSmajor());
-            preparedStatement.setInt(6, student.getSclass());
-            preparedStatement.setString(7, student.getScollege());
-            preparedStatement.setString(8, student.getContact());
-            preparedStatement.setString(9, student.getPw());
+            preparedStatement = connection.prepareStatement("INSERT INTO teacher VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            preparedStatement.setInt(1, teacher.getId());
+            preparedStatement.setString(2, teacher.getName());
+            preparedStatement.setString(3, teacher.getGender());
+            preparedStatement.setInt(4, teacher.getTfirstyear());
+            preparedStatement.setString(5, teacher.getTtitle());
+            preparedStatement.setString(6, teacher.getTcollege());
+            preparedStatement.setString(7, teacher.getContact());
+            preparedStatement.setString(8, teacher.getPw());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
                 System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
@@ -33,11 +32,11 @@ public class StudentDaoImpl implements BaseDao<Student> {
     }
 
     @Override
-    public void Delete(Connection connection, Student student) {
+    public void Delete(Connection connection, Teacher teacher) {
         DatabaseMetaData databaseMetaData;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM student WHERE id=?");
-            preparedStatement.setInt(1, student.getId());
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM teacher WHERE id=?");
+            preparedStatement.setInt(1, teacher.getId());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
                 System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
@@ -50,19 +49,18 @@ public class StudentDaoImpl implements BaseDao<Student> {
     }
 
     @Override
-    public void Update(Connection connection, Student student0, Student student1) {
+    public void Update(Connection connection, Teacher t0, Teacher t1) {
         DatabaseMetaData databaseMetaData;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE student SET name=?, gender=?, sfirstyear=?, smajor=?, sclass=?, scollege=?, contact=?, pw=? WHERE id=?");
-            preparedStatement.setString(1, student1.getName());
-            preparedStatement.setString(2, student1.getGender());
-            preparedStatement.setInt(3, student1.getSfirstyear());
-            preparedStatement.setString(4, student1.getSmajor());
-            preparedStatement.setInt(5, student1.getSclass());
-            preparedStatement.setString(6, student1.getScollege());
-            preparedStatement.setString(7, student1.getContact());
-            preparedStatement.setString(8, student1.getPw());
-            preparedStatement.setInt(9, student0.getId());
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE teacher SET name=?, gender=?, tfirstyear=?, ttitle=?, tcollege=?, contact=?, pw=? WHERE id=?");
+            preparedStatement.setString(1, t1.getName());
+            preparedStatement.setString(2, t1.getGender());
+            preparedStatement.setInt(3, t1.getTfirstyear());
+            preparedStatement.setString(4, t1.getTtitle());
+            preparedStatement.setString(5, t1.getTcollege());
+            preparedStatement.setString(6, t1.getContact());
+            preparedStatement.setString(7, t1.getPw());
+            preparedStatement.setInt(8, t0.getId());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
                 System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
@@ -75,11 +73,11 @@ public class StudentDaoImpl implements BaseDao<Student> {
     }
 
     @Override
-    public ArrayList<Student> SelectById(Connection connection, int id) {
+    public ArrayList<Teacher> SelectById(Connection connection, int id) {
         DatabaseMetaData databaseMetaData;
-        ArrayList<Student> arrayList;
+        ArrayList<Teacher> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE id=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher WHERE id=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
@@ -90,9 +88,9 @@ public class StudentDaoImpl implements BaseDao<Student> {
                 System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
             resultSet.beforeFirst();
             while (resultSet.next()) {
-                arrayList.add(new Student(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
-                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("sfirstyear"),
-                        resultSet.getInt("sclass"), resultSet.getString("smajor"), resultSet.getString("scollege")));
+                arrayList.add(new Teacher(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("tfirstyear"),
+                        resultSet.getString("ttitle"), resultSet.getString("tcollege")));
             }
             resultSet.close();
             preparedStatement.close();
@@ -103,11 +101,11 @@ public class StudentDaoImpl implements BaseDao<Student> {
     }
 
     @Override
-    public ArrayList<Student> SelectByIdRough(Connection connection, int id) {
+    public ArrayList<Teacher> SelectByIdRough(Connection connection, int id) {
         DatabaseMetaData databaseMetaData;
-        ArrayList<Student> arrayList;
+        ArrayList<Teacher> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE id LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher WHERE id LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setString(1, "%" + id + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
@@ -118,9 +116,9 @@ public class StudentDaoImpl implements BaseDao<Student> {
                 System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
             resultSet.beforeFirst();
             while (resultSet.next()) {
-                arrayList.add(new Student(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
-                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("sfirstyear"),
-                        resultSet.getInt("sclass"), resultSet.getString("smajor"), resultSet.getString("scollege")));
+                arrayList.add(new Teacher(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("tfirstyear"),
+                        resultSet.getString("ttitle"), resultSet.getString("tcollege")));
             }
             resultSet.close();
             preparedStatement.close();
@@ -131,11 +129,11 @@ public class StudentDaoImpl implements BaseDao<Student> {
     }
 
     @Override
-    public ArrayList<Student> SelectByName(Connection connection, String name) {
+    public ArrayList<Teacher> SelectByName(Connection connection, String name) {
         DatabaseMetaData databaseMetaData;
-        ArrayList<Student> arrayList;
+        ArrayList<Teacher> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE name=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher WHERE name=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
@@ -146,9 +144,9 @@ public class StudentDaoImpl implements BaseDao<Student> {
                 System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
             resultSet.beforeFirst();
             while (resultSet.next()) {
-                arrayList.add(new Student(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
-                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("sfirstyear"),
-                        resultSet.getInt("sclass"), resultSet.getString("smajor"), resultSet.getString("scollege")));
+                arrayList.add(new Teacher(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("tfirstyear"),
+                        resultSet.getString("ttitle"), resultSet.getString("tcollege")));
             }
             resultSet.close();
             preparedStatement.close();
@@ -159,11 +157,11 @@ public class StudentDaoImpl implements BaseDao<Student> {
     }
 
     @Override
-    public ArrayList<Student> SelectByNameRough(Connection connection, String name) {
+    public ArrayList<Teacher> SelectByNameRough(Connection connection, String name) {
         DatabaseMetaData databaseMetaData;
-        ArrayList<Student> arrayList;
+        ArrayList<Teacher> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE name LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher WHERE name LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setString(1, "%" + name + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
@@ -174,9 +172,9 @@ public class StudentDaoImpl implements BaseDao<Student> {
                 System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
             resultSet.beforeFirst();
             while (resultSet.next()) {
-                arrayList.add(new Student(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
-                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("sfirstyear"),
-                        resultSet.getInt("sclass"), resultSet.getString("smajor"), resultSet.getString("scollege")));
+                arrayList.add(new Teacher(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("tfirstyear"),
+                        resultSet.getString("ttitle"), resultSet.getString("tcollege")));
             }
             resultSet.close();
             preparedStatement.close();

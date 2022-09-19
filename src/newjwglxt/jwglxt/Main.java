@@ -1,7 +1,7 @@
 package newjwglxt.jwglxt;
 
-import newjwglxt.jwglxt.concrete.Course;
-import newjwglxt.jwglxt.dao.CourseDaoImpl;
+import newjwglxt.jwglxt.dao.idx1.CourseDaoImpl;
+import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.util.Db;
 
 import java.sql.Connection;

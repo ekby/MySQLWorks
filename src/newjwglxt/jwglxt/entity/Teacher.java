@@ -1,4 +1,4 @@
-package newjwglxt.jwglxt.concrete;
+package newjwglxt.jwglxt.entity;
 
 public class Teacher extends People {
     private int tfirstyear;
