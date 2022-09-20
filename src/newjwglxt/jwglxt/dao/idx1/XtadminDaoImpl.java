@@ -46,15 +46,15 @@ public class XtadminDaoImpl implements Dao_idx1<Xtadmin> {
     }
 
     @Override
-    public void Update(Connection connection, Xtadmin t0, Xtadmin t1) {
+    public void Update(Connection connection, Xtadmin t) {
         DatabaseMetaData databaseMetaData;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE xtadmin SET name=?, gender=?, pw=?, contact=? WHERE id=?");
-            preparedStatement.setString(1, t1.getName());
-            preparedStatement.setString(2, t1.getGender());
-            preparedStatement.setString(3, t1.getContact());
-            preparedStatement.setString(4, t1.getPw());
-            preparedStatement.setInt(5, t0.getId());
+            preparedStatement.setString(1, t.getName());
+            preparedStatement.setString(2, t.getGender());
+            preparedStatement.setString(3, t.getContact());
+            preparedStatement.setString(4, t.getPw());
+            preparedStatement.setInt(5, t.getId());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
                 System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));

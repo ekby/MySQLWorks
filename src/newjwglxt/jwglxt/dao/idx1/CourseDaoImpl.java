@@ -51,20 +51,20 @@ public class CourseDaoImpl implements Dao_idx1<Course> {
     }
 
     @Override
-    public void Update(Connection connection, Course t0, Course t1) {
+    public void Update(Connection connection, Course t) {
         DatabaseMetaData databaseMetaData;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE course SET cname=?, cdepartment=?, ccredit=?, ckclb=?, cteacherid=?, croom=?, ctime=?, csigned_num=?, cmax_num=? WHERE cid=?");
-            preparedStatement.setString(1, t1.getCname());
-            preparedStatement.setString(2, t1.getCdepartment());
-            preparedStatement.setDouble(3, t1.getCcredit());
-            preparedStatement.setString(4, t1.getCkclb());
-            preparedStatement.setInt(5, t1.getCteacherid());
-            preparedStatement.setString(6, t1.getCroom());
-            preparedStatement.setString(7, t1.getCtime());
-            preparedStatement.setInt(8, t1.getCsigned_num());
-            preparedStatement.setInt(9, t1.getCmax_num());
-            preparedStatement.setInt(10, t0.getCid());
+            preparedStatement.setString(1, t.getCname());
+            preparedStatement.setString(2, t.getCdepartment());
+            preparedStatement.setDouble(3, t.getCcredit());
+            preparedStatement.setString(4, t.getCkclb());
+            preparedStatement.setInt(5, t.getCteacherid());
+            preparedStatement.setString(6, t.getCroom());
+            preparedStatement.setString(7, t.getCtime());
+            preparedStatement.setInt(8, t.getCsigned_num());
+            preparedStatement.setInt(9, t.getCmax_num());
+            preparedStatement.setInt(10, t.getCid());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
                 System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));

@@ -46,15 +46,15 @@ public class ChooseCourseDaoImpl implements Dao_idx2<ChooseCourse> {
     }
 
     @Override
-    public void Update(Connection connection, ChooseCourse t0, ChooseCourse t1) {
+    public void Update(Connection connection, ChooseCourse t) {
         DatabaseMetaData databaseMetaData;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE choosecourse SET ccsid=?, cccid=?, ccscore=?, ccgpa=? WHERE ccid=?");
-            preparedStatement.setInt(1, t1.getCcsid());
-            preparedStatement.setInt(2, t1.getCccid());
-            preparedStatement.setInt(3, t1.getCcscore());
-            preparedStatement.setInt(4, t1.getCcgpa());
-            preparedStatement.setInt(5, t0.getCcid());
+            preparedStatement.setInt(1, t.getCcsid());
+            preparedStatement.setInt(2, t.getCccid());
+            preparedStatement.setInt(3, t.getCcscore());
+            preparedStatement.setInt(4, t.getCcgpa());
+            preparedStatement.setInt(5, t.getCcid());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
                 System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));

@@ -10,5 +10,5 @@ public interface BaseDao<T> {
     void Delete(Connection connection, T t);
 
     // 更新一条记录，但id不能更改
-    void Update(Connection connection, T t0, T t1);
+    void Update(Connection connection, T t);
 }
