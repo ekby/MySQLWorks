@@ -1,11 +1,10 @@
 package newjwglxt.jwglxt.service;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 public interface BaseService<T> {
-    boolean LoginVerify(Connection connection, T t);
-
-    void ChangePassword(Connection connection, T t);
+    T LoginVerify(Connection connection, int id, String name);
 
     void Add(Connection connection, T t);
 
@@ -13,7 +12,12 @@ public interface BaseService<T> {
 
     void Update(Connection connection, T t);
 
-    T Check(Connection connection, T t);
+    ArrayList<T> CheckById(Connection connection, int id);
 
+    ArrayList<T> CheckByIdRough(Connection connection, int id);
+
+    ArrayList<T> CheckByName(Connection connection, String name);
+
+    ArrayList<T> CheckByNameRough(Connection connection, String name);
 
 }
