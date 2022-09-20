@@ -50,19 +50,19 @@ public class StudentDaoImpl implements Dao_idx1<Student> {
     }
 
     @Override
-    public void Update(Connection connection, Student student0, Student student1) {
+    public void Update(Connection connection, Student student) {
         DatabaseMetaData databaseMetaData;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE student SET name=?, gender=?, sfirstyear=?, smajor=?, sclass=?, scollege=?, contact=?, pw=? WHERE id=?");
-            preparedStatement.setString(1, student1.getName());
-            preparedStatement.setString(2, student1.getGender());
-            preparedStatement.setInt(3, student1.getSfirstyear());
-            preparedStatement.setString(4, student1.getSmajor());
-            preparedStatement.setInt(5, student1.getSclass());
-            preparedStatement.setString(6, student1.getScollege());
-            preparedStatement.setString(7, student1.getContact());
-            preparedStatement.setString(8, student1.getPw());
-            preparedStatement.setInt(9, student0.getId());
+            preparedStatement.setString(1, student.getName());
+            preparedStatement.setString(2, student.getGender());
+            preparedStatement.setInt(3, student.getSfirstyear());
+            preparedStatement.setString(4, student.getSmajor());
+            preparedStatement.setInt(5, student.getSclass());
+            preparedStatement.setString(6, student.getScollege());
+            preparedStatement.setString(7, student.getContact());
+            preparedStatement.setString(8, student.getPw());
+            preparedStatement.setInt(9, student.getId());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
                 System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));

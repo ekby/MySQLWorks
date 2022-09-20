@@ -49,18 +49,18 @@ public class TeacherDaoImpl implements Dao_idx1<Teacher> {
     }
 
     @Override
-    public void Update(Connection connection, Teacher t0, Teacher t1) {
+    public void Update(Connection connection, Teacher t) {
         DatabaseMetaData databaseMetaData;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE teacher SET name=?, gender=?, tfirstyear=?, ttitle=?, tcollege=?, contact=?, pw=? WHERE id=?");
-            preparedStatement.setString(1, t1.getName());
-            preparedStatement.setString(2, t1.getGender());
-            preparedStatement.setInt(3, t1.getTfirstyear());
-            preparedStatement.setString(4, t1.getTtitle());
-            preparedStatement.setString(5, t1.getTcollege());
-            preparedStatement.setString(6, t1.getContact());
-            preparedStatement.setString(7, t1.getPw());
-            preparedStatement.setInt(8, t0.getId());
+            preparedStatement.setString(1, t.getName());
+            preparedStatement.setString(2, t.getGender());
+            preparedStatement.setInt(3, t.getTfirstyear());
+            preparedStatement.setString(4, t.getTtitle());
+            preparedStatement.setString(5, t.getTcollege());
+            preparedStatement.setString(6, t.getContact());
+            preparedStatement.setString(7, t.getPw());
+            preparedStatement.setInt(8, t.getId());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
                 System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));

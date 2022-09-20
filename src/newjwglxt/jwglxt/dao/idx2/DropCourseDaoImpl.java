@@ -46,14 +46,14 @@ public class DropCourseDaoImpl implements Dao_idx2<DropCourse> {
     }
 
     @Override
-    public void Update(Connection connection, DropCourse t0, DropCourse t1) {
+    public void Update(Connection connection, DropCourse t) {
         DatabaseMetaData databaseMetaData;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE dropcourse SET dcsid=?, dccid=?, dchandle=? WHERE dcid=?");
-            preparedStatement.setInt(1, t1.getDcsid());
-            preparedStatement.setInt(2, t1.getDccid());
-            preparedStatement.setInt(3, t1.getDchandle());
-            preparedStatement.setInt(4, t0.getDcid());
+            preparedStatement.setInt(1, t.getDcsid());
+            preparedStatement.setInt(2, t.getDccid());
+            preparedStatement.setInt(3, t.getDchandle());
+            preparedStatement.setInt(4, t.getDcid());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
                 System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
