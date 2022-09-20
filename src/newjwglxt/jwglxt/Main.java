@@ -1,7 +1,7 @@
 package newjwglxt.jwglxt;
 
-import newjwglxt.jwglxt.dao.idx1.CourseDaoImpl;
 import newjwglxt.jwglxt.entity.Course;
+import newjwglxt.jwglxt.service.CourseService;
 import newjwglxt.jwglxt.util.Db;
 
 import java.sql.Connection;
@@ -24,12 +24,14 @@ public class Main {
 //        System.out.println(studentDao.SelectByName(connection, "xrc").toString());
 //        System.out.println(studentDao.SelectByNameRough(connection, "x"));
 //        System.out.println(studentDao.SelectByIdRough(connection, 0));
-        CourseDaoImpl courseDao = new CourseDaoImpl();
+//        CourseDaoImpl courseDao = new CourseDaoImpl();
         Course course0 = new Course(12, "骑马", "ds", 2.0, "ds", 20117, "12", "122", 12, 20);
         Course course1 = new Course(12, "骑大象", "ds", 2.0, "ds", 20117, "12", "122", 12, 20);
 //        courseDao.Insert(connection, course);
 //        courseDao.Update(connection, course0, course1);
-        System.out.println(courseDao.SelectByIdRough(connection, 1));
-        System.out.println(courseDao.SelectByNameRough(connection, "x"));
+//        System.out.println(courseDao.SelectByIdRough(connection, 1));
+//        System.out.println(courseDao.SelectByNameRough(connection, "x"));
+        CourseService courseService = new CourseService();
+        System.out.println(courseService.CheckByIdRough(connection, 1));
     }
 }
