@@ -1,5 +1,7 @@
 package newjwglxt.jwglxt.service;
 
+import newjwglxt.jwglxt.entity.Teacher;
+
 import java.sql.Connection;
 import java.util.ArrayList;
 
