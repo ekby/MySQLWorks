@@ -1,11 +1,11 @@
-package newjwglxt.jwglxt.service;
+package newjwglxt.jwglxt.service.idx1;
 import newjwglxt.jwglxt.dao.idx1.TeacherDaoImpl;
 import newjwglxt.jwglxt.entity.Teacher;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
-public class TeacherService implements BaseService<Teacher>{
+public class TeacherService implements Service_idx1<Teacher>, LoginService<Teacher> {
 
     @Override
     public Teacher LoginVerify(Connection connection, int id, String pw) {

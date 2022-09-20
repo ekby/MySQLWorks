@@ -1,7 +1,7 @@
 package newjwglxt.jwglxt;
 
 import newjwglxt.jwglxt.entity.Course;
-import newjwglxt.jwglxt.service.CourseService;
+import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.util.Db;
 
 import java.sql.Connection;

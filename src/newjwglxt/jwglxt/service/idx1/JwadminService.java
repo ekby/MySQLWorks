@@ -1,4 +1,4 @@
-package newjwglxt.jwglxt.service;
+package newjwglxt.jwglxt.service.idx1;
 
 import newjwglxt.jwglxt.dao.idx1.JwadminDaoImpl;
 import newjwglxt.jwglxt.entity.Jwadmin;
@@ -6,7 +6,7 @@ import newjwglxt.jwglxt.entity.Jwadmin;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-public class JwadminService implements BaseService<Jwadmin> {
+public class JwadminService implements Service_idx1<Jwadmin>, LoginService<Jwadmin> {
     @Override
     public Jwadmin LoginVerify(Connection connection, int id, String pw) {
         JwadminDaoImpl JwadminDao = new JwadminDaoImpl();

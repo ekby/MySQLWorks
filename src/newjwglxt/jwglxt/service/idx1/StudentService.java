@@ -1,4 +1,4 @@
-package newjwglxt.jwglxt.service;
+package newjwglxt.jwglxt.service.idx1;
 
 import newjwglxt.jwglxt.dao.idx1.StudentDaoImpl;
 import newjwglxt.jwglxt.entity.Student;
@@ -6,7 +6,7 @@ import newjwglxt.jwglxt.entity.Student;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-public class StudentService implements BaseService<Student> {
+public class StudentService implements Service_idx1<Student>, LoginService<Student> {
     @Override
     public Student LoginVerify(Connection connection, int id, String pw) {
         StudentDaoImpl studentDao = new StudentDaoImpl();

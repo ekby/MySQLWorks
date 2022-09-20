@@ -1,4 +1,4 @@
-package newjwglxt.jwglxt.service;
+package newjwglxt.jwglxt.service.idx1;
 
 import newjwglxt.jwglxt.dao.idx1.XtadminDaoImpl;
 import newjwglxt.jwglxt.entity.Xtadmin;
@@ -6,7 +6,7 @@ import newjwglxt.jwglxt.entity.Xtadmin;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-public class XtadminService implements BaseService<Xtadmin> {
+public class XtadminService implements Service_idx1<Xtadmin>, LoginService<Xtadmin> {
     @Override
     public Xtadmin LoginVerify(Connection connection, int id, String pw) {
         XtadminDaoImpl xtadminDao = new XtadminDaoImpl();
