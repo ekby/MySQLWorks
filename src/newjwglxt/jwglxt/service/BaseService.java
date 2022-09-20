@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 public interface BaseService<T> {
-    T LoginVerify(Connection connection, int id, String name);
+    T LoginVerify(Connection connection, int id, String pw);
 
     void Add(Connection connection, T t);
 
