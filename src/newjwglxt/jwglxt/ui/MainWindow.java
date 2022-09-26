@@ -10,6 +10,9 @@ public class MainWindow extends JFrame {
     private JPanel contentPane;
     private JTextField textField;
     private JPasswordField passwordField;
+    private JTable table;
+    private JTable table_1;
+    private JTable table_2;
 
     /**
      * Launch the application.
@@ -356,25 +359,20 @@ public class MainWindow extends JFrame {
         btnNewButton_1_7.setBounds(10, 10, 130, 35);
         panel_11.add(btnNewButton_1_7);
 
-        JButton btnNewButton_1_1_3 = new JButton("课程管理");
+        JButton btnNewButton_1_1_3 = new JButton("审批管理");
         btnNewButton_1_1_3.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnNewButton_1_1_3.setBounds(10, 55, 130, 35);
         panel_11.add(btnNewButton_1_1_3);
 
-        JButton btnNewButton_1_2_3 = new JButton("主页");
+        JButton btnNewButton_1_2_3 = new JButton("用户管理");
         btnNewButton_1_2_3.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnNewButton_1_2_3.setBounds(10, 100, 130, 35);
         panel_11.add(btnNewButton_1_2_3);
 
-        JButton btnNewButton_1_3_3 = new JButton("主页");
+        JButton btnNewButton_1_3_3 = new JButton("个人信息管理");
         btnNewButton_1_3_3.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnNewButton_1_3_3.setBounds(10, 145, 130, 35);
         panel_11.add(btnNewButton_1_3_3);
-
-        JButton btnNewButton_1_4_3 = new JButton("主页");
-        btnNewButton_1_4_3.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnNewButton_1_4_3.setBounds(10, 190, 130, 35);
-        panel_11.add(btnNewButton_1_4_3);
 
         JButton btnNewButton_2_3 = new JButton("关于");
         btnNewButton_2_3.setFont(new Font("微软雅黑", Font.PLAIN, 13));
@@ -385,5 +383,86 @@ public class MainWindow extends JFrame {
         panel_1_3.setBounds(170, 10, 524, 451);
         xtadmin.add(panel_1_3);
         panel_1_3.setLayout(new CardLayout(0, 0));
+
+        JPanel yonghu = new JPanel();
+        panel_1_3.add(yonghu, "name_1655059689581500");
+        yonghu.setLayout(null);
+
+        JPanel panel_12 = new JPanel();
+        panel_12.setBounds(10, 53, 504, 388);
+        yonghu.add(panel_12);
+        panel_12.setLayout(new CardLayout(0, 0));
+
+        JScrollPane studentList = new JScrollPane();
+        panel_12.add(studentList, "name_1656773210897400");
+
+        table = new JTable();
+        studentList.setViewportView(table);
+
+        JScrollPane teacherList = new JScrollPane();
+        panel_12.add(teacherList, "name_1658528172865100");
+
+        table_1 = new JTable();
+        teacherList.setViewportView(table_1);
+
+        JScrollPane jwadminList = new JScrollPane();
+        panel_12.add(jwadminList, "name_1658533383004300");
+
+        table_2 = new JTable();
+        jwadminList.setViewportView(table_2);
+
+        JButton btnNewButton_4 = new JButton("学生列表");
+        btnNewButton_4.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnNewButton_4.setBounds(10, 10, 91, 33);
+        yonghu.add(btnNewButton_4);
+
+        JButton btnNewButton_4_1 = new JButton("教师列表");
+        btnNewButton_4_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnNewButton_4_1.setBounds(108, 10, 91, 33);
+        yonghu.add(btnNewButton_4_1);
+
+        JButton btnNewButton_4_2 = new JButton("教务列表");
+        btnNewButton_4_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnNewButton_4_2.setBounds(205, 10, 91, 33);
+        yonghu.add(btnNewButton_4_2);
+
+        JPanel shenpi = new JPanel();
+        panel_1_3.add(shenpi, "name_1655028076360800");
+
+        JPanel home_1 = new JPanel();
+        home_1.setLayout(null);
+        panel_1_3.add(home_1, "name_1655005163869200");
+
+        JLabel lblNewLabel_3_1 = new JLabel("头像");
+        lblNewLabel_3_1.setOpaque(true);
+        lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel_3_1.setBackground(Color.WHITE);
+        lblNewLabel_3_1.setBounds(10, 10, 110, 150);
+        home_1.add(lblNewLabel_3_1);
+
+        JLabel lblNewLabel_4_1 = new JLabel("XXX，你好！");
+        lblNewLabel_4_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_4_1.setBounds(149, 10, 365, 35);
+        home_1.add(lblNewLabel_4_1);
+
+        JLabel lblNewLabel_5_5 = new JLabel("职工号：");
+        lblNewLabel_5_5.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_5_5.setBounds(149, 55, 69, 24);
+        home_1.add(lblNewLabel_5_5);
+
+        JLabel lblNewLabel_5_1_2 = new JLabel("20110203");
+        lblNewLabel_5_1_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_5_1_2.setBounds(219, 55, 88, 24);
+        home_1.add(lblNewLabel_5_1_2);
+
+        JLabel lblNewLabel_5_4_2 = new JLabel("性别：");
+        lblNewLabel_5_4_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_5_4_2.setBounds(149, 89, 69, 24);
+        home_1.add(lblNewLabel_5_4_2);
+
+        JLabel lblNewLabel_5_1_1_2 = new JLabel("男");
+        lblNewLabel_5_1_1_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_5_1_1_2.setBounds(219, 89, 88, 24);
+        home_1.add(lblNewLabel_5_1_1_2);
     }
 }
