@@ -3,6 +3,9 @@ package newjwglxt.jwglxt.ui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 public class MainWindow extends JFrame {
     // TODO ui
@@ -44,71 +47,71 @@ public class MainWindow extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(new CardLayout(0, 0));
 
-        JPanel login = new JPanel();
-        login.setBackground(new Color(255, 255, 255));
-        contentPane.add(login, "name_601797172477500");
-        login.setLayout(null);
-
-        JLabel lblNewLabel = new JLabel("一张图片");
-        lblNewLabel.setOpaque(true);
-        lblNewLabel.setBackground(new Color(224, 255, 255));
-        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel.setBounds(0, 0, 515, 471);
-        login.add(lblNewLabel);
-
-        JPanel panel_2 = new JPanel();
-        panel_2.setBackground(new Color(255, 255, 255));
-        panel_2.setBounds(525, 0, 204, 471);
-        login.add(panel_2);
-        panel_2.setLayout(null);
-
-        JPanel panel_3 = new JPanel();
-        panel_3.setBounds(10, 74, 184, 321);
-        panel_3.setBackground(new Color(255, 255, 255));
-        panel_2.add(panel_3);
-        panel_3.setLayout(null);
-
-        JPanel panel_4 = new JPanel();
-        panel_4.setBounds(0, 40, 184, 219);
-        panel_4.setBackground(UIManager.getColor("Button.background"));
-        panel_3.add(panel_4);
-        panel_4.setLayout(null);
-
-        JLabel lblNewLabel_2 = new JLabel("账号");
-        lblNewLabel_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblNewLabel_2.setBounds(10, 53, 54, 15);
-        panel_4.add(lblNewLabel_2);
-
-        textField = new JTextField();
-        textField.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        textField.setBounds(10, 75, 164, 24);
-        panel_4.add(textField);
-        textField.setColumns(10);
-
-        JLabel lblNewLabel_2_1 = new JLabel("密码");
-        lblNewLabel_2_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblNewLabel_2_1.setBounds(10, 118, 54, 15);
-        panel_4.add(lblNewLabel_2_1);
-
-        passwordField = new JPasswordField();
-        passwordField.setBounds(10, 140, 164, 24);
-        panel_4.add(passwordField);
-
-        JButton btnNewButton = new JButton("登录");
-        btnNewButton.setForeground(new Color(255, 255, 255));
-        btnNewButton.setBackground(new Color(50, 205, 50));
-        btnNewButton.setFont(new Font("微软雅黑", Font.BOLD, 13));
-        btnNewButton.setBounds(10, 180, 164, 24);
-        panel_4.add(btnNewButton);
-
-        JLabel lblNewLabel_1 = new JLabel("教务管理系统");
-        lblNewLabel_1.setBounds(0, 0, 184, 40);
-        panel_4.add(lblNewLabel_1);
-        lblNewLabel_1.setOpaque(true);
-        lblNewLabel_1.setBackground(new Color(255, 255, 255));
-        lblNewLabel_1.setFont(new Font("微软雅黑", Font.BOLD, 16));
-        lblNewLabel_1.setPreferredSize(new Dimension(54, 40));
-        lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+//        JPanel login = new JPanel();
+//        login.setBackground(new Color(255, 255, 255));
+//        contentPane.add(login, "name_601797172477500");
+//        login.setLayout(null);
+//
+//        JLabel lblNewLabel = new JLabel("一张图片");
+//        lblNewLabel.setOpaque(true);
+//        lblNewLabel.setBackground(new Color(224, 255, 255));
+//        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//        lblNewLabel.setBounds(0, 0, 515, 471);
+//        login.add(lblNewLabel);
+//
+//        JPanel panel_2 = new JPanel();
+//        panel_2.setBackground(new Color(255, 255, 255));
+//        panel_2.setBounds(525, 0, 204, 471);
+//        login.add(panel_2);
+//        panel_2.setLayout(null);
+//
+//        JPanel panel_3 = new JPanel();
+//        panel_3.setBounds(10, 74, 184, 321);
+//        panel_3.setBackground(new Color(255, 255, 255));
+//        panel_2.add(panel_3);
+//        panel_3.setLayout(null);
+//
+//        JPanel panel_4 = new JPanel();
+//        panel_4.setBounds(0, 40, 184, 219);
+//        panel_4.setBackground(UIManager.getColor("Button.background"));
+//        panel_3.add(panel_4);
+//        panel_4.setLayout(null);
+//
+//        JLabel lblNewLabel_2 = new JLabel("账号");
+//        lblNewLabel_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+//        lblNewLabel_2.setBounds(10, 53, 54, 15);
+//        panel_4.add(lblNewLabel_2);
+//
+//        textField = new JTextField();
+//        textField.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+//        textField.setBounds(10, 75, 164, 24);
+//        panel_4.add(textField);
+//        textField.setColumns(10);
+//
+//        JLabel lblNewLabel_2_1 = new JLabel("密码");
+//        lblNewLabel_2_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+//        lblNewLabel_2_1.setBounds(10, 118, 54, 15);
+//        panel_4.add(lblNewLabel_2_1);
+//
+//        passwordField = new JPasswordField();
+//        passwordField.setBounds(10, 140, 164, 24);
+//        panel_4.add(passwordField);
+//
+//        JButton btnNewButton = new JButton("登录");
+//        btnNewButton.setForeground(new Color(255, 255, 255));
+//        btnNewButton.setBackground(new Color(50, 205, 50));
+//        btnNewButton.setFont(new Font("微软雅黑", Font.BOLD, 13));
+//        btnNewButton.setBounds(10, 180, 164, 24);
+//        panel_4.add(btnNewButton);
+//
+//        JLabel lblNewLabel_1 = new JLabel("教务管理系统");
+//        lblNewLabel_1.setBounds(0, 0, 184, 40);
+//        panel_4.add(lblNewLabel_1);
+//        lblNewLabel_1.setOpaque(true);
+//        lblNewLabel_1.setBackground(new Color(255, 255, 255));
+//        lblNewLabel_1.setFont(new Font("微软雅黑", Font.BOLD, 16));
+//        lblNewLabel_1.setPreferredSize(new Dimension(54, 40));
+//        lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 
         JPanel student = new JPanel();
         student.setOpaque(false);
@@ -153,10 +156,11 @@ public class MainWindow extends JFrame {
         JPanel panel_1 = new JPanel();
         panel_1.setBounds(170, 10, 549, 451);
         student.add(panel_1);
-        panel_1.setLayout(new CardLayout(0, 0));
+        CardLayout cl = new CardLayout();
+        panel_1.setLayout(cl);
 
         JPanel home = new JPanel();
-        panel_1.add(home, "name_610705678948800");
+        panel_1.add(home, "主页");
         home.setLayout(null);
 
         JLabel lblNewLabel_3 = new JLabel("头像");
@@ -232,7 +236,7 @@ public class MainWindow extends JFrame {
         home.add(lblNewLabel_5_3_1_1);
 
         JPanel panel_6 = new JPanel();
-        panel_1.add(panel_6, "name_610718268602000");
+        panel_1.add(panel_6, "我的课程");
         panel_6.setLayout(null);
 
         JButton btnNewButton_3 = new JButton("课表");
@@ -382,7 +386,59 @@ public class MainWindow extends JFrame {
         JPanel panel_1_3 = new JPanel();
         panel_1_3.setBounds(170, 10, 524, 451);
         xtadmin.add(panel_1_3);
-        panel_1_3.setLayout(new CardLayout(0, 0));
+        panel_1_3.setLayout(new CardLayout(0,0));
+
+        ActionListener actionlistener=new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource().equals(btnNewButton_1)){
+                    panel_1.removeAll();
+                    panel_1.add(home);
+                    panel_1.validate();
+                    panel_1.repaint();
+                    System.out.println("1");
+                    home.setVisible(true);
+
+                } else if(e.getSource().equals(btnNewButton_1_1)) {
+                    panel_1.removeAll();
+                    panel_1.add(panel_6);
+                    panel_1.validate();
+                    panel_1.repaint();
+                    System.out.println("2");
+                    panel_6.setVisible(true);
+
+                } else if(e.getSource().equals(btnNewButton_1_2)) {
+                    panel_1.removeAll();
+                    panel_1.add(panel_7);
+                    panel_1.validate();
+                    panel_1.repaint();
+                    System.out.println("3");
+                    panel_7.setVisible(true);
+
+                } else if(e.getSource().equals(btnNewButton_1_3)) {
+                    panel_1.removeAll();
+                    panel_1.add(panel_8);
+                    panel_1.validate();
+                    panel_1.repaint();
+                    System.out.println("4");
+                    panel_8.setVisible(true);
+
+                } else if(e.getSource().equals(btnNewButton_1_4)) {
+                    panel_1.removeAll();
+                    panel_1.add(panel_9);
+                    panel_1.validate();
+                    panel_1.repaint();
+                    System.out.println("5");
+                    panel_9.setVisible(true);
+                }
+            }
+        };
+
+        btnNewButton_1.addActionListener(actionlistener);
+        btnNewButton_1_1.addActionListener(actionlistener);
+        btnNewButton_1_2.addActionListener(actionlistener);
+        btnNewButton_1_3.addActionListener(actionlistener);
+        btnNewButton_1_4.addActionListener(actionlistener);
 
         JPanel yonghu = new JPanel();
         panel_1_3.add(yonghu, "name_1655059689581500");
