@@ -267,7 +267,7 @@ public class MainWindow extends JFrame {
         panel_container_student.add(unknown3, "name_610724537767700");
 
 
-        ActionListener actionlistenerStudent = new ActionListener() {
+        ActionListener actionListenerStudent = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(btnHomePage_student)) {
@@ -313,11 +313,11 @@ public class MainWindow extends JFrame {
             }
         };
 
-        btnHomePage_student.addActionListener(actionlistenerStudent);
-        btnMyCourse_student.addActionListener(actionlistenerStudent);
-        btnUnknown1.addActionListener(actionlistenerStudent);
-        btnUnknown2.addActionListener(actionlistenerStudent);
-        btnUnknown3.addActionListener(actionlistenerStudent);
+        btnHomePage_student.addActionListener(actionListenerStudent);
+        btnMyCourse_student.addActionListener(actionListenerStudent);
+        btnUnknown1.addActionListener(actionListenerStudent);
+        btnUnknown2.addActionListener(actionListenerStudent);
+        btnUnknown3.addActionListener(actionListenerStudent);
 
 
         /*以下是教师界面*/
@@ -845,7 +845,4 @@ public class MainWindow extends JFrame {
         btnLogin.addActionListener(actionListenerLogin);
 
     }
-
-
-
 }
