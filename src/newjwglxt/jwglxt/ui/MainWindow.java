@@ -267,10 +267,10 @@ public class MainWindow extends JFrame {
         panel_container_student.add(unknown3, "name_610724537767700");
 
 
-        ActionListener actionlistenerStudent=new ActionListener(){
+        ActionListener actionlistenerStudent = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(e.getSource().equals(btnHomePage_student)){
+                if (e.getSource().equals(btnHomePage_student)) {
                     panel_container_student.removeAll();
                     panel_container_student.add(panel_homePage_student);
                     panel_container_student.validate();
@@ -278,7 +278,7 @@ public class MainWindow extends JFrame {
                     System.out.println("1");
                     panel_homePage_student.setVisible(true);
 
-                } else if(e.getSource().equals(btnMyCourse_student)) {
+                } else if (e.getSource().equals(btnMyCourse_student)) {
                     panel_container_student.removeAll();
                     panel_container_student.add(panel_coursePage_student);
                     panel_container_student.validate();
@@ -286,7 +286,7 @@ public class MainWindow extends JFrame {
                     System.out.println("2");
                     panel_coursePage_student.setVisible(true);
 
-                } else if(e.getSource().equals(btnUnknown1)) {
+                } else if (e.getSource().equals(btnUnknown1)) {
                     panel_container_student.removeAll();
                     panel_container_student.add(unknown1);
                     panel_container_student.validate();
@@ -294,7 +294,7 @@ public class MainWindow extends JFrame {
                     System.out.println("3");
                     unknown1.setVisible(true);
 
-                } else if(e.getSource().equals(btnUnknown2)) {
+                } else if (e.getSource().equals(btnUnknown2)) {
                     panel_container_student.removeAll();
                     panel_container_student.add(unknown2);
                     panel_container_student.validate();
@@ -302,7 +302,7 @@ public class MainWindow extends JFrame {
                     System.out.println("4");
                     unknown2.setVisible(true);
 
-                } else if(e.getSource().equals(btnUnknown3)) {
+                } else if (e.getSource().equals(btnUnknown3)) {
                     panel_container_student.removeAll();
                     panel_container_student.add(unknown3);
                     panel_container_student.validate();
@@ -383,10 +383,6 @@ public class MainWindow extends JFrame {
         JPanel unknown6 = new JPanel();
         panel_container_teacher.add(unknown6, "name_225556005001600");
 
-        JPanel panel_homePage_teacher = new JPanel();
-        panel_homePage_teacher.setLayout(null);
-        panel_container_teacher.add(panel_homePage_teacher, "name_226288810767900");
-
         JLabel lblImg_teacher = new JLabel("头像");
         lblImg_teacher.setOpaque(true);
         lblImg_teacher.setHorizontalAlignment(SwingConstants.CENTER);
@@ -450,7 +446,7 @@ public class MainWindow extends JFrame {
         panel_homePage_teacher.add(lblTitle_present_teacher);
 
 
-        ActionListener actionlistenerTeacher=new ActionListener(){
+        ActionListener actionlistenerTeacher = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(btnHomePage_teacher)) {
@@ -592,7 +588,6 @@ public class MainWindow extends JFrame {
         panel_container_xtadmin.setLayout(new CardLayout(0, 0));
 
 
-
         JPanel panel_homepage_xtadmin = new JPanel();
         panel_homepage_xtadmin.setLayout(null);
         panel_container_xtadmin.add(panel_homepage_xtadmin, "name_223808958587400");
@@ -614,7 +609,7 @@ public class MainWindow extends JFrame {
 
         student_table = new JTable();
         student_table.setModel(new DefaultTableModel(
-                new Object[][] {
+                new Object[][]{
                         {null, null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null, null},
@@ -631,13 +626,14 @@ public class MainWindow extends JFrame {
                         {null, null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null, null},
                 },
-                new String[] {
+                new String[]{
                         "\u5B66\u53F7", "\u59D3\u540D", "\u6027\u522B", "\u5165\u5B66\u5E74\u4EFD", "\u4E13\u4E1A", "\u884C\u653F\u73ED", "\u5B66\u90E8\uFF08\u9662\uFF09", "\u8054\u7CFB\u65B9\u5F0F"
                 }
         ) {
-            Class[] columnTypes = new Class[] {
+            Class[] columnTypes = new Class[]{
                     Integer.class, String.class, String.class, Integer.class, String.class, Integer.class, String.class, String.class
             };
+
             public Class getColumnClass(int columnIndex) {
                 return columnTypes[columnIndex];
             }
@@ -649,7 +645,7 @@ public class MainWindow extends JFrame {
 
         teacher_table = new JTable();
         teacher_table.setModel(new DefaultTableModel(
-                new Object[][] {
+                new Object[][]{
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null},
@@ -666,13 +662,14 @@ public class MainWindow extends JFrame {
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null},
                 },
-                new String[] {
+                new String[]{
                         "\u6559\u5DE5\u53F7", "\u59D3\u540D", "\u6027\u522B", "\u5165\u804C\u5E74", "\u804C\u79F0", "\u5B66\u90E8\uFF08\u9662\uFF09", "\u8054\u7CFB\u65B9\u5F0F"
                 }
         ) {
-            Class[] columnTypes = new Class[] {
+            Class[] columnTypes = new Class[]{
                     Integer.class, String.class, String.class, Integer.class, String.class, String.class, String.class
             };
+
             public Class getColumnClass(int columnIndex) {
                 return columnTypes[columnIndex];
             }
@@ -684,7 +681,7 @@ public class MainWindow extends JFrame {
 
         jwadmin_table = new JTable();
         jwadmin_table.setModel(new DefaultTableModel(
-                new Object[][] {
+                new Object[][]{
                         {null, null, null, null},
                         {null, null, null, null},
                         {null, null, null, null},
@@ -701,13 +698,14 @@ public class MainWindow extends JFrame {
                         {null, null, null, null},
                         {null, null, null, null},
                 },
-                new String[] {
+                new String[]{
                         "\u804C\u5DE5\u53F7", "\u59D3\u540D", "\u6027\u522B", "\u8054\u7CFB\u65B9\u5F0F"
                 }
         ) {
-            Class[] columnTypes = new Class[] {
+            Class[] columnTypes = new Class[]{
                     Integer.class, String.class, String.class, String.class
             };
+
             public Class getColumnClass(int columnIndex) {
                 return columnTypes[columnIndex];
             }
@@ -729,12 +727,12 @@ public class MainWindow extends JFrame {
         btn_jwadminList_xtadmin.setBounds(205, 10, 91, 33);
         panel_user_xtadmin.add(btn_jwadminList_xtadmin);
 
-        JPanel panel_approval_xtadmin = new JPanel();
-        panel_container_xtadmin.add(panel_approval_xtadmin, "name_1655028076360800");
+//        JPanel panel_approval_xtadmin = new JPanel();
+//        panel_container_xtadmin.add(panel_approval_xtadmin, "name_1655028076360800");
 
-        JPanel panel_homepage_xtadmin = new JPanel();
-        panel_homepage_xtadmin.setLayout(null);
-        panel_container_xtadmin.add(panel_homepage_xtadmin, "name_223808958587400");
+//        JPanel panel_homepage_xtadmin = new JPanel();
+//        panel_homepage_xtadmin.setLayout(null);
+//        panel_container_xtadmin.add(panel_homepage_xtadmin, "name_223808958587400");
 
         JLabel lblImg_xtadmin = new JLabel("头像");
         lblImg_xtadmin.setOpaque(true);
@@ -846,11 +844,10 @@ public class MainWindow extends JFrame {
         btnLogin.addActionListener(actionListenerLogin);
 
 
-
-        ActionListener actionlistenerXtadmin=new ActionListener(){
+        ActionListener actionlistenerXtadmin = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(e.getSource().equals(btnHomePage_xtadmin)){
+                if (e.getSource().equals(btnHomePage_xtadmin)) {
                     panel_container_xtadmin.removeAll();
                     panel_container_xtadmin.add(panel_homepage_xtadmin);
                     panel_container_xtadmin.validate();
@@ -858,7 +855,7 @@ public class MainWindow extends JFrame {
                     System.out.println("1");
                     panel_homepage_xtadmin.setVisible(true);
 
-                } else if(e.getSource().equals(btnApprovalManagement_xtadmin)) {
+                } else if (e.getSource().equals(btnApprovalManagement_xtadmin)) {
                     panel_container_xtadmin.removeAll();
                     panel_container_xtadmin.add(panel_approval_xtadmin);
                     panel_container_xtadmin.validate();
@@ -866,7 +863,7 @@ public class MainWindow extends JFrame {
                     System.out.println("2");
                     panel_approval_xtadmin.setVisible(true);
 
-                } else if(e.getSource().equals(btnUserManagement_xtadmin)) {
+                } else if (e.getSource().equals(btnUserManagement_xtadmin)) {
                     panel_container_xtadmin.removeAll();
                     panel_container_xtadmin.add(panel_user_xtadmin);
                     panel_container_xtadmin.validate();
