@@ -267,10 +267,10 @@ public class MainWindow extends JFrame {
         panel_container_student.add(unknown3, "name_610724537767700");
 
 
-        ActionListener actionListenerStudent = new ActionListener() {
+        ActionListener actionlistenerStudent=new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource().equals(btnHomePage_student)) {
+                if(e.getSource().equals(btnHomePage_student)){
                     panel_container_student.removeAll();
                     panel_container_student.add(panel_homePage_student);
                     panel_container_student.validate();
@@ -278,7 +278,7 @@ public class MainWindow extends JFrame {
                     System.out.println("1");
                     panel_homePage_student.setVisible(true);
 
-                } else if (e.getSource().equals(btnMyCourse_student)) {
+                } else if(e.getSource().equals(btnMyCourse_student)) {
                     panel_container_student.removeAll();
                     panel_container_student.add(panel_coursePage_student);
                     panel_container_student.validate();
@@ -286,7 +286,7 @@ public class MainWindow extends JFrame {
                     System.out.println("2");
                     panel_coursePage_student.setVisible(true);
 
-                } else if (e.getSource().equals(btnUnknown1)) {
+                } else if(e.getSource().equals(btnUnknown1)) {
                     panel_container_student.removeAll();
                     panel_container_student.add(unknown1);
                     panel_container_student.validate();
@@ -294,7 +294,7 @@ public class MainWindow extends JFrame {
                     System.out.println("3");
                     unknown1.setVisible(true);
 
-                } else if (e.getSource().equals(btnUnknown2)) {
+                } else if(e.getSource().equals(btnUnknown2)) {
                     panel_container_student.removeAll();
                     panel_container_student.add(unknown2);
                     panel_container_student.validate();
@@ -302,7 +302,7 @@ public class MainWindow extends JFrame {
                     System.out.println("4");
                     unknown2.setVisible(true);
 
-                } else if (e.getSource().equals(btnUnknown3)) {
+                } else if(e.getSource().equals(btnUnknown3)) {
                     panel_container_student.removeAll();
                     panel_container_student.add(unknown3);
                     panel_container_student.validate();
@@ -313,11 +313,11 @@ public class MainWindow extends JFrame {
             }
         };
 
-        btnHomePage_student.addActionListener(actionListenerStudent);
-        btnMyCourse_student.addActionListener(actionListenerStudent);
-        btnUnknown1.addActionListener(actionListenerStudent);
-        btnUnknown2.addActionListener(actionListenerStudent);
-        btnUnknown3.addActionListener(actionListenerStudent);
+        btnHomePage_student.addActionListener(actionlistenerStudent);
+        btnMyCourse_student.addActionListener(actionlistenerStudent);
+        btnUnknown1.addActionListener(actionlistenerStudent);
+        btnUnknown2.addActionListener(actionlistenerStudent);
+        btnUnknown3.addActionListener(actionlistenerStudent);
 
 
         /*以下是教师界面*/
@@ -362,12 +362,17 @@ public class MainWindow extends JFrame {
         panel_category_teacher.add(btnAbout_1);
 
         JPanel panel_container_teacher = new JPanel();
-        panel_container_teacher.setBounds(170, 10, 524, 451);
+        panel_container_teacher.setBounds(170, 10, 553, 451);
         teacher.add(panel_container_teacher);
         panel_container_teacher.setLayout(new CardLayout(0, 0));
 
+        JPanel panel_homePage_teacher = new JPanel();
+        panel_container_teacher.add(panel_homePage_teacher, "name_226288810767900");
+        panel_homePage_teacher.setLayout(null);
+
         JPanel panel_Coursemanage_teacher = new JPanel();
         panel_container_teacher.add(panel_Coursemanage_teacher, "name_225549232417500");
+        panel_Coursemanage_teacher.setLayout(null);
 
         JPanel unknown4 = new JPanel();
         panel_container_teacher.add(unknown4, "name_225551826938200");
@@ -389,72 +394,63 @@ public class MainWindow extends JFrame {
         lblImg_teacher.setBounds(10, 10, 110, 150);
         panel_homePage_teacher.add(lblImg_teacher);
 
-        JLabel lblHello_student_2 = new JLabel("XXX，你好！");
-        lblHello_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblHello_student_2.setBounds(149, 10, 365, 35);
-        panel_homePage_teacher.add(lblHello_student_2);
+        JLabel lblHello_teacher = new JLabel("XXX，你好！");
+        lblHello_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblHello_teacher.setBounds(149, 10, 365, 35);
+        panel_homePage_teacher.add(lblHello_teacher);
 
-        JLabel lblSid_student_2 = new JLabel("学号：");
-        lblSid_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblSid_student_2.setBounds(149, 55, 69, 24);
-        panel_homePage_teacher.add(lblSid_student_2);
+        JLabel lblTid_teacher = new JLabel("教职工号：");
+        lblTid_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblTid_teacher.setBounds(149, 55, 69, 24);
+        panel_homePage_teacher.add(lblTid_teacher);
 
-        JLabel lblSid_present_student_2 = new JLabel("20110203");
-        lblSid_present_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblSid_present_student_2.setBounds(219, 55, 88, 24);
-        panel_homePage_teacher.add(lblSid_present_student_2);
+        JLabel lblTid_present_teacher = new JLabel("20110203");
+        lblTid_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblTid_present_teacher.setBounds(219, 55, 88, 24);
+        panel_homePage_teacher.add(lblTid_present_teacher);
 
-        JLabel lblCollege_student_2 = new JLabel("学部（院）：");
-        lblCollege_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblCollege_student_2.setBounds(317, 55, 78, 24);
-        panel_homePage_teacher.add(lblCollege_student_2);
+        JLabel lblCollege_teacher = new JLabel("学部（院）：");
+        lblCollege_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblCollege_teacher.setBounds(317, 55, 78, 24);
+        panel_homePage_teacher.add(lblCollege_teacher);
 
-        JLabel lblCollege_present_student_2 = new JLabel("经济与管理学院");
-        lblCollege_present_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblCollege_present_student_2.setBounds(400, 55, 134, 24);
-        panel_homePage_teacher.add(lblCollege_present_student_2);
+        JLabel lblCollege_present_teacher = new JLabel("经济与管理学院");
+        lblCollege_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblCollege_present_teacher.setBounds(400, 55, 134, 24);
+        panel_homePage_teacher.add(lblCollege_present_teacher);
 
-        JLabel lblGender_student_2 = new JLabel("性别：");
-        lblGender_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblGender_student_2.setBounds(149, 89, 69, 24);
-        panel_homePage_teacher.add(lblGender_student_2);
+        JLabel lblGender_teacher = new JLabel("性别：");
+        lblGender_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblGender_teacher.setBounds(149, 89, 69, 24);
+        panel_homePage_teacher.add(lblGender_teacher);
 
-        JLabel lblGender_present_student_2 = new JLabel("男");
-        lblGender_present_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblGender_present_student_2.setBounds(219, 89, 88, 24);
-        panel_homePage_teacher.add(lblGender_present_student_2);
+        JLabel lblGender_present_teacher = new JLabel("男");
+        lblGender_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblGender_present_teacher.setBounds(219, 89, 88, 24);
+        panel_homePage_teacher.add(lblGender_present_teacher);
 
-        JLabel lblMajor_student_2 = new JLabel("专业：");
-        lblMajor_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblMajor_student_2.setBounds(317, 89, 78, 24);
-        panel_homePage_teacher.add(lblMajor_student_2);
+        JLabel lblFirstYear_teacher = new JLabel("入职年份：");
+        lblFirstYear_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblFirstYear_teacher.setBounds(149, 123, 69, 24);
+        panel_homePage_teacher.add(lblFirstYear_teacher);
 
-        JLabel lblMajor_present_student_2 = new JLabel("信息管理与信息系统");
-        lblMajor_present_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblMajor_present_student_2.setBounds(400, 89, 134, 24);
-        panel_homePage_teacher.add(lblMajor_present_student_2);
+        JLabel lblFirstYear_present_teacher = new JLabel("2020");
+        lblFirstYear_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblFirstYear_present_teacher.setBounds(219, 123, 88, 24);
+        panel_homePage_teacher.add(lblFirstYear_present_teacher);
 
-        JLabel lblFirstYear_student_2 = new JLabel("入学年份：");
-        lblFirstYear_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblFirstYear_student_2.setBounds(149, 123, 69, 24);
-        panel_homePage_teacher.add(lblFirstYear_student_2);
+        JLabel lblTitle_teacher = new JLabel("职称：");
+        lblTitle_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblTitle_teacher.setBounds(317, 89, 78, 24);
+        panel_homePage_teacher.add(lblTitle_teacher);
 
-        JLabel lblFirstYear_present_student_2 = new JLabel("2020");
-        lblFirstYear_present_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblFirstYear_present_student_2.setBounds(219, 123, 88, 24);
-        panel_homePage_teacher.add(lblFirstYear_present_student_2);
+        JLabel lblTitle_present_teacher = new JLabel("国家主席&国家军委主席");
+        lblTitle_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblTitle_present_teacher.setBounds(376, 89, 167, 24);
+        panel_homePage_teacher.add(lblTitle_present_teacher);
 
-        JLabel lblClasses_student_2 = new JLabel("行政班：");
-        lblClasses_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblClasses_student_2.setBounds(317, 123, 78, 24);
-        panel_homePage_teacher.add(lblClasses_student_2);
 
-        JLabel lblClasses_present_student_2 = new JLabel("201102");
-        lblClasses_present_student_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblClasses_present_student_2.setBounds(400, 123, 134, 24);
-        panel_homePage_teacher.add(lblClasses_present_student_2);
-
-        ActionListener actionlistenerTeacher = new ActionListener() {
+        ActionListener actionlistenerTeacher=new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(btnHomePage_teacher)) {
@@ -499,7 +495,6 @@ public class MainWindow extends JFrame {
                 }
             }
         };
-
 
         btnHomePage_teacher.addActionListener(actionlistenerTeacher);
         btnCoursemanage_teacher.addActionListener(actionlistenerTeacher);
@@ -592,16 +587,25 @@ public class MainWindow extends JFrame {
         panel_category_xtadmin.add(btnAbout_xtadmin);
 
         JPanel panel_container_xtadmin = new JPanel();
-        panel_container_xtadmin.setBounds(170, 10, 524, 451);
+        panel_container_xtadmin.setBounds(170, 10, 553, 451);
         xtadmin.add(panel_container_xtadmin);
         panel_container_xtadmin.setLayout(new CardLayout(0, 0));
+
+
+
+        JPanel panel_homepage_xtadmin = new JPanel();
+        panel_homepage_xtadmin.setLayout(null);
+        panel_container_xtadmin.add(panel_homepage_xtadmin, "name_223808958587400");
+
+        JPanel panel_approval_xtadmin = new JPanel();
+        panel_container_xtadmin.add(panel_approval_xtadmin, "name_1655028076360800");
 
         JPanel panel_user_xtadmin = new JPanel();
         panel_container_xtadmin.add(panel_user_xtadmin, "name_1655059689581500");
         panel_user_xtadmin.setLayout(null);
 
         JPanel panel_listContainer = new JPanel();
-        panel_listContainer.setBounds(10, 53, 504, 388);
+        panel_listContainer.setBounds(10, 53, 533, 388);
         panel_user_xtadmin.add(panel_listContainer);
         panel_listContainer.setLayout(new CardLayout(0, 0));
 
@@ -610,7 +614,7 @@ public class MainWindow extends JFrame {
 
         student_table = new JTable();
         student_table.setModel(new DefaultTableModel(
-                new Object[][]{
+                new Object[][] {
                         {null, null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null, null},
@@ -627,14 +631,13 @@ public class MainWindow extends JFrame {
                         {null, null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null, null},
                 },
-                new String[]{
+                new String[] {
                         "\u5B66\u53F7", "\u59D3\u540D", "\u6027\u522B", "\u5165\u5B66\u5E74\u4EFD", "\u4E13\u4E1A", "\u884C\u653F\u73ED", "\u5B66\u90E8\uFF08\u9662\uFF09", "\u8054\u7CFB\u65B9\u5F0F"
                 }
         ) {
-            Class[] columnTypes = new Class[]{
+            Class[] columnTypes = new Class[] {
                     Integer.class, String.class, String.class, Integer.class, String.class, Integer.class, String.class, String.class
             };
-
             public Class getColumnClass(int columnIndex) {
                 return columnTypes[columnIndex];
             }
@@ -646,7 +649,7 @@ public class MainWindow extends JFrame {
 
         teacher_table = new JTable();
         teacher_table.setModel(new DefaultTableModel(
-                new Object[][]{
+                new Object[][] {
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null},
@@ -663,14 +666,13 @@ public class MainWindow extends JFrame {
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null},
                 },
-                new String[]{
+                new String[] {
                         "\u6559\u5DE5\u53F7", "\u59D3\u540D", "\u6027\u522B", "\u5165\u804C\u5E74", "\u804C\u79F0", "\u5B66\u90E8\uFF08\u9662\uFF09", "\u8054\u7CFB\u65B9\u5F0F"
                 }
         ) {
-            Class[] columnTypes = new Class[]{
+            Class[] columnTypes = new Class[] {
                     Integer.class, String.class, String.class, Integer.class, String.class, String.class, String.class
             };
-
             public Class getColumnClass(int columnIndex) {
                 return columnTypes[columnIndex];
             }
@@ -682,7 +684,7 @@ public class MainWindow extends JFrame {
 
         jwadmin_table = new JTable();
         jwadmin_table.setModel(new DefaultTableModel(
-                new Object[][]{
+                new Object[][] {
                         {null, null, null, null},
                         {null, null, null, null},
                         {null, null, null, null},
@@ -699,14 +701,13 @@ public class MainWindow extends JFrame {
                         {null, null, null, null},
                         {null, null, null, null},
                 },
-                new String[]{
+                new String[] {
                         "\u804C\u5DE5\u53F7", "\u59D3\u540D", "\u6027\u522B", "\u8054\u7CFB\u65B9\u5F0F"
                 }
         ) {
-            Class[] columnTypes = new Class[]{
+            Class[] columnTypes = new Class[] {
                     Integer.class, String.class, String.class, String.class
             };
-
             public Class getColumnClass(int columnIndex) {
                 return columnTypes[columnIndex];
             }
@@ -844,5 +845,49 @@ public class MainWindow extends JFrame {
         };
         btnLogin.addActionListener(actionListenerLogin);
 
+
+
+        ActionListener actionlistenerXtadmin=new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource().equals(btnHomePage_xtadmin)){
+                    panel_container_xtadmin.removeAll();
+                    panel_container_xtadmin.add(panel_homepage_xtadmin);
+                    panel_container_xtadmin.validate();
+                    panel_container_xtadmin.repaint();
+                    System.out.println("1");
+                    panel_homepage_xtadmin.setVisible(true);
+
+                } else if(e.getSource().equals(btnApprovalManagement_xtadmin)) {
+                    panel_container_xtadmin.removeAll();
+                    panel_container_xtadmin.add(panel_approval_xtadmin);
+                    panel_container_xtadmin.validate();
+                    panel_container_xtadmin.repaint();
+                    System.out.println("2");
+                    panel_approval_xtadmin.setVisible(true);
+
+                } else if(e.getSource().equals(btnUserManagement_xtadmin)) {
+                    panel_container_xtadmin.removeAll();
+                    panel_container_xtadmin.add(panel_user_xtadmin);
+                    panel_container_xtadmin.validate();
+                    panel_container_xtadmin.repaint();
+                    System.out.println("3");
+                    panel_user_xtadmin.setVisible(true);
+
+//              } else if(e.getSource().equals(btnUnknown5)) {
+//              	panel_container_teacher.removeAll();
+//                  panel_container_teacher.add(unknown5);
+//                  panel_container_teacher.validate();
+//                  panel_container_teacher.repaint();
+//                  System.out.println("4");
+//                  unknown5.setVisible(true);
+
+                }
+            }
+        };
+
+        btnHomePage_xtadmin.addActionListener(actionlistenerXtadmin);
+        btnApprovalManagement_xtadmin.addActionListener(actionlistenerXtadmin);
+        btnUserManagement_xtadmin.addActionListener(actionlistenerXtadmin);
     }
 }
