@@ -727,13 +727,6 @@ public class MainWindow extends JFrame {
         btn_jwadminList_xtadmin.setBounds(205, 10, 91, 33);
         panel_user_xtadmin.add(btn_jwadminList_xtadmin);
 
-//        JPanel panel_approval_xtadmin = new JPanel();
-//        panel_container_xtadmin.add(panel_approval_xtadmin, "name_1655028076360800");
-
-//        JPanel panel_homepage_xtadmin = new JPanel();
-//        panel_homepage_xtadmin.setLayout(null);
-//        panel_container_xtadmin.add(panel_homepage_xtadmin, "name_223808958587400");
-
         JLabel lblImg_xtadmin = new JLabel("头像");
         lblImg_xtadmin.setOpaque(true);
         lblImg_xtadmin.setHorizontalAlignment(SwingConstants.CENTER);
