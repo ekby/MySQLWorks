@@ -6,7 +6,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DropCourseDaoImpl implements Dao_idx2<DropCourse> {
-    // TODO
     @Override
     public void Insert(Connection connection, DropCourse dropCourse) {
         DatabaseMetaData databaseMetaData;
