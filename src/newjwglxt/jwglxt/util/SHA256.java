@@ -37,6 +37,6 @@ public class SHA256 {
     }
 
     public static void main(String[] args) {
-        System.out.println(SHA256("xiaruncheng"));
+        System.out.println(SHA256(""));
     }
 }

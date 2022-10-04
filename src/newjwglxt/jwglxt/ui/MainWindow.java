@@ -16,7 +16,6 @@ import java.sql.Connection;
 
 import static newjwglxt.jwglxt.util.SHA256.SHA256;
 
-
 public class MainWindow extends JFrame {
     // TODO ui
 
@@ -58,7 +57,7 @@ public class MainWindow extends JFrame {
         CardLayout cdprime = new CardLayout();
         contentPane.setLayout(cdprime);
 
-        /*以下是用户登录界面*/
+        /* 以下是用户登录界面 */
         JPanel login = new JPanel();
         login.setBackground(new Color(255, 255, 255));
         contentPane.add(login, "name_601797172477500");
@@ -119,8 +118,7 @@ public class MainWindow extends JFrame {
         Label_jwglxt_title.setBounds(0, 0, 198, 40);
         LoginPanel_mid.add(Label_jwglxt_title);
 
-
-        /*以下是学生界面*/
+        /* 以下是学生界面 */
         JPanel student = new JPanel();
         student.setOpaque(false);
         contentPane.add(student, "name_601806090402700");
@@ -156,10 +154,10 @@ public class MainWindow extends JFrame {
         btnUnknown3.setBounds(10, 190, 130, 35);
         panel_category_student.add(btnUnknown3);
 
-        JButton btnAbout = new JButton("关于");
-        btnAbout.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnAbout.setBounds(10, 406, 130, 35);
-        panel_category_student.add(btnAbout);
+        JButton btnAbout_student = new JButton("关于");
+        btnAbout_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnAbout_student.setBounds(10, 406, 130, 35);
+        panel_category_student.add(btnAbout_student);
 
         JPanel panel_container_student = new JPanel();
         panel_container_student.setBounds(170, 10, 549, 451);
@@ -266,6 +264,13 @@ public class MainWindow extends JFrame {
         JPanel unknown3 = new JPanel();
         panel_container_student.add(unknown3, "name_610724537767700");
 
+        JPanel panel_about_student = new JPanel();
+        panel_container_student.add(panel_about_student, "about");
+        panel_about_student.setLayout(null);
+
+        JLabel lbl_spa = new JLabel("曹尼玛");
+        lbl_spa.setBounds(110, 85, 61, 16);
+        panel_about_student.add(lbl_spa);
 
         ActionListener actionlistenerStudent = new ActionListener() {
             @Override
@@ -309,6 +314,15 @@ public class MainWindow extends JFrame {
                     panel_container_student.repaint();
                     System.out.println("5");
                     unknown3.setVisible(true);
+
+                } else if (e.getSource().equals(btnAbout_student)) {
+                    panel_container_student.removeAll();
+                    panel_container_student.add(panel_about_student);
+                    panel_container_student.validate();
+                    panel_container_student.repaint();
+                    System.out.println("6");
+                    panel_about_student.setVisible(true);
+
                 }
             }
         };
@@ -318,9 +332,9 @@ public class MainWindow extends JFrame {
         btnUnknown1.addActionListener(actionlistenerStudent);
         btnUnknown2.addActionListener(actionlistenerStudent);
         btnUnknown3.addActionListener(actionlistenerStudent);
+        btnAbout_student.addActionListener(actionlistenerStudent);
 
-
-        /*以下是教师界面*/
+        /* 以下是教师界面 */
         JPanel teacher = new JPanel();
         teacher.setLayout(null);
         teacher.setOpaque(false);
@@ -356,10 +370,10 @@ public class MainWindow extends JFrame {
         btnUnknown6.setBounds(10, 190, 130, 35);
         panel_category_teacher.add(btnUnknown6);
 
-        JButton btnAbout_1 = new JButton("关于");
-        btnAbout_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnAbout_1.setBounds(10, 406, 130, 35);
-        panel_category_teacher.add(btnAbout_1);
+        JButton btnAbout_teacher = new JButton("关于");
+        btnAbout_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnAbout_teacher.setBounds(10, 406, 130, 35);
+        panel_category_teacher.add(btnAbout_teacher);
 
         JPanel panel_container_teacher = new JPanel();
         panel_container_teacher.setBounds(170, 10, 553, 451);
@@ -382,6 +396,14 @@ public class MainWindow extends JFrame {
 
         JPanel unknown6 = new JPanel();
         panel_container_teacher.add(unknown6, "name_225556005001600");
+
+        JPanel panel_about_teacher = new JPanel();
+        panel_container_teacher.add(panel_about_teacher, "关于");
+        panel_about_teacher.setLayout(null);
+
+        JLabel pat_about = new JLabel("只因(just beacuse)");
+        pat_about.setBounds(84, 62, 103, 16);
+        panel_about_teacher.add(pat_about);
 
         JLabel lblImg_teacher = new JLabel("头像");
         lblImg_teacher.setOpaque(true);
@@ -445,7 +467,6 @@ public class MainWindow extends JFrame {
         lblTitle_present_teacher.setBounds(376, 89, 167, 24);
         panel_homePage_teacher.add(lblTitle_present_teacher);
 
-
         ActionListener actionlistenerTeacher = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -488,6 +509,14 @@ public class MainWindow extends JFrame {
                     panel_container_teacher.repaint();
                     System.out.println("5");
                     unknown6.setVisible(true);
+
+                } else if (e.getSource().equals(btnAbout_teacher)) {
+                    panel_container_teacher.removeAll();
+                    panel_container_teacher.add(panel_about_teacher);
+                    panel_container_teacher.validate();
+                    panel_container_teacher.repaint();
+                    System.out.println("6");
+                    panel_about_teacher.setVisible(true);
                 }
             }
         };
@@ -497,9 +526,9 @@ public class MainWindow extends JFrame {
         btnUnknown4.addActionListener(actionlistenerTeacher);
         btnUnknown5.addActionListener(actionlistenerTeacher);
         btnUnknown6.addActionListener(actionlistenerTeacher);
+        btnAbout_teacher.addActionListener(actionlistenerTeacher);
 
-
-        /*以下是教务管理员界面*/
+        /* 以下是教务管理员界面 */
         JPanel jwadmin = new JPanel();
         jwadmin.setLayout(null);
         jwadmin.setOpaque(false);
@@ -515,10 +544,10 @@ public class MainWindow extends JFrame {
         btnHomPage_jwadmin.setBounds(10, 10, 130, 35);
         panel_category_jwadmin.add(btnHomPage_jwadmin);
 
-        JButton btnCoursemanae_jwadmin = new JButton("课程管理");
-        btnCoursemanae_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnCoursemanae_jwadmin.setBounds(10, 55, 130, 35);
-        panel_category_jwadmin.add(btnCoursemanae_jwadmin);
+        JButton btnCoursemanage_jwadmin = new JButton("课程管理");
+        btnCoursemanage_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnCoursemanage_jwadmin.setBounds(10, 55, 130, 35);
+        panel_category_jwadmin.add(btnCoursemanage_jwadmin);
 
         JButton btnUnknown7 = new JButton("主页");
         btnUnknown7.setFont(new Font("微软雅黑", Font.PLAIN, 13));
@@ -535,18 +564,114 @@ public class MainWindow extends JFrame {
         btnUnknown9.setBounds(10, 190, 130, 35);
         panel_category_jwadmin.add(btnUnknown9);
 
-        JButton btnAbout_2 = new JButton("关于");
-        btnAbout_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnAbout_2.setBounds(10, 406, 130, 35);
-        panel_category_jwadmin.add(btnAbout_2);
+        JButton btnAbout_jwadmin = new JButton("关于");
+        btnAbout_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnAbout_jwadmin.setBounds(10, 406, 130, 35);
+        panel_category_jwadmin.add(btnAbout_jwadmin);
 
         JPanel panel_container_jwadmin = new JPanel();
         panel_container_jwadmin.setBounds(170, 10, 524, 451);
         jwadmin.add(panel_container_jwadmin);
         panel_container_jwadmin.setLayout(new CardLayout(0, 0));
 
+        JPanel panel_HomePage_jwadmin = new JPanel();
+        panel_container_jwadmin.add(panel_HomePage_jwadmin, "name_163311928504968");
+        panel_HomePage_jwadmin.setLayout(null);
 
-        /*以下是系统管理员界面*/
+        JLabel lblNewLabel = new JLabel("New label");
+        lblNewLabel.setBounds(78, 62, 61, 16);
+        panel_HomePage_jwadmin.add(lblNewLabel);
+
+        JLabel lblNewLabel_1 = new JLabel("New label");
+        lblNewLabel_1.setBounds(78, 105, 61, 16);
+        panel_HomePage_jwadmin.add(lblNewLabel_1);
+
+        JLabel lblNewLabel_2 = new JLabel("New label");
+        lblNewLabel_2.setBounds(78, 152, 61, 16);
+        panel_HomePage_jwadmin.add(lblNewLabel_2);
+
+        JPanel panel_CourseManagement_jwadmin = new JPanel();
+        panel_container_jwadmin.add(panel_CourseManagement_jwadmin, "name_163326955340342");
+        panel_CourseManagement_jwadmin.setLayout(null);
+
+        JPanel panel_unknown1_jwadmin = new JPanel();
+        panel_container_jwadmin.add(panel_unknown1_jwadmin, "name_163330807019563");
+        panel_unknown1_jwadmin.setLayout(null);
+
+        JPanel panel_unknown2_jwadmin = new JPanel();
+        panel_container_jwadmin.add(panel_unknown2_jwadmin, "name_163334739393566");
+        panel_unknown2_jwadmin.setLayout(null);
+
+        JPanel panel_unknown3_jwadmin = new JPanel();
+        panel_container_jwadmin.add(panel_unknown3_jwadmin, "name_163345920704447");
+        panel_unknown3_jwadmin.setLayout(null);
+
+        JPanel panel_About_jwadmin = new JPanel();
+        panel_container_jwadmin.add(panel_About_jwadmin, "name_163349861980500");
+        panel_About_jwadmin.setLayout(null);
+
+        ActionListener actionlistenerJwadmin = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource().equals(btnHomPage_jwadmin)) {
+                    panel_container_jwadmin.removeAll();
+                    panel_container_jwadmin.add(panel_HomePage_jwadmin);
+                    panel_container_jwadmin.validate();
+                    panel_container_jwadmin.repaint();
+                    System.out.println("主页");
+                    panel_HomePage_jwadmin.setVisible(true);
+
+                } else if (e.getSource().equals(btnCoursemanage_jwadmin)) {
+                    panel_container_jwadmin.removeAll();
+                    panel_container_jwadmin.add(panel_CourseManagement_jwadmin);
+                    panel_container_jwadmin.validate();
+                    panel_container_jwadmin.repaint();
+                    System.out.println("课程管理");
+                    panel_CourseManagement_jwadmin.setVisible(true);
+
+                } else if (e.getSource().equals(btnUnknown7)) {
+                    panel_container_jwadmin.removeAll();
+                    panel_container_jwadmin.add(panel_unknown1_jwadmin);
+                    panel_container_jwadmin.validate();
+                    panel_container_jwadmin.repaint();
+                    System.out.println("未知1");
+                    panel_unknown1_jwadmin.setVisible(true);
+
+                } else if (e.getSource().equals(btnUnknown8)) {
+                    panel_container_jwadmin.removeAll();
+                    panel_container_jwadmin.add(panel_unknown2_jwadmin);
+                    panel_container_jwadmin.validate();
+                    panel_container_jwadmin.repaint();
+                    System.out.println("未知2");
+                    panel_unknown2_jwadmin.setVisible(true);
+
+                } else if (e.getSource().equals(btnUnknown9)) {
+                    panel_container_jwadmin.removeAll();
+                    panel_container_jwadmin.add(panel_unknown3_jwadmin);
+                    panel_container_jwadmin.validate();
+                    panel_container_jwadmin.repaint();
+                    System.out.println("未知3");
+                    panel_unknown3_jwadmin.setVisible(true);
+
+                } else if (e.getSource().equals(btnAbout_jwadmin)) {
+                    panel_container_jwadmin.removeAll();
+                    panel_container_jwadmin.add(panel_About_jwadmin);
+                    panel_container_jwadmin.validate();
+                    panel_container_jwadmin.repaint();
+                    System.out.println("关于");
+                    panel_About_jwadmin.setVisible(true);
+                }
+            }
+        };
+
+        btnHomPage_jwadmin.addActionListener(actionlistenerJwadmin);
+        btnCoursemanage_jwadmin.addActionListener(actionlistenerJwadmin);
+        btnUnknown7.addActionListener(actionlistenerJwadmin);
+        btnUnknown8.addActionListener(actionlistenerJwadmin);
+        btnUnknown9.addActionListener(actionlistenerJwadmin);
+        btnAbout_jwadmin.addActionListener(actionlistenerJwadmin);
+
+        /* 以下是系统管理员界面 */
         JPanel xtadmin = new JPanel();
         xtadmin.setLayout(null);
         xtadmin.setOpaque(false);
@@ -587,17 +712,29 @@ public class MainWindow extends JFrame {
         xtadmin.add(panel_container_xtadmin);
         panel_container_xtadmin.setLayout(new CardLayout(0, 0));
 
-
         JPanel panel_homepage_xtadmin = new JPanel();
         panel_homepage_xtadmin.setLayout(null);
         panel_container_xtadmin.add(panel_homepage_xtadmin, "name_223808958587400");
 
         JPanel panel_approval_xtadmin = new JPanel();
+        panel_approval_xtadmin.setLayout(null);
         panel_container_xtadmin.add(panel_approval_xtadmin, "name_1655028076360800");
 
         JPanel panel_user_xtadmin = new JPanel();
         panel_container_xtadmin.add(panel_user_xtadmin, "name_1655059689581500");
         panel_user_xtadmin.setLayout(null);
+
+        JPanel panel_about_xtadmin = new JPanel();
+        panel_about_xtadmin.setLayout(null);
+        panel_container_xtadmin.add(panel_about_xtadmin, "about");
+
+        JLabel pax_lbl1 = new JLabel("只因(just because)");
+        pax_lbl1.setBounds(84, 62, 103, 16);
+        panel_about_xtadmin.add(pax_lbl1);
+
+        JPanel panel_selfinfo_xtadmin = new JPanel();
+        panel_selfinfo_xtadmin.setLayout(null);
+        panel_container_xtadmin.add(panel_selfinfo_xtadmin, "name_1655028076360800");
 
         JPanel panel_listContainer = new JPanel();
         panel_listContainer.setBounds(10, 53, 533, 388);
@@ -690,6 +827,95 @@ public class MainWindow extends JFrame {
         lblGender_present_xtadmin.setBounds(219, 89, 88, 24);
         panel_homepage_xtadmin.add(lblGender_present_xtadmin);
 
+        ActionListener actionlistenerXtadmin = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource().equals(btnHomePage_xtadmin)) {
+                    panel_container_xtadmin.removeAll();
+                    panel_container_xtadmin.add(panel_homepage_xtadmin);
+                    panel_container_xtadmin.validate();
+                    panel_container_xtadmin.repaint();
+                    System.out.println("主页");
+                    panel_homepage_xtadmin.setVisible(true);
+
+                } else if (e.getSource().equals(btnApprovalManagement_xtadmin)) {
+                    panel_container_xtadmin.removeAll();
+                    panel_container_xtadmin.add(panel_approval_xtadmin);
+                    panel_container_xtadmin.validate();
+                    panel_container_xtadmin.repaint();
+                    System.out.println("审批管理");
+                    panel_approval_xtadmin.setVisible(true);
+
+                } else if (e.getSource().equals(btnUserManagement_xtadmin)) {
+                    panel_container_xtadmin.removeAll();
+                    panel_container_xtadmin.add(panel_user_xtadmin);
+                    panel_container_xtadmin.validate();
+                    panel_container_xtadmin.repaint();
+                    System.out.println("用户管理");
+                    panel_user_xtadmin.setVisible(true);
+
+                } else if (e.getSource().equals(btnUserInfoManagemment_xtadmin)) {
+                    panel_container_xtadmin.removeAll();
+                    panel_container_xtadmin.add(panel_selfinfo_xtadmin);
+                    panel_container_xtadmin.validate();
+                    panel_container_xtadmin.repaint();
+                    System.out.println("个人信息管理");
+                    panel_selfinfo_xtadmin.setVisible(true);
+
+                } else if (e.getSource().equals(btnAbout_xtadmin)) {
+                    panel_container_xtadmin.removeAll();
+                    panel_container_xtadmin.add(panel_about_xtadmin);
+                    panel_container_xtadmin.validate();
+                    panel_container_xtadmin.repaint();
+                    System.out.println("关于");
+                    panel_about_xtadmin.setVisible(true);
+                }
+            }
+        };
+
+        btnHomePage_xtadmin.addActionListener(actionlistenerXtadmin);
+        btnApprovalManagement_xtadmin.addActionListener(actionlistenerXtadmin);
+        btnUserManagement_xtadmin.addActionListener(actionlistenerXtadmin);
+        btnUserInfoManagemment_xtadmin.addActionListener(actionlistenerXtadmin);
+        btnAbout_xtadmin.addActionListener(actionlistenerXtadmin);
+
+        ActionListener actionListenerXtadmin_user = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource().equals(btn_studentList_xtadmin)) {
+                    panel_listContainer.removeAll();
+                    panel_listContainer.add(studentList);
+                    panel_listContainer.validate();
+                    panel_listContainer.repaint();
+                    System.out.println("学生列表");
+                    studentList.setVisible(true);
+
+                } else if (e.getSource().equals(btn_teacherList_xtadmin)) {
+                    panel_listContainer.removeAll();
+                    panel_listContainer.add(teacherList);
+                    panel_listContainer.validate();
+                    panel_listContainer.repaint();
+                    System.out.println("教师列表");
+                    teacherList.setVisible(true);
+
+                } else if (e.getSource().equals(btn_jwadminList_xtadmin)) {
+                    panel_listContainer.removeAll();
+                    panel_listContainer.add(jwadminList);
+                    panel_listContainer.validate();
+                    panel_listContainer.repaint();
+                    System.out.println("教务列表");
+                    jwadminList.setVisible(true);
+
+                }
+            }
+
+        };
+
+        btn_studentList_xtadmin.addActionListener(actionListenerXtadmin_user);
+        btn_teacherList_xtadmin.addActionListener(actionListenerXtadmin_user);
+        btn_jwadminList_xtadmin.addActionListener(actionListenerXtadmin_user);
+
+        // 登陆验证
         Db db = new Db();
         Connection connection = db.getConnection();
 
@@ -719,8 +945,8 @@ public class MainWindow extends JFrame {
                                 // TODO 账号密码错误，在登陆界面提示
                             }
                         } else if (accountText.length() == 5) {
-                            System.out.println("jinle5");
                             if (accountText.charAt(0) == '1') {
+                                System.out.println("jwadmin");
                                 JwadminService jwadminService = new JwadminService();
                                 if (jwadminService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256) != null) {
                                     // 账号密码正确，登录到jwadmin的界面
@@ -733,6 +959,7 @@ public class MainWindow extends JFrame {
                                     // TODO 账号密码错误，在登陆界面提示
                                 }
                             } else if (accountText.charAt(0) == '2') {
+                                System.out.println("teacher");
                                 TeacherService teacherService = new TeacherService();
                                 if (teacherService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256) != null) {
                                     // 账号密码正确，登录到teacher的界面
@@ -745,7 +972,7 @@ public class MainWindow extends JFrame {
                                     // TODO 账号密码错误，在登陆界面提示
                                 }
                             } else if (accountText.charAt(0) == '3') {
-                                System.out.println("stu");
+                                System.out.println("student");
                                 StudentService studentService = new StudentService();
                                 if (studentService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256) != null) {
                                     // 账号密码正确，登录到student的界面
@@ -767,48 +994,5 @@ public class MainWindow extends JFrame {
         };
         btnLogin.addActionListener(actionListenerLogin);
 
-
-        ActionListener actionlistenerXtadmin = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource().equals(btnHomePage_xtadmin)) {
-                    panel_container_xtadmin.removeAll();
-                    panel_container_xtadmin.add(panel_homepage_xtadmin);
-                    panel_container_xtadmin.validate();
-                    panel_container_xtadmin.repaint();
-                    System.out.println("1");
-                    panel_homepage_xtadmin.setVisible(true);
-
-                } else if (e.getSource().equals(btnApprovalManagement_xtadmin)) {
-                    panel_container_xtadmin.removeAll();
-                    panel_container_xtadmin.add(panel_approval_xtadmin);
-                    panel_container_xtadmin.validate();
-                    panel_container_xtadmin.repaint();
-                    System.out.println("2");
-                    panel_approval_xtadmin.setVisible(true);
-
-                } else if (e.getSource().equals(btnUserManagement_xtadmin)) {
-                    panel_container_xtadmin.removeAll();
-                    panel_container_xtadmin.add(panel_user_xtadmin);
-                    panel_container_xtadmin.validate();
-                    panel_container_xtadmin.repaint();
-                    System.out.println("3");
-                    panel_user_xtadmin.setVisible(true);
-
-//              } else if(e.getSource().equals(btnUnknown5)) {
-//              	panel_container_teacher.removeAll();
-//                  panel_container_teacher.add(unknown5);
-//                  panel_container_teacher.validate();
-//                  panel_container_teacher.repaint();
-//                  System.out.println("4");
-//                  unknown5.setVisible(true);
-
-                }
-            }
-        };
-
-        btnHomePage_xtadmin.addActionListener(actionlistenerXtadmin);
-        btnApprovalManagement_xtadmin.addActionListener(actionlistenerXtadmin);
-        btnUserManagement_xtadmin.addActionListener(actionlistenerXtadmin);
     }
 }
