@@ -98,10 +98,6 @@ public class MainWindow extends JFrame {
         Label_login_password.setBounds(10, 118, 54, 15);
         LoginPanel_mid.add(Label_login_password);
 
-        passwordField_login_password = new JPasswordField();
-        passwordField_login_password.setBounds(10, 140, 178, 24);
-        LoginPanel_mid.add(passwordField_login_password);
-
         JButton btnLogin = new JButton("登录");
         btnLogin.setForeground(Color.WHITE);
         btnLogin.setFont(new Font("微软雅黑", Font.BOLD, 13));
@@ -109,14 +105,30 @@ public class MainWindow extends JFrame {
         btnLogin.setBounds(10, 180, 178, 24);
         LoginPanel_mid.add(btnLogin);
 
+        passwordField_login_password = new JPasswordField();
+        passwordField_login_password.setBounds(10, 140, 178, 28);
+        LoginPanel_mid.add(passwordField_login_password);
+
         JLabel Label_jwglxt_title = new JLabel("教务管理系统");
+        Label_jwglxt_title.setBounds(0, 0, 198, 40);
+        LoginPanel_mid.add(Label_jwglxt_title);
         Label_jwglxt_title.setPreferredSize(new Dimension(54, 40));
         Label_jwglxt_title.setOpaque(true);
         Label_jwglxt_title.setHorizontalAlignment(SwingConstants.CENTER);
         Label_jwglxt_title.setFont(new Font("微软雅黑", Font.BOLD, 16));
         Label_jwglxt_title.setBackground(Color.WHITE);
-        Label_jwglxt_title.setBounds(0, 0, 198, 40);
-        LoginPanel_mid.add(Label_jwglxt_title);
+
+        JLabel login_reminder = new JLabel("登陆失败，没输用户名或密码");
+        login_reminder.setBounds(20, 320, 198, 42);
+        LoginPanel.add(login_reminder);
+        login_reminder.setForeground(Color.red);
+        login_reminder.setVisible(false);
+
+        JLabel login_reminder_pw = new JLabel("登陆失败，用户名或密码非对");
+        login_reminder_pw.setBounds(20, 320, 198, 42);
+        LoginPanel.add(login_reminder_pw);
+        login_reminder_pw.setForeground(Color.red);
+        login_reminder_pw.setVisible(false);
 
         /* 以下是学生界面 */
         JPanel student = new JPanel();
@@ -996,8 +1008,10 @@ public class MainWindow extends JFrame {
                     String passwordText_SHA256 = SHA256(String.valueOf(passwordField_login_password.getPassword()));
 
                     if (accountText.equals("") || passwordText_SHA256.equals(SHA256(""))) {
-                        System.out.println("美术密码");
-                        // TODO 如果账户或密码为空则在界面提示
+                        System.out.println("没输用户名或密码");
+                        // 界面显示没输账号或密码
+                        login_reminder_pw.setVisible(false);
+                        login_reminder.setVisible(true);
                     } else {
                         System.out.println("输了密码");
                         if (accountText.length() == 3) {
@@ -1011,7 +1025,9 @@ public class MainWindow extends JFrame {
                                 contentPane.repaint();
                                 xtadmin.setVisible(true);
                             } else {
-                                // TODO 账号密码错误，在登陆界面提示
+                                // 界面显示账号密码输入错误
+                                login_reminder.setVisible(false);
+                                login_reminder_pw.setVisible(true);
                             }
                         } else if (accountText.length() == 5) {
                             if (accountText.charAt(0) == '1') {
@@ -1025,7 +1041,9 @@ public class MainWindow extends JFrame {
                                     contentPane.repaint();
                                     jwadmin.setVisible(true);
                                 } else {
-                                    // TODO 账号密码错误，在登陆界面提示
+                                    // 界面显示账号密码输入错误
+                                    login_reminder.setVisible(false);
+                                    login_reminder_pw.setVisible(true);
                                 }
                             } else if (accountText.charAt(0) == '2') {
                                 System.out.println("teacher");
@@ -1038,7 +1056,9 @@ public class MainWindow extends JFrame {
                                     contentPane.repaint();
                                     teacher.setVisible(true);
                                 } else {
-                                    // TODO 账号密码错误，在登陆界面提示
+                                    // 界面显示账号密码输入错误
+                                    login_reminder.setVisible(false);
+                                    login_reminder_pw.setVisible(true);
                                 }
                             } else if (accountText.charAt(0) == '3') {
                                 System.out.println("student");
@@ -1051,11 +1071,11 @@ public class MainWindow extends JFrame {
                                     contentPane.repaint();
                                     student.setVisible(true);
                                 } else {
-                                    // TODO 账号密码错误，在登陆界面提示
+                                    // 界面显示账号密码输入错误
+                                    login_reminder.setVisible(false);
+                                    login_reminder_pw.setVisible(true);
                                 }
                             }
-                        } else {
-                            // TODO 账号密码错误，在登陆界面提示
                         }
                     }
                 }
