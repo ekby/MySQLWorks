@@ -1,5 +1,7 @@
 package newjwglxt.jwglxt.ui;
 
+import newjwglxt.jwglxt.entity.Teacher;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +14,7 @@ public class TeacherPanel {
         return teacher;
     }
 
-    public TeacherPanel() {
+    public TeacherPanel(Teacher teacher_login) {
         teacher = new JPanel();
         teacher.setLayout(null);
         teacher.setOpaque(false);

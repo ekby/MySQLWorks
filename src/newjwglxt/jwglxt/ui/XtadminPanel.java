@@ -1,5 +1,7 @@
 package newjwglxt.jwglxt.ui;
 
+import newjwglxt.jwglxt.entity.Xtadmin;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -13,7 +15,7 @@ public class XtadminPanel {
         return xtadmin;
     }
 
-    public XtadminPanel() {
+    public XtadminPanel(Xtadmin xtadmin_login) {
         xtadmin = new JPanel();
         xtadmin.setLayout(null);
         xtadmin.setOpaque(false);

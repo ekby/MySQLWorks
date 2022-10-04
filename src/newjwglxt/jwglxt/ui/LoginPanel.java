@@ -1,5 +1,9 @@
 package newjwglxt.jwglxt.ui;
 
+import newjwglxt.jwglxt.entity.Jwadmin;
+import newjwglxt.jwglxt.entity.Student;
+import newjwglxt.jwglxt.entity.Teacher;
+import newjwglxt.jwglxt.entity.Xtadmin;
 import newjwglxt.jwglxt.service.idx1.JwadminService;
 import newjwglxt.jwglxt.service.idx1.StudentService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
@@ -114,10 +118,11 @@ public class LoginPanel {
                         if (accountText.length() == 3) {
                             System.out.println("xtadmin");
                             XtadminService xtadminService = new XtadminService();
-                            if (xtadminService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256) != null) {
+                            Xtadmin xtadmin_login = xtadminService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+                            if (xtadmin_login != null) {
                                 // 账号密码正确，登录到xtadmin的界面
                                 contentPane.removeAll();
-                                XtadminPanel xtadminPanel = new XtadminPanel();
+                                XtadminPanel xtadminPanel = new XtadminPanel(xtadmin_login);
                                 contentPane.add(xtadminPanel.getPanel());
                                 contentPane.validate();
                                 contentPane.repaint();
@@ -131,10 +136,11 @@ public class LoginPanel {
                             if (accountText.charAt(0) == '1') {
                                 System.out.println("jwadmin");
                                 JwadminService jwadminService = new JwadminService();
-                                if (jwadminService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256) != null) {
+                                Jwadmin jwadmin_login = jwadminService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+                                if (jwadmin_login != null) {
                                     // 账号密码正确，登录到jwadmin的界面
                                     contentPane.removeAll();
-                                    JwadminPanel jwadminPanel = new JwadminPanel();
+                                    JwadminPanel jwadminPanel = new JwadminPanel(jwadmin_login);
                                     contentPane.add(jwadminPanel.getPanel());
                                     contentPane.validate();
                                     contentPane.repaint();
@@ -147,10 +153,11 @@ public class LoginPanel {
                             } else if (accountText.charAt(0) == '2') {
                                 System.out.println("teacher");
                                 TeacherService teacherService = new TeacherService();
-                                if (teacherService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256) != null) {
+                                Teacher teacher_login = teacherService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+                                if (teacher_login != null) {
                                     // 账号密码正确，登录到teacher的界面
                                     contentPane.removeAll();
-                                    TeacherPanel teacherPanel = new TeacherPanel();
+                                    TeacherPanel teacherPanel = new TeacherPanel(teacher_login);
                                     contentPane.add(teacherPanel.getPanel());
                                     contentPane.validate();
                                     contentPane.repaint();
@@ -162,11 +169,12 @@ public class LoginPanel {
                                 }
                             } else if (accountText.charAt(0) == '3') {
                                 System.out.println("student");
-                                StudentService studentService = new StudentService();
-                                if (studentService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256) != null) {
+                                StudentService studentservice = new StudentService();
+                                Student student_login = studentservice.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+                                if (student_login != null) {
                                     // 账号密码正确，登录到student的界面
                                     contentPane.removeAll();
-                                    StudentPanel studentPanel = new StudentPanel();
+                                    StudentPanel studentPanel = new StudentPanel(student_login);
                                     contentPane.add(studentPanel.getPanel());
                                     contentPane.validate();
                                     contentPane.repaint();

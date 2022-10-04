@@ -1,5 +1,7 @@
 package newjwglxt.jwglxt.ui;
 
+import newjwglxt.jwglxt.entity.Jwadmin;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +14,7 @@ public class JwadminPanel {
         return jwadmin;
     }
 
-    public JwadminPanel() {
+    public JwadminPanel(Jwadmin jwadmin_login) {
         jwadmin = new JPanel();
         jwadmin.setLayout(null);
         jwadmin.setOpaque(false);

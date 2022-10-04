@@ -1,5 +1,7 @@
 package newjwglxt.jwglxt.ui;
 
+import newjwglxt.jwglxt.entity.Student;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +14,7 @@ public class StudentPanel {
         return student;
     }
 
-    public StudentPanel() {
+    public StudentPanel(Student student_login) {
         student = new JPanel();
         student.setOpaque(false);
         MainWindow.contentPane.add(student, "name_601806090402700");
