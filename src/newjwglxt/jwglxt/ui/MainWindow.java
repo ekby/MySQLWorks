@@ -5,14 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
-    // TODO ui
-
     protected static JPanel contentPane;
-    private JTable student_table;
-    private JTable teacher_table;
-    private JTable jwadmin_table;
-    private JTextField textField_login_account;
-    private JPasswordField passwordField_login_password;
 
     /**
      * Launch the application.
@@ -42,22 +35,17 @@ public class MainWindow extends JFrame {
         contentPane.setBackground(new Color(255, 255, 255));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
+
         CardLayout cdprime = new CardLayout();
         contentPane.setLayout(cdprime);
 
-        /* 以下是用户登录界面 */
+        /*以下是用户登录界面*/
         LoginPanel loginPanel = new LoginPanel();
         loginPanel.show();
 
-        /* 以下是学生界面 */
-
-
-        /* 以下是教师界面 */
-
-        /* 以下是教务管理员界面 */
-
-        /* 以下是系统管理员界面 */
-
-
+        /*以下是学生界面*/
+        /*以下是教师界面*/
+        /*以下是教务管理员界面*/
+        /*以下是系统管理员界面*/
     }
 }

@@ -21,7 +21,6 @@ import static newjwglxt.jwglxt.util.SHA256.SHA256;
 
 public class LoginPanel {
     public LoginPanel() {
-
     }
 
     public void show() {
@@ -65,6 +64,10 @@ public class LoginPanel {
         Label_login_password.setBounds(10, 118, 54, 15);
         LoginPanel_mid.add(Label_login_password);
 
+        JPasswordField passwordField_login_password = new JPasswordField();
+        passwordField_login_password.setBounds(10, 140, 178, 24);
+        LoginPanel_mid.add(passwordField_login_password);
+
         JButton btnLogin = new JButton("登录");
         btnLogin.setForeground(Color.WHITE);
         btnLogin.setFont(new Font("微软雅黑", Font.BOLD, 13));
@@ -72,18 +75,14 @@ public class LoginPanel {
         btnLogin.setBounds(10, 180, 178, 24);
         LoginPanel_mid.add(btnLogin);
 
-        JPasswordField passwordField_login_password = new JPasswordField();
-        passwordField_login_password.setBounds(10, 140, 178, 28);
-        LoginPanel_mid.add(passwordField_login_password);
-
         JLabel Label_jwglxt_title = new JLabel("教务管理系统");
-        Label_jwglxt_title.setBounds(0, 0, 198, 40);
-        LoginPanel_mid.add(Label_jwglxt_title);
         Label_jwglxt_title.setPreferredSize(new Dimension(54, 40));
         Label_jwglxt_title.setOpaque(true);
         Label_jwglxt_title.setHorizontalAlignment(SwingConstants.CENTER);
         Label_jwglxt_title.setFont(new Font("微软雅黑", Font.BOLD, 16));
         Label_jwglxt_title.setBackground(Color.WHITE);
+        Label_jwglxt_title.setBounds(0, 0, 198, 40);
+        LoginPanel_mid.add(Label_jwglxt_title);
 
         JLabel login_reminder = new JLabel("登陆失败，没输用户名或密码");
         login_reminder.setBounds(20, 320, 198, 42);
@@ -135,7 +134,8 @@ public class LoginPanel {
                         } else if (accountText.length() == 5) {
                             if (accountText.charAt(0) == '1') {
                                 System.out.println("jwadmin");
-                                JwadminService jwadminService = new JwadminService();
+                                JwadminService jwadminService;
+                                jwadminService = new JwadminService();
                                 Jwadmin jwadmin_login = jwadminService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
                                 if (jwadmin_login != null) {
                                     // 账号密码正确，登录到jwadmin的界面
