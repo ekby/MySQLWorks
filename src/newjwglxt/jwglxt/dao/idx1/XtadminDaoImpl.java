@@ -1,5 +1,7 @@
 package newjwglxt.jwglxt.dao.idx1;
 
+import newjwglxt.jwglxt.entity.Course;
+import newjwglxt.jwglxt.entity.Teacher;
 import newjwglxt.jwglxt.entity.Xtadmin;
 
 import java.sql.*;
@@ -173,4 +175,31 @@ public class XtadminDaoImpl implements Dao_idx1<Xtadmin> {
         }
         return arrayList;
     }
+
+    @Override
+    public ArrayList<Xtadmin> Select(Connection connection) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<Xtadmin> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM xtadmin", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new Xtadmin(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
 }

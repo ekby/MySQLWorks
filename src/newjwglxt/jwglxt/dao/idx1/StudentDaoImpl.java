@@ -1,5 +1,6 @@
 package newjwglxt.jwglxt.dao.idx1;
 
+import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.entity.Student;
 
 import java.sql.*;
@@ -165,6 +166,33 @@ public class StudentDaoImpl implements Dao_idx1<Student> {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE name LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setString(1, "%" + name + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new Student(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("sfirstyear"),
+                        resultSet.getInt("sclass"), resultSet.getString("smajor"), resultSet.getString("scollege")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
+    @Override
+    public ArrayList<Student> Select(Connection connection) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<Student> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
             databaseMetaData = connection.getMetaData();

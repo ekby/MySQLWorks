@@ -2,6 +2,8 @@ package newjwglxt.jwglxt.dao.idx1;
 
 
 import newjwglxt.jwglxt.dao.BaseDao;
+import newjwglxt.jwglxt.entity.Course;
+import newjwglxt.jwglxt.entity.Teacher;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -18,4 +20,8 @@ public interface Dao_idx1<T> extends BaseDao<T> {
 
     // 带有通配符的粗略name查找
     ArrayList<T> SelectByNameRough(Connection connection, String name);
+
+    // 不按任何条件查找全部
+    ArrayList<T> Select(Connection connection);
+
 }
