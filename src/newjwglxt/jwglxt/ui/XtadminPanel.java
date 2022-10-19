@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
 
@@ -17,7 +18,7 @@ public class XtadminPanel {
         return xtadmin;
     }
 
-    public XtadminPanel(Xtadmin xtadmin_login) {
+    public XtadminPanel(Connection connection, Xtadmin xtadmin_login) {
         xtadmin = new JPanel();
         xtadmin.setLayout(null);
         xtadmin.setOpaque(false);

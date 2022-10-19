@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
 
@@ -17,7 +18,7 @@ public class TeacherPanel {
         return teacher;
     }
 
-    public TeacherPanel(Teacher teacher_login) {
+    public TeacherPanel(Connection connection, Teacher teacher_login) {
         teacher = new JPanel();
         teacher.setLayout(null);
         teacher.setOpaque(false);

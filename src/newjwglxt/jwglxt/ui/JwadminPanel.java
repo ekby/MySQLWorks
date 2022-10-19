@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
 
@@ -17,7 +18,7 @@ public class JwadminPanel {
         return jwadmin;
     }
 
-    public JwadminPanel(Jwadmin jwadmin_login) {
+    public JwadminPanel(Connection connection, Jwadmin jwadmin_login) {
         // jwadmin左侧边栏
         jwadmin = new JPanel();
         jwadmin.setLayout(null);

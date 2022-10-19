@@ -7,17 +7,19 @@ public class CourseTable {
     private String cplace;
     private double cgrade;
     private String ctype;
-    private int cteacherid;
+    private String cteachername;
 
-    public CourseTable(String cname, int cid, String ctime, String cplace, double cgrade, String ctype, int cteacherid){
+    public CourseTable(String cname, int cid, String ctime, String cplace, double cgrade, String ctype, String cteachername){
         this.cname = cname;
         this.cid = cid;
         this.ctime = ctime;
         this.cplace = cplace;
         this.cgrade = cgrade;
         this.ctype = ctype;
-        this.cteacherid = cteacherid;
+        this.cteachername = cteachername;
     }
+
+
 
     public CourseTable(){
 
@@ -71,12 +73,12 @@ public class CourseTable {
         this.ctype = ctype;
     }
 
-    public int getCteacher() {
-        return cteacherid;
+    public String getCteachername() {
+        return cteachername;
     }
 
-    public void setCteacher(int cteacherid) {
-        this.cteacherid = cteacherid;
+    public void setCteachername(String cteachername) {
+        this.cteachername = cteachername;
     }
 
     @Override
@@ -88,7 +90,7 @@ public class CourseTable {
                 ", cplace='" + cplace + '\'' +
                 ", cgrade=" + cgrade +
                 ", ctype='" + ctype + '\'' +
-                ", cteacherid=" + cteacherid +
+                ", cteachername='" + cteachername + '\'' +
                 '}';
     }
 }

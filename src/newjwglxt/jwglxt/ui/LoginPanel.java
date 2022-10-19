@@ -123,7 +123,7 @@ public class LoginPanel {
                             if (xtadmin_login != null) {
                                 // 账号密码正确，登录到xtadmin的界面
                                 contentPane.removeAll();
-                                XtadminPanel xtadminPanel = new XtadminPanel(xtadmin_login);
+                                XtadminPanel xtadminPanel = new XtadminPanel(connection, xtadmin_login);
                                 contentPane.add(xtadminPanel.getPanel());
                                 contentPane.validate();
                                 contentPane.repaint();
@@ -142,7 +142,7 @@ public class LoginPanel {
                                 if (jwadmin_login != null) {
                                     // 账号密码正确，登录到jwadmin的界面
                                     contentPane.removeAll();
-                                    JwadminPanel jwadminPanel = new JwadminPanel(jwadmin_login);
+                                    JwadminPanel jwadminPanel = new JwadminPanel(connection, jwadmin_login);
                                     contentPane.add(jwadminPanel.getPanel());
                                     contentPane.validate();
                                     contentPane.repaint();
@@ -159,7 +159,7 @@ public class LoginPanel {
                                 if (teacher_login != null) {
                                     // 账号密码正确，登录到teacher的界面
                                     contentPane.removeAll();
-                                    TeacherPanel teacherPanel = new TeacherPanel(teacher_login);
+                                    TeacherPanel teacherPanel = new TeacherPanel(connection, teacher_login);
                                     contentPane.add(teacherPanel.getPanel());
                                     contentPane.validate();
                                     contentPane.repaint();
@@ -176,7 +176,7 @@ public class LoginPanel {
                                 if (student_login != null) {
                                     // 账号密码正确，登录到student的界面
                                     contentPane.removeAll();
-                                    StudentPanel studentPanel = new StudentPanel(student_login);
+                                    StudentPanel studentPanel = new StudentPanel(connection, student_login);
                                     contentPane.add(studentPanel.getPanel());
                                     contentPane.validate();
                                     contentPane.repaint();

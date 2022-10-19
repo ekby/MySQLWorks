@@ -1,11 +1,22 @@
 package newjwglxt.jwglxt.dao.idx2;
 
 import newjwglxt.jwglxt.entity.ChooseCourse;
+import newjwglxt.jwglxt.entity.Course;
+import newjwglxt.jwglxt.util.Db;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class ChooseCourseDaoImpl implements Dao_idx2<ChooseCourse> {
+    public static void main(String[] args) {
+        Db db = new Db();
+        Connection connection = db.getConnection();
+        ChooseCourseDaoImpl chooseCourseDao = new ChooseCourseDaoImpl();
+        ChooseCourse chooseCourse = new ChooseCourse(99, 30204, 12, 0, 0);
+
+        chooseCourseDao.Insert(connection, chooseCourse);
+    }
+
     @Override
     public void Insert(Connection connection, ChooseCourse chooseCourse) {
         DatabaseMetaData databaseMetaData;
@@ -14,8 +25,8 @@ public class ChooseCourseDaoImpl implements Dao_idx2<ChooseCourse> {
             databaseMetaData = connection.getMetaData();
             preparedStatement = connection.prepareStatement("INSERT INTO choosecourse VALUES(?,?,?,?,?)");
             preparedStatement.setInt(1, chooseCourse.getCcid());
-            preparedStatement.setInt(2, chooseCourse.getCccid());
-            preparedStatement.setInt(3, chooseCourse.getCcsid());
+            preparedStatement.setInt(2, chooseCourse.getCcsid());
+            preparedStatement.setInt(3, chooseCourse.getCccid());
             preparedStatement.setInt(4, chooseCourse.getCcscore());
             preparedStatement.setInt(5, chooseCourse.getCcgpa());
             if (preparedStatement.executeUpdate() != 0)
@@ -119,4 +130,31 @@ public class ChooseCourseDaoImpl implements Dao_idx2<ChooseCourse> {
         }
         return arrayList;
     }
+
+    public ArrayList<ChooseCourse> Select(Connection connection, int sid) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<ChooseCourse> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM choosecourse where ccsid=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setInt(1, sid);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new ChooseCourse(resultSet.getInt("ccid"), resultSet.getInt("ccsid"),
+                        resultSet.getInt("cccid"), resultSet.getInt("ccscore"), resultSet.getInt("ccgpa")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
 }

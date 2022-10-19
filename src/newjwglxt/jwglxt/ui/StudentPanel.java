@@ -1,9 +1,11 @@
 package newjwglxt.jwglxt.ui;
 
+import newjwglxt.jwglxt.entity.ChooseCourse;
 import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.entity.CourseTable;
 import newjwglxt.jwglxt.entity.Student;
 import newjwglxt.jwglxt.service.idx1.CourseService;
+import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
 import newjwglxt.jwglxt.util.Db;
 
 import javax.swing.*;
@@ -26,7 +28,7 @@ public class StudentPanel {
         return student;
     }
 
-    public StudentPanel(Student student_login) {
+    public StudentPanel(Connection connection, Student student_login) {
         student = new JPanel();
         student.setOpaque(false);
         MainWindow.contentPane.add(student, "name_601806090402700");
@@ -174,8 +176,8 @@ public class StudentPanel {
         scrollPane_avaiblecourse.setBounds(27, 40, 499, 156);
         panel_coursePage_student.add(scrollPane_avaiblecourse);
 
-
-        Vector<String> title_avaiblecourse = new Vector<String>();
+        // 选课表格
+        Vector<String> title_avaiblecourse = new Vector<>();
         title_avaiblecourse.add("课程名称");
         title_avaiblecourse.add("课程编号");
         title_avaiblecourse.add("开课时间");
@@ -184,27 +186,10 @@ public class StudentPanel {
         title_avaiblecourse.add("课程类别");
         title_avaiblecourse.add("任课教师");
 
-        Vector<Vector<Object>> data_avaiblecourse = new Vector<Vector<Object>>();
 
         CourseService courseService = new CourseService();
-        Db db = new Db();
-        Connection connection = db.getConnection();
-        ArrayList<Course> courseArrayList = courseService.ShowCourse(connection);
-        for (Course course : courseArrayList) {
-            CourseTable ctava = new CourseTable(course.getCname(), course.getCid(), course.getCtime(),
-                    course.getCroom(), course.getCcredit(), course.getCkclb(), course.getCteacherid());
-            Vector<Object> obj = new Vector<>();
-            obj.add(ctava.getCname());
-            obj.add(ctava.getCid());
-            obj.add(ctava.getCtime());
-            obj.add(ctava.getCplace());
-            obj.add(ctava.getCgrade());
-            obj.add(ctava.getCtype());
-            obj.add(ctava.getCteacher());
-            data_avaiblecourse.add(obj);
-        }
 
-        DefaultTableModel model_availecourse = new DefaultTableModel(data_avaiblecourse, title_avaiblecourse) {
+        DefaultTableModel model_availecourse = new DefaultTableModel(courseService.getCourseVector_exceptSelectedCourses(connection, student_login), title_avaiblecourse) {
             //设置table内容不能改，但能被选中行
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -244,7 +229,7 @@ public class StudentPanel {
         lbl_ccsFalse_1.setVisible(false);
 
 
-        Vector<String> title_nominatedCourse = new Vector<String>();
+        Vector<String> title_nominatedCourse = new Vector<>();
         title_nominatedCourse.add("课程名称");
         title_nominatedCourse.add("课程编号");
         title_nominatedCourse.add("开课时间");
@@ -253,7 +238,8 @@ public class StudentPanel {
         title_nominatedCourse.add("课程类别");
         title_nominatedCourse.add("任课教师");
 
-        Vector<Vector<Object>> data_nominatedCourse = new Vector<Vector<Object>>();
+        ChooseCourseService chooseCourseService = new ChooseCourseService();
+        Vector<Vector<Object>> data_nominatedCourse = chooseCourseService.getCourseVector(connection, student_login);
 
         JTable table_nominatedCourse = new JTable();
         DefaultTableModel model_nominatedCourse = new DefaultTableModel(data_nominatedCourse, title_nominatedCourse) {
@@ -266,13 +252,39 @@ public class StudentPanel {
         table_nominatedCourse.setModel(model_nominatedCourse);
         scrollPane_nominatedCourse.setViewportView(table_nominatedCourse);
 
+
+        // 选课按钮
         MouseListener mouseListener_choosecourse = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int flag = table_avaiblecourse.getSelectedRow();
-                int sum = table_avaiblecourse.getColumnCount();
+//                int sum = table_avaiblecourse.getColumnCount();
                 System.out.println("第" + flag + "行");
                 //object用来放选中课的信息
+
+                int seleted_cid = (Integer)table_avaiblecourse.getValueAt(flag, 1);
+                chooseCourseService.Add(connection, new ChooseCourse(0, student_login.getId(), seleted_cid, 0, 0));
+
+                Vector<Vector<Object>> new_data_availableCourse = courseService.getCourseVector_exceptSelectedCourses(connection, student_login);
+                Vector<Vector<Object>> new_data_nominatedCourse = chooseCourseService.getCourseVector(connection, student_login);
+
+                DefaultTableModel new_model_availableCourse = new DefaultTableModel(new_data_availableCourse, title_nominatedCourse) {
+                    //设置table内容不能改，但能被选中行
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                table_avaiblecourse.setModel(new_model_availableCourse);
+                table_avaiblecourse.updateUI();
+
+                DefaultTableModel new_model_nominatedCourse = new DefaultTableModel(new_data_nominatedCourse, title_nominatedCourse) {
+                    //设置table内容不能改，但能被选中行
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                table_nominatedCourse.setModel(new_model_nominatedCourse);
+                table_nominatedCourse.updateUI();
 
 //                ChooseCourseService ccs = new ChooseCourseService();
 //                ArrayList<ChooseCourse> chooseCourses
@@ -280,40 +292,43 @@ public class StudentPanel {
                 //TODO:选多次其他的重复的课
                 //TODO:向choosecourse表中增添数据
                 //TODO:检测是否有时间、地点冲突
-                Vector<Object> object = new Vector<>();
+//                Vector<Object> object = new Vector<>();
 
-                for (int i = 0; i < table_nominatedCourse.getRowCount(); i++) {
-//                    System.out.println(1);
-                    if (table_nominatedCourse.getValueAt(i, 1) == table_avaiblecourse.getValueAt(flag, 1)) {
-                        System.out.println("选课失败，所选课程已被选");
-                        lbl_ccsSuccess.setVisible(true);
-                        lbl_ccsFalse_1.setVisible(false);
-                        lbl_ccsFalse.setVisible(false);
+//                for (int i = 0; i < table_nominatedCourse.getRowCount(); i++) {
+////                    System.out.println(1);
+//                    if (table_nominatedCourse.getValueAt(i, 1) == table_avaiblecourse.getValueAt(flag, 1)) {
+//                        System.out.println("选课失败，所选课程已被选");
+//                        lbl_ccsSuccess.setVisible(true);
+//                        lbl_ccsFalse_1.setVisible(false);
+//                        lbl_ccsFalse.setVisible(false);
+//
+//                    } else if (table_nominatedCourse.getValueAt(i, 2) == table_avaiblecourse.getValueAt(flag, 2)) {
+//                        System.out.println("选课失败，所选课程时间段已有其他课程");
+//                        lbl_ccsSuccess.setVisible(true);
+//                        lbl_ccsFalse_1.setVisible(false);
+//                        lbl_ccsFalse.setVisible(false);
+//
+//                    } else {
+//                        for (int j = 0; j < sum; j++) {
+//                            object.add(table_avaiblecourse.getValueAt(flag, j));
+////                        ccs.Add(connection, );
+//                        }
+//                    }
+//
+//                    data_nominatedCourse.add(object);
+//                    lbl_ccsSuccess.setVisible(true);
+//                    lbl_ccsFalse_1.setVisible(false);
+//                    lbl_ccsFalse.setVisible(false);
+//
+//                }
 
-                    } else if (table_nominatedCourse.getValueAt(i, 2) == table_avaiblecourse.getValueAt(flag, 2)) {
-                        System.out.println("选课失败，所选课程时间段已有其他课程");
-                        lbl_ccsSuccess.setVisible(true);
-                        lbl_ccsFalse_1.setVisible(false);
-                        lbl_ccsFalse.setVisible(false);
 
-                    } else {
-                        for (int j = 0; j < sum; j++) {
-                            object.add(table_avaiblecourse.getValueAt(flag, j));
-//                        ccs.Add(connection, );
-                        }
-                    }
 
-                    data_nominatedCourse.add(object);
-                    lbl_ccsSuccess.setVisible(true);
-                    lbl_ccsFalse_1.setVisible(false);
-                    lbl_ccsFalse.setVisible(false);
+//                System.out.println(object);
+//                System.out.println(data_nominatedCourse);
 
-                }
+//                DefaultTableModel modeltst = new DefaultTableModel(data_nominatedCourse, title_nominatedCourse);
 
-                System.out.println(object);
-                System.out.println(data_nominatedCourse);
-                DefaultTableModel modeltst = new DefaultTableModel(data_nominatedCourse, title_nominatedCourse);
-                table_nominatedCourse.setModel(modeltst);
 
             }
 
@@ -459,6 +474,7 @@ public class StudentPanel {
         panel_about_student.add(lbl_spa);
 
         ActionListener actionlistenerStudent = new ActionListener() {
+            // TODO 点击了按钮再动用对应功能
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(btnHomePage_student)) {
