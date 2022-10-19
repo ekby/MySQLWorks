@@ -39,13 +39,8 @@ public class MainWindow extends JFrame {
         CardLayout cdprime = new CardLayout();
         contentPane.setLayout(cdprime);
 
-        /*以下是用户登录界面*/
         LoginPanel loginPanel = new LoginPanel();
         loginPanel.show();
 
-        /*以下是学生界面*/
-        /*以下是教师界面*/
-        /*以下是教务管理员界面*/
-        /*以下是系统管理员界面*/
     }
 }

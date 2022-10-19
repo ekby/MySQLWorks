@@ -48,4 +48,9 @@ public class CourseService implements Service_idx1<Course> {
         CourseDaoImpl courseDao = new CourseDaoImpl();
         return courseDao.SelectByNameRough(connection, name);
     }
+
+    public ArrayList<Course> ShowCourse(Connection connection){
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        return courseDao.Select(connection);
+    }
 }

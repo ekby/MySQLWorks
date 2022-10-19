@@ -1,5 +1,6 @@
 package newjwglxt.jwglxt.dao.idx1;
 
+import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.entity.Jwadmin;
 
 import java.sql.*;
@@ -172,5 +173,10 @@ public class JwadminDaoImpl implements Dao_idx1<Jwadmin> {
             throw new RuntimeException(e);
         }
         return arrayList;
+    }
+
+    @Override
+    public ArrayList<Jwadmin> Select(Connection connection) {
+        return null;
     }
 }

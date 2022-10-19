@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
@@ -100,6 +101,7 @@ public class LoginPanel {
         Db db = new Db();
         Connection connection = db.getConnection();
 
+        //TODO:只输入用户名未输入密码报错
         ActionListener actionListenerLogin = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -185,11 +187,105 @@ public class LoginPanel {
                                     login_reminder_pw.setVisible(true);
                                 }
                             }
+                        } else {
+                            System.out.println("没有对应账户");
+                            login_reminder.setVisible(false);
+                            login_reminder_pw.setVisible(true);
                         }
                     }
                 }
             }
+
+//            public void actionPerformed(KeyEvent e) {
+//                if (e.getSource().equals(KeyEvent.VK_ENTER)) {
+//                    String accountText = textField_login_account.getText();
+//                    String passwordText_SHA256 = SHA256(String.valueOf(passwordField_login_password.getPassword()));
+//
+//                    if (accountText.equals("") || passwordText_SHA256.equals(SHA256(""))) {
+//                        System.out.println("没输用户名或密码");
+//                        // 界面显示没输账号或密码
+//                        login_reminder_pw.setVisible(false);
+//                        login_reminder.setVisible(true);
+//                    } else {
+//                        System.out.println("输了密码");
+//                        if (accountText.length() == 3) {
+//                            System.out.println("xtadmin");
+//                            XtadminService xtadminService = new XtadminService();
+//                            Xtadmin xtadmin_login = xtadminService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+//                            if (xtadmin_login != null) {
+//                                // 账号密码正确，登录到xtadmin的界面
+//                                contentPane.removeAll();
+//                                XtadminPanel xtadminPanel = new XtadminPanel(xtadmin_login);
+//                                contentPane.add(xtadminPanel.getPanel());
+//                                contentPane.validate();
+//                                contentPane.repaint();
+//                                xtadminPanel.getPanel().setVisible(true);
+//                            } else {
+//                                // 界面显示账号密码输入错误
+//                                login_reminder.setVisible(false);
+//                                login_reminder_pw.setVisible(true);
+//                            }
+//                        } else if (accountText.length() == 5) {
+//                            if (accountText.charAt(0) == '1') {
+//                                System.out.println("jwadmin");
+//                                JwadminService jwadminService = new JwadminService();
+//                                Jwadmin jwadmin_login = jwadminService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+//                                if (jwadmin_login != null) {
+//                                    // 账号密码正确，登录到jwadmin的界面
+//                                    contentPane.removeAll();
+//                                    JwadminPanel jwadminPanel = new JwadminPanel(jwadmin_login);
+//                                    contentPane.add(jwadminPanel.getPanel());
+//                                    contentPane.validate();
+//                                    contentPane.repaint();
+//                                    jwadminPanel.getPanel().setVisible(true);
+//                                } else {
+//                                    // 界面显示账号密码输入错误
+//                                    login_reminder.setVisible(false);
+//                                    login_reminder_pw.setVisible(true);
+//                                }
+//                            } else if (accountText.charAt(0) == '2') {
+//                                System.out.println("teacher");
+//                                TeacherService teacherService = new TeacherService();
+//                                Teacher teacher_login = teacherService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+//                                if (teacher_login != null) {
+//                                    // 账号密码正确，登录到teacher的界面
+//                                    contentPane.removeAll();
+//                                    TeacherPanel teacherPanel = new TeacherPanel(teacher_login);
+//                                    contentPane.add(teacherPanel.getPanel());
+//                                    contentPane.validate();
+//                                    contentPane.repaint();
+//                                    teacherPanel.getPanel().setVisible(true);
+//                                } else {
+//                                    // 界面显示账号密码输入错误
+//                                    login_reminder.setVisible(false);
+//                                    login_reminder_pw.setVisible(true);
+//                                }
+//                            } else if (accountText.charAt(0) == '3') {
+//                                System.out.println("student");
+//                                StudentService studentservice = new StudentService();
+//                                Student student_login = studentservice.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+//                                if (student_login != null) {
+//                                    // 账号密码正确，登录到student的界面
+//                                    contentPane.removeAll();
+//                                    StudentPanel studentPanel = new StudentPanel(student_login);
+//                                    contentPane.add(studentPanel.getPanel());
+//                                    contentPane.validate();
+//                                    contentPane.repaint();
+//                                    studentPanel.getPanel().setVisible(true);
+//                                } else {
+//                                    // 界面显示账号密码输入错误
+//                                    login_reminder.setVisible(false);
+//                                    login_reminder_pw.setVisible(true);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         };
+
         btnLogin.addActionListener(actionListenerLogin);
+//        textField_login_account.addActionListener(actionListenerLogin);
+//        passwordField_login_password.addActionListener(actionListenerLogin);
     }
 }
