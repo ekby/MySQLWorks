@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 
-import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
-
 public class XtadminPanel {
     protected JPanel xtadmin;
 
@@ -22,7 +20,7 @@ public class XtadminPanel {
         xtadmin = new JPanel();
         xtadmin.setLayout(null);
         xtadmin.setOpaque(false);
-        contentPane.add(xtadmin, "name_611226331268200");
+        MainWindow.contentPane.add(xtadmin, "name_611226331268200");
 
         // xtadmin左侧边栏
         JPanel panel_category_xtadmin = new JPanel();

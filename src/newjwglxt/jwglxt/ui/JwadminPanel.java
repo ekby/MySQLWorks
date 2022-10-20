@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 
-import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
-
 public class JwadminPanel {
     protected JPanel jwadmin;
 
@@ -23,7 +21,7 @@ public class JwadminPanel {
         jwadmin = new JPanel();
         jwadmin.setLayout(null);
         jwadmin.setOpaque(false);
-        contentPane.add(jwadmin, "name_611224359007700");
+        MainWindow.contentPane.add(jwadmin, "name_611224359007700");
 
         JPanel panel_category_jwadmin = new JPanel();
         panel_category_jwadmin.setLayout(null);

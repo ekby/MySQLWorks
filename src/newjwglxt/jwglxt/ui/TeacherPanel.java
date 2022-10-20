@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 
-import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
-
 public class TeacherPanel {
     protected JPanel teacher;
 
@@ -22,7 +20,7 @@ public class TeacherPanel {
         teacher = new JPanel();
         teacher.setLayout(null);
         teacher.setOpaque(false);
-        contentPane.add(teacher, "name_611220147161800");
+        MainWindow.contentPane.add(teacher, "name_611220147161800");
 
         // teacher左侧边栏
         JPanel panel_category_teacher = new JPanel();
