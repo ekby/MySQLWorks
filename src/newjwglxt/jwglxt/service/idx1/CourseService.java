@@ -4,6 +4,7 @@ import newjwglxt.jwglxt.dao.idx1.CourseDaoImpl;
 import newjwglxt.jwglxt.entity.ChooseCourse;
 import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.entity.Student;
+import newjwglxt.jwglxt.entity.Teacher;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
 
 import java.sql.Connection;
@@ -63,21 +64,21 @@ public class CourseService implements Service_idx1<Course> {
         TeacherService teacherService = new TeacherService();
         ArrayList<Course> allCourses = courseDao.Select(connection);
         ArrayList<Integer> allCourses_cid = new ArrayList<>();
-        for (Course course: allCourses) {
+        for (Course course : allCourses) {
             allCourses_cid.add(course.getCid());
         }
 
         ChooseCourseService chooseCourseService = new ChooseCourseService();
         ArrayList<ChooseCourse> chosenCourses = chooseCourseService.CheckBySid(connection, student.getId());
         ArrayList<Integer> chosenCourses_cid = new ArrayList<>();
-        for (ChooseCourse chooseCourse: chosenCourses) {
+        for (ChooseCourse chooseCourse : chosenCourses) {
             chosenCourses_cid.add(chooseCourse.getCccid());
         }
 
 
         ArrayList<Integer> courses_cid = new ArrayList<>();
-        for (int x: allCourses_cid) {
-            if (!chosenCourses_cid.contains(x)){
+        for (int x : allCourses_cid) {
+            if (!chosenCourses_cid.contains(x)) {
                 courses_cid.add(x);
             }
         }
@@ -96,8 +97,27 @@ public class CourseService implements Service_idx1<Course> {
             courseRow.add(teacherService.CheckById(connection, courseService.CheckById(connection, cid).get(0).getCteacherid()).get(0).getName());
             courseCol.add(courseRow);
         }
-
-
         return courseCol;
     }
+
+    public Vector<Vector<Object>> getMyCourseVector_teacher(Connection connection, Teacher teacher) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        ArrayList<Course> myAllCourses = courseDao.SelectByTeacherID(connection, teacher.getId());
+        Vector<Vector<Object>> courseCol = new Vector<>();
+        for (Course course : myAllCourses) {
+            Vector<Object> courseRow = new Vector<>();
+            courseRow.add(course.getCid());
+            courseRow.add(course.getCname());
+            courseRow.add(course.getCdepartment());
+            courseRow.add(course.getCcredit());
+            courseRow.add(course.getCkclb());
+            courseRow.add(course.getCroom());
+            courseRow.add(course.getCtime());
+            courseRow.add(course.getCsigned_num());
+            courseRow.add(course.getCmax_num());
+            courseCol.add(courseRow);
+        }
+        return courseCol;
+    }
+
 }

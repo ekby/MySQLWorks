@@ -397,8 +397,6 @@ public class StudentPanel {
 //                System.out.println(data_nominatedCourse);
 
 //                DefaultTableModel modeltst = new DefaultTableModel(data_nominatedCourse, title_nominatedCourse);
-
-
                         }
 
                         @Override
@@ -460,7 +458,6 @@ public class StudentPanel {
                             }
 
                         }
-
 
                         @Override
                         public void mousePressed(MouseEvent e) {

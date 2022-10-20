@@ -1,9 +1,7 @@
 package newjwglxt.jwglxt.service.idx2;
 
-import newjwglxt.jwglxt.dao.idx1.CourseDaoImpl;
 import newjwglxt.jwglxt.dao.idx2.ChooseCourseDaoImpl;
 import newjwglxt.jwglxt.entity.ChooseCourse;
-import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.entity.Student;
 import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
@@ -64,5 +62,6 @@ public class ChooseCourseService implements Service_idx2<ChooseCourse> {
         }
         return courseCol;
     }
+
 
 }
