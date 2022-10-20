@@ -14,18 +14,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.sql.Connection;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
 import static newjwglxt.jwglxt.util.SHA256.SHA256;
 
 public class LoginPanel {
+    private static JPanel login;
+
     public LoginPanel() {
     }
 
-    public void show() {
-        JPanel login = new JPanel();
+    public static void show() {
+        login = new JPanel();
         login.setBackground(new Color(255, 255, 255));
         contentPane.add(login, "name_601797172477500");
         login.setLayout(null);
@@ -287,5 +288,9 @@ public class LoginPanel {
         btnLogin.addActionListener(actionListenerLogin);
 //        textField_login_account.addActionListener(actionListenerLogin);
 //        passwordField_login_password.addActionListener(actionListenerLogin);
+    }
+
+    public JPanel getPanel() {
+        return login;
     }
 }

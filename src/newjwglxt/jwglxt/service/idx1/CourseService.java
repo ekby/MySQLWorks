@@ -59,6 +59,7 @@ public class CourseService implements Service_idx1<Course> {
         return courseDao.Select(connection);
     }
 
+    // 为studentPanel的可选课程功能返回该学生除去已选的课程之外的课程的信息
     public Vector<Vector<Object>> getCourseVector_exceptSelectedCourses(Connection connection, Student student) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
         TeacherService teacherService = new TeacherService();
@@ -100,6 +101,7 @@ public class CourseService implements Service_idx1<Course> {
         return courseCol;
     }
 
+    // 为teacherPanel的我教的课程功能返回该老师所教的所有课程信息
     public Vector<Vector<Object>> getMyCourseVector_teacher(Connection connection, Teacher teacher) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
         ArrayList<Course> myAllCourses = courseDao.SelectByTeacherID(connection, teacher.getId());
@@ -118,6 +120,16 @@ public class CourseService implements Service_idx1<Course> {
             courseCol.add(courseRow);
         }
         return courseCol;
+    }
+
+    // 为teacherPanel的成绩管理的JcomboBox返回该老师所教的课的Name向量
+    public Vector<String> getMyCourseNameVector_teacher(Connection connection, Teacher teacher) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        ArrayList<Course> myAllCourses = courseDao.SelectByTeacherID(connection, teacher.getId());
+        Vector<String> vector_myCourseName = new Vector<>();
+        for (Course course : myAllCourses)
+            vector_myCourseName.add(String.format("[%d]%s", course.getCid(), course.getCname()));
+        return vector_myCourseName;
     }
 
 }

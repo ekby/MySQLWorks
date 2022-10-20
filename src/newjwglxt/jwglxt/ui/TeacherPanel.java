@@ -1,15 +1,22 @@
 package newjwglxt.jwglxt.ui;
 
+import newjwglxt.jwglxt.entity.ChooseCourse;
 import newjwglxt.jwglxt.entity.Teacher;
 import newjwglxt.jwglxt.service.idx1.CourseService;
+import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Vector;
+
+import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
 
 public class TeacherPanel {
     protected JPanel teacher;
@@ -40,10 +47,10 @@ public class TeacherPanel {
         btnCoursemanage_teacher.setBounds(10, 55, 130, 35);
         panel_category_teacher.add(btnCoursemanage_teacher);
 
-        JButton btnUnknown4 = new JButton("成绩管理");
-        btnUnknown4.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnUnknown4.setBounds(10, 100, 130, 35);
-        panel_category_teacher.add(btnUnknown4);
+        JButton btnScoreManage_teacher = new JButton("成绩管理");
+        btnScoreManage_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnScoreManage_teacher.setBounds(10, 100, 130, 35);
+        panel_category_teacher.add(btnScoreManage_teacher);
 
         JButton btnAbout_1 = new JButton("关于");
         btnAbout_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
@@ -165,10 +172,12 @@ public class TeacherPanel {
         panel_Coursemanage_teacher.add(scrollPane_3);
 
         JTable table_mycourse = new JTable();
-        table_mycourse.setModel(new DefaultTableModel(new Object[][]{{null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null},}, new String[]{"\u8BFE\u7A0B\u7F16\u53F7", "\u8BFE\u7A0B\u540D\u79F0", "\u5F00\u8BFE\u90E8\u95E8", "\u5B66\u5206", "\u8BFE\u7A0B\u7C7B\u522B", "\u6559\u5BA4", "\u65F6\u95F4", "\u62A5\u540D\u4EBA\u6570", "\u6700\u5927\u4EBA\u6570"}));
+//        table_mycourse.setModel(new DefaultTableModel(new Object[][]{{null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null},}, new String[]{"\u8BFE\u7A0B\u7F16\u53F7", "\u8BFE\u7A0B\u540D\u79F0", "\u5F00\u8BFE\u90E8\u95E8", "\u5B66\u5206", "\u8BFE\u7A0B\u7C7B\u522B", "\u6559\u5BA4", "\u65F6\u95F4", "\u62A5\u540D\u4EBA\u6570", "\u6700\u5927\u4EBA\u6570"}));
         scrollPane_3.setViewportView(table_mycourse);
 
         // teacher右侧内容区 -> 成绩管理
+        CourseService courseService = new CourseService();
+
         JPanel panel_chengjiguanli_teacher = new JPanel();
         panel_container_teacher.add(panel_chengjiguanli_teacher, "name_225551826938200");
         panel_chengjiguanli_teacher.setLayout(null);
@@ -178,10 +187,10 @@ public class TeacherPanel {
         lbl_xuanzekecheng_teacher.setBounds(10, 56, 77, 34);
         panel_chengjiguanli_teacher.add(lbl_xuanzekecheng_teacher);
 
-        JComboBox comboBox_3 = new JComboBox();
-        comboBox_3.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        comboBox_3.setBounds(84, 60, 145, 26);
-        panel_chengjiguanli_teacher.add(comboBox_3);
+        JComboBox comboBox_chengjiguanli = new JComboBox();
+        comboBox_chengjiguanli.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        comboBox_chengjiguanli.setBounds(84, 60, 145, 26);
+        panel_chengjiguanli_teacher.add(comboBox_chengjiguanli);
 
         JButton btn_queren_teacher = new JButton("确认");
         btn_queren_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
@@ -207,9 +216,10 @@ public class TeacherPanel {
         panel_chengjiguanli_teacher.add(scrollPane_4);
 
         JTable table_4 = new JTable();
-        table_4.setModel(new DefaultTableModel(new Object[][]{{null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null},}, new String[]{"\u5B66\u53F7", "\u59D3\u540D", "\u6210\u7EE9"}));
+//        table_4.setModel(new DefaultTableModel(new Object[][]{{null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null},}, new String[]{"\u5B66\u53F7", "\u59D3\u540D", "\u6210\u7EE9"}));
         scrollPane_4.setViewportView(table_4);
 
+        final int[] selectedCourseID = new int[1];
 
         ActionListener actionlistenerTeacher = new ActionListener() {
             @Override
@@ -223,6 +233,7 @@ public class TeacherPanel {
                     panel_homePage_teacher.setVisible(true);
 
                 } else if (e.getSource().equals(btnCoursemanage_teacher)) {
+                    // 我的成绩
                     Vector<String> title_coursemanage_teacher = new Vector<>();
                     title_coursemanage_teacher.add("课程编号");
                     title_coursemanage_teacher.add("课程名称");
@@ -238,6 +249,7 @@ public class TeacherPanel {
                     Vector<Vector<Object>> data_coursemanage_teacher = courseService.getMyCourseVector_teacher(connection, teacher_login);
                     DefaultTableModel new_model_mycourse_teacher = new DefaultTableModel(data_coursemanage_teacher, title_coursemanage_teacher) {
                         //设置table内容不能改，但能被选中行
+                        @Override
                         public boolean isCellEditable(int row, int column) {
                             return false;
                         }
@@ -252,20 +264,111 @@ public class TeacherPanel {
                     System.out.println("2");
                     panel_Coursemanage_teacher.setVisible(true);
 
-                } else if (e.getSource().equals(btnUnknown4)) {
+                } else if (e.getSource().equals(btnScoreManage_teacher)) {
+                    // 成绩管理
+                    Vector<String> vector_myCourse_name = courseService.getMyCourseNameVector_teacher(connection, teacher_login);
+                    comboBox_chengjiguanli.setModel(new DefaultComboBoxModel(vector_myCourse_name));
+
                     panel_container_teacher.removeAll();
                     panel_container_teacher.add(panel_chengjiguanli_teacher);
                     panel_container_teacher.validate();
                     panel_container_teacher.repaint();
                     System.out.println("3");
                     panel_chengjiguanli_teacher.setVisible(true);
-                }
+                } else if (e.getSource().equals(btn_queren_teacher)) {
+                    System.out.println("确认");
+                    // todo
+                    int total_row = table_4.getRowCount();
+                    for (int i = 0; i < total_row; i++) {
+                        int sid = (int) table_4.getValueAt(i, 0);
+                        int score = Integer.parseInt(table_4.getValueAt(i, 2).toString());
+                        ChooseCourseService chooseCourseService = new ChooseCourseService();
+                        ChooseCourse ccObject = chooseCourseService.CheckBySidAndCid(connection, sid, selectedCourseID[0]).get(0);
+                        ccObject.setCcscore(score);
+                        ccObject.setCcgpa(getGPA(score));
+                        chooseCourseService.Update(connection, ccObject);
+                        System.out.println(String.format("---------> sid=%d, cid=%d, score=%d, gpa=%d", sid, selectedCourseID[0], score, getGPA(score)));
+                    }
+                } else if (e.getSource().equals(btnExit_teacher)) {
+                    // TODO !!!!!!!!!!!!
+                    contentPane.removeAll();
+                    LoginPanel loginPanel = new LoginPanel();
+                    contentPane.add(loginPanel.getPanel());
+                    contentPane.validate();
+                    contentPane.repaint();
+                    loginPanel.getPanel().setVisible(true);
+                    try {
+                        connection.close();
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
 
+                }
             }
         };
         btnHomePage_teacher.addActionListener(actionlistenerTeacher);
         btnCoursemanage_teacher.addActionListener(actionlistenerTeacher);
-        btnUnknown4.addActionListener(actionlistenerTeacher);
-
+        btnScoreManage_teacher.addActionListener(actionlistenerTeacher);
+        btn_queren_teacher.addActionListener(actionlistenerTeacher);
+        btnExit_teacher.addActionListener(actionlistenerTeacher);
+        // 成绩管理JComboBox的监听器
+        ItemListener itemListener = new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    System.out.println(e.getItem());
+                    for (String str : courseService.getMyCourseNameVector_teacher(connection, teacher_login)) {
+                        if (e.getItem().equals(str)) {
+                            selectedCourseID[0] = getID(str);
+                            ChooseCourseService chooseCourseService = new ChooseCourseService();
+                            Vector<Vector<Object>> data_xueshengfenshu = chooseCourseService.getXueshengchengjibiaoVector(connection, selectedCourseID[0]);
+                            Vector<String> title_xueshengfenshu = new Vector<>();
+                            title_xueshengfenshu.add("学号");
+                            title_xueshengfenshu.add("姓名");
+                            title_xueshengfenshu.add("成绩");
+                            DefaultTableModel model_chengjibiao = new DefaultTableModel(data_xueshengfenshu, title_xueshengfenshu) {
+                                //设置table内容不能改，但能被选中行(除了第三列成绩)
+                                @Override
+                                public boolean isCellEditable(int row, int column) {
+                                    if (column == 2)
+                                        return true;
+                                    else
+                                        return false;
+                                }
+                            };
+                            table_4.setModel(model_chengjibiao);
+                            table_4.updateUI();
+                        }
+                    }
+                }
+            }
+        };
+        comboBox_chengjiguanli.addItemListener(itemListener);
     }
+
+    // 从[1]大学英语得到1
+    private static int getID(String str) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 1; i <= 2; i++) {
+            if (str.charAt(i) == ']') {
+                break;
+            } else {
+                stringBuilder.append(str.charAt(i));
+            }
+        }
+        return Integer.parseInt(String.valueOf(stringBuilder));
+    }
+
+    // 从100分得到4绩点
+    private static int getGPA(int score) {
+        if (score >= 85)
+            return 4;
+        else if (score >= 70)
+            return 3;
+        else if (score >= 60)
+            return 2;
+        else
+            return 0;
+    }
+
 }

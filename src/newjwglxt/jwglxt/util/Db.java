@@ -9,9 +9,9 @@ public class Db {
     private static final String DBURL = "jdbc:mysql://bj-cynosdbmysql-grp-liyuv41k.sql.tencentcdb.com:25232/jwglxt";//URL指向要访问的数据库名
     private static final String DBUSER = "root";                            //MySQL配置时的用户名
     private static final String DBPASSWORD = "xiaruncheng123!";             //MySQL配置时的密码
+    private Connection connection;
 
     public Connection getConnection() {
-        Connection connection = null;                                              //声明一个连接对象
         try {
             Class.forName(DBDRIVER);                                               //注册驱动
             connection = DriverManager.getConnection(DBURL, DBUSER, DBPASSWORD);   //获得连接对象

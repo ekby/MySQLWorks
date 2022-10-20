@@ -1,7 +1,6 @@
 package newjwglxt.jwglxt.dao.idx2;
 
 import newjwglxt.jwglxt.entity.ChooseCourse;
-import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.util.Db;
 
 import java.sql.*;
@@ -148,6 +147,33 @@ public class ChooseCourseDaoImpl implements Dao_idx2<ChooseCourse> {
             while (resultSet.next()) {
                 arrayList.add(new ChooseCourse(resultSet.getInt("ccid"), resultSet.getInt("ccsid"),
                         resultSet.getInt("cccid"), resultSet.getInt("ccscore"), resultSet.getInt("ccgpa")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
+    public ArrayList<ChooseCourse> SelectBySidAndCid(Connection connection, int sid, int cid) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<ChooseCourse> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM choosecourse WHERE ccsid=? AND cccid=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setInt(1, sid);
+            preparedStatement.setInt(2, cid);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new ChooseCourse(resultSet.getInt("ccid"), resultSet.getInt("ccsid"), resultSet.getInt("cccid"),
+                        resultSet.getInt("ccscore"), resultSet.getInt("ccgpa")));
             }
             resultSet.close();
             preparedStatement.close();
