@@ -7,8 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
+import java.sql.Connection;
 
 public class XtadminPanel {
     protected JPanel xtadmin;
@@ -17,11 +16,11 @@ public class XtadminPanel {
         return xtadmin;
     }
 
-    public XtadminPanel(Xtadmin xtadmin_login) {
+    public XtadminPanel(Connection connection, Xtadmin xtadmin_login) {
         xtadmin = new JPanel();
         xtadmin.setLayout(null);
         xtadmin.setOpaque(false);
-        contentPane.add(xtadmin, "name_611226331268200");
+        MainWindow.contentPane.add(xtadmin, "name_611226331268200");
 
         // xtadmin左侧边栏
         JPanel panel_category_xtadmin = new JPanel();

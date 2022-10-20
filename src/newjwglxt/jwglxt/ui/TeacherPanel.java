@@ -1,14 +1,15 @@
 package newjwglxt.jwglxt.ui;
 
 import newjwglxt.jwglxt.entity.Teacher;
+import newjwglxt.jwglxt.service.idx1.CourseService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
+import java.sql.Connection;
+import java.util.Vector;
 
 public class TeacherPanel {
     protected JPanel teacher;
@@ -17,11 +18,11 @@ public class TeacherPanel {
         return teacher;
     }
 
-    public TeacherPanel(Teacher teacher_login) {
+    public TeacherPanel(Connection connection, Teacher teacher_login) {
         teacher = new JPanel();
         teacher.setLayout(null);
         teacher.setOpaque(false);
-        contentPane.add(teacher, "name_611220147161800");
+        MainWindow.contentPane.add(teacher, "name_611220147161800");
 
         // teacher左侧边栏
         JPanel panel_category_teacher = new JPanel();
@@ -72,7 +73,7 @@ public class TeacherPanel {
         lblImg_teacher.setBounds(10, 56, 110, 150);
         panel_homePage_teacher.add(lblImg_teacher);
 
-        JLabel lblHello_teacher = new JLabel("XXX，你好！");
+        JLabel lblHello_teacher = new JLabel(String.format("%s, 你好！", teacher_login.getName()));
         lblHello_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         lblHello_teacher.setBounds(149, 56, 365, 35);
         panel_homePage_teacher.add(lblHello_teacher);
@@ -82,7 +83,7 @@ public class TeacherPanel {
         lblTid_teacher.setBounds(149, 101, 69, 24);
         panel_homePage_teacher.add(lblTid_teacher);
 
-        JLabel lblTid_present_teacher = new JLabel("20110203");
+        JLabel lblTid_present_teacher = new JLabel(String.valueOf(teacher_login.getId()));
         lblTid_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         lblTid_present_teacher.setBounds(219, 101, 88, 24);
         panel_homePage_teacher.add(lblTid_present_teacher);
@@ -92,7 +93,7 @@ public class TeacherPanel {
         lblCollege_teacher.setBounds(317, 101, 78, 24);
         panel_homePage_teacher.add(lblCollege_teacher);
 
-        JLabel lblCollege_present_teacher = new JLabel("经济与管理学院");
+        JLabel lblCollege_present_teacher = new JLabel(teacher_login.getTcollege());
         lblCollege_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         lblCollege_present_teacher.setBounds(400, 101, 134, 24);
         panel_homePage_teacher.add(lblCollege_present_teacher);
@@ -102,7 +103,7 @@ public class TeacherPanel {
         lblGender_teacher.setBounds(149, 135, 69, 24);
         panel_homePage_teacher.add(lblGender_teacher);
 
-        JLabel lblGender_present_teacher = new JLabel("男");
+        JLabel lblGender_present_teacher = new JLabel(teacher_login.getGender());
         lblGender_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         lblGender_present_teacher.setBounds(219, 135, 88, 24);
         panel_homePage_teacher.add(lblGender_present_teacher);
@@ -112,7 +113,7 @@ public class TeacherPanel {
         lblFirstYear_teacher.setBounds(149, 169, 69, 24);
         panel_homePage_teacher.add(lblFirstYear_teacher);
 
-        JLabel lblFirstYear_present_teacher = new JLabel("2020");
+        JLabel lblFirstYear_present_teacher = new JLabel(String.valueOf(teacher_login.getTfirstyear()));
         lblFirstYear_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         lblFirstYear_present_teacher.setBounds(219, 169, 88, 24);
         panel_homePage_teacher.add(lblFirstYear_present_teacher);
@@ -122,7 +123,7 @@ public class TeacherPanel {
         lblTitle_teacher.setBounds(317, 135, 78, 24);
         panel_homePage_teacher.add(lblTitle_teacher);
 
-        JLabel lblTitle_present_teacher = new JLabel("国家主席&国家军委主席");
+        JLabel lblTitle_present_teacher = new JLabel(teacher_login.getTcollege());
         lblTitle_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         lblTitle_present_teacher.setBounds(376, 135, 167, 24);
         panel_homePage_teacher.add(lblTitle_present_teacher);
@@ -163,9 +164,9 @@ public class TeacherPanel {
         scrollPane_3.setBounds(10, 56, 533, 385);
         panel_Coursemanage_teacher.add(scrollPane_3);
 
-        JTable table_3 = new JTable();
-        table_3.setModel(new DefaultTableModel(new Object[][]{{null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null},}, new String[]{"\u8BFE\u7A0B\u7F16\u53F7", "\u8BFE\u7A0B\u540D\u79F0", "\u5F00\u8BFE\u90E8\u95E8", "\u5B66\u5206", "\u8BFE\u7A0B\u7C7B\u522B", "\u6559\u5BA4", "\u65F6\u95F4", "\u62A5\u540D\u4EBA\u6570", "\u6700\u5927\u4EBA\u6570"}));
-        scrollPane_3.setViewportView(table_3);
+        JTable table_mycourse = new JTable();
+        table_mycourse.setModel(new DefaultTableModel(new Object[][]{{null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null},}, new String[]{"\u8BFE\u7A0B\u7F16\u53F7", "\u8BFE\u7A0B\u540D\u79F0", "\u5F00\u8BFE\u90E8\u95E8", "\u5B66\u5206", "\u8BFE\u7A0B\u7C7B\u522B", "\u6559\u5BA4", "\u65F6\u95F4", "\u62A5\u540D\u4EBA\u6570", "\u6700\u5927\u4EBA\u6570"}));
+        scrollPane_3.setViewportView(table_mycourse);
 
         // teacher右侧内容区 -> 成绩管理
         JPanel panel_chengjiguanli_teacher = new JPanel();
@@ -222,6 +223,28 @@ public class TeacherPanel {
                     panel_homePage_teacher.setVisible(true);
 
                 } else if (e.getSource().equals(btnCoursemanage_teacher)) {
+                    Vector<String> title_coursemanage_teacher = new Vector<>();
+                    title_coursemanage_teacher.add("课程编号");
+                    title_coursemanage_teacher.add("课程名称");
+                    title_coursemanage_teacher.add("开课部门");
+                    title_coursemanage_teacher.add("学分");
+                    title_coursemanage_teacher.add("课程类别");
+                    title_coursemanage_teacher.add("教室");
+                    title_coursemanage_teacher.add("时间");
+                    title_coursemanage_teacher.add("报名人数");
+                    title_coursemanage_teacher.add("最大人数");
+
+                    CourseService courseService = new CourseService();
+                    Vector<Vector<Object>> data_coursemanage_teacher = courseService.getMyCourseVector_teacher(connection, teacher_login);
+                    DefaultTableModel new_model_mycourse_teacher = new DefaultTableModel(data_coursemanage_teacher, title_coursemanage_teacher) {
+                        //设置table内容不能改，但能被选中行
+                        public boolean isCellEditable(int row, int column) {
+                            return false;
+                        }
+                    };
+                    table_mycourse.setModel(new_model_mycourse_teacher);
+                    table_mycourse.updateUI();
+
                     panel_container_teacher.removeAll();
                     panel_container_teacher.add(panel_Coursemanage_teacher);
                     panel_container_teacher.validate();

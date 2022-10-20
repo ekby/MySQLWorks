@@ -7,8 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
+import java.sql.Connection;
 
 public class JwadminPanel {
     protected JPanel jwadmin;
@@ -17,12 +16,12 @@ public class JwadminPanel {
         return jwadmin;
     }
 
-    public JwadminPanel(Jwadmin jwadmin_login) {
+    public JwadminPanel(Connection connection, Jwadmin jwadmin_login) {
         // jwadmin左侧边栏
         jwadmin = new JPanel();
         jwadmin.setLayout(null);
         jwadmin.setOpaque(false);
-        contentPane.add(jwadmin, "name_611224359007700");
+        MainWindow.contentPane.add(jwadmin, "name_611224359007700");
 
         JPanel panel_category_jwadmin = new JPanel();
         panel_category_jwadmin.setLayout(null);
