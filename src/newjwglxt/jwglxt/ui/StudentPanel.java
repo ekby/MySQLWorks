@@ -283,7 +283,7 @@ public class StudentPanel {
                 Vector<Object> object = new Vector<>();
 
                 for (int i = 0; i < table_nominatedCourse.getRowCount(); i++) {
-//                    System.out.println(1);
+                    System.out.println("1");
                     if (table_nominatedCourse.getValueAt(i, 1) == table_avaiblecourse.getValueAt(flag, 1)) {
                         System.out.println("选课失败，所选课程已被选");
                         lbl_ccsSuccess.setVisible(true);
