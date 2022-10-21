@@ -54,11 +54,6 @@ public class CourseService implements Service_idx1<Course> {
         return courseDao.SelectByNameRough(dbConnector.getConnection(), name);
     }
 
-    public ArrayList<Course> ShowCourse(DbConnector dbConnector) {
-        CourseDaoImpl courseDao = new CourseDaoImpl();
-        return courseDao.Select(dbConnector.getConnection());
-    }
-
     // 为studentPanel的可选课程功能返回该学生除去已选的课程之外的课程的信息
     public Vector<Vector<Object>> getCourseVector_exceptSelectedCourses(DbConnector dbConnector, Student student) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
@@ -132,4 +127,26 @@ public class CourseService implements Service_idx1<Course> {
         return vector_myCourseName;
     }
 
+    // 为jwadminPanel的课程管理的表格返回所有课程信息
+    public Vector<Vector<Object>> getAllCourseVector_jwadmin(DbConnector dbConnector) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        TeacherService teacherService = new TeacherService();
+        ArrayList<Course> allCourses = courseDao.Select(dbConnector.getConnection());
+        Vector<Vector<Object>> courseCol = new Vector<>();
+        for (Course course : allCourses) {
+            Vector<Object> courseRow = new Vector<>();
+            courseRow.add(course.getCid());
+            courseRow.add(course.getCname());
+            courseRow.add(course.getCdepartment());
+            courseRow.add(course.getCcredit());
+            courseRow.add(course.getCkclb());
+            courseRow.add(teacherService.CheckById(dbConnector, course.getCteacherid()).get(0).getName());
+            courseRow.add(course.getCroom());
+            courseRow.add(course.getCtime());
+            courseRow.add(course.getCsigned_num());
+            courseRow.add(course.getCmax_num());
+            courseCol.add(courseRow);
+        }
+        return courseCol;
+    }
 }

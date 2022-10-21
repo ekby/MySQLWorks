@@ -1,6 +1,8 @@
 package newjwglxt.jwglxt.ui;
 
 import newjwglxt.jwglxt.entity.Jwadmin;
+import newjwglxt.jwglxt.service.idx1.CourseService;
+import newjwglxt.jwglxt.service.idx1.JwadminService;
 import newjwglxt.jwglxt.util.DbConnector;
 
 import javax.swing.*;
@@ -8,6 +10,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
+
+import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
 
 public class JwadminPanel {
     protected JPanel jwadmin;
@@ -17,6 +22,8 @@ public class JwadminPanel {
     }
 
     public JwadminPanel(DbConnector dbConnector, Jwadmin jwadmin_login) {
+        JwadminService jwadminService = new JwadminService();
+
         // jwadmin左侧边栏
         jwadmin = new JPanel();
         jwadmin.setLayout(null);
@@ -59,6 +66,61 @@ public class JwadminPanel {
         jwadmin.add(panel_container_jwadmin);
         panel_container_jwadmin.setLayout(new CardLayout(0, 0));
 
+        // jwadmin右侧内容区 -> 主页
+        JPanel panel_homePage_jwadmin = new JPanel();
+        panel_homePage_jwadmin.setLayout(null);
+        panel_container_jwadmin.add(panel_homePage_jwadmin, "name_829339301915200");
+
+        JButton btnExit_jwadmin = new JButton("更换账号");
+        btnExit_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnExit_jwadmin.setBounds(443, 56, 100, 33);
+        panel_homePage_jwadmin.add(btnExit_jwadmin);
+
+        JLabel lblImg_jwadmin = new JLabel("头像");
+        lblImg_jwadmin.setOpaque(true);
+        lblImg_jwadmin.setHorizontalAlignment(SwingConstants.CENTER);
+        lblImg_jwadmin.setBackground(Color.WHITE);
+        lblImg_jwadmin.setBounds(10, 56, 110, 150);
+        panel_homePage_jwadmin.add(lblImg_jwadmin);
+
+        JLabel lblHello_jwadmin = new JLabel(String.format("%s，你好！", jwadmin_login.getName()));
+        lblHello_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblHello_jwadmin.setBounds(149, 56, 365, 35);
+        panel_homePage_jwadmin.add(lblHello_jwadmin);
+
+        JLabel lblTid_jwadmin = new JLabel("教职工号：");
+        lblTid_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblTid_jwadmin.setBounds(149, 101, 69, 24);
+        panel_homePage_jwadmin.add(lblTid_jwadmin);
+
+        JLabel lblTid_present_jwadmin = new JLabel(String.valueOf(jwadmin_login.getId()));
+        lblTid_present_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblTid_present_jwadmin.setBounds(219, 101, 88, 24);
+        panel_homePage_jwadmin.add(lblTid_present_jwadmin);
+
+        JLabel lblGender_jwadmin = new JLabel("性别：");
+        lblGender_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblGender_jwadmin.setBounds(149, 135, 69, 24);
+        panel_homePage_jwadmin.add(lblGender_jwadmin);
+
+        JLabel lblGender_present_jwadmin = new JLabel(jwadmin_login.getGender());
+        lblGender_present_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblGender_present_jwadmin.setBounds(219, 135, 88, 24);
+        panel_homePage_jwadmin.add(lblGender_present_jwadmin);
+
+        // jwadmin右侧内容区 -> 主页 -> 标题区
+        JPanel panel_title_zhuye_jwadmin = new JPanel();
+        panel_title_zhuye_jwadmin.setLayout(null);
+        panel_title_zhuye_jwadmin.setForeground(SystemColor.activeCaption);
+        panel_title_zhuye_jwadmin.setBackground(SystemColor.scrollbar);
+        panel_title_zhuye_jwadmin.setBounds(0, 0, 553, 46);
+        panel_homePage_jwadmin.add(panel_title_zhuye_jwadmin);
+
+        JLabel lblNewLabel_8_1 = new JLabel("主页");
+        lblNewLabel_8_1.setFont(new Font("微软雅黑", Font.BOLD, 16));
+        lblNewLabel_8_1.setBounds(10, 10, 64, 22);
+        panel_title_zhuye_jwadmin.add(lblNewLabel_8_1);
+
         // jwadmin右侧内容区 -> 课程管理
         JPanel panel_coursePage_jwadmin = new JPanel();
         panel_container_jwadmin.add(panel_coursePage_jwadmin, "name_829297613509800");
@@ -96,6 +158,27 @@ public class JwadminPanel {
         lbl_title_kechengguanli_jwadmin_1.setFont(new Font("微软雅黑", Font.BOLD, 16));
         lbl_title_kechengguanli_jwadmin_1.setBounds(10, 10, 207, 22);
         panel_title_kechengguanli_jwadmin.add(lbl_title_kechengguanli_jwadmin_1);
+
+        lbl_title_kechengguanli_jwadmin_1.setVisible(false);
+
+        // jwadmin右侧内容区 -> 课程管理 -> 所有课程
+        JScrollPane scrollPane_AllCourse = new JScrollPane();
+        panel_course_sub_jwadmin.add(scrollPane_AllCourse, "name_830259794174500");
+
+        Vector<String> title_kechengguanli_jwadmin = new Vector<>();
+        title_kechengguanli_jwadmin.add("课程编号");
+        title_kechengguanli_jwadmin.add("课程名称");
+        title_kechengguanli_jwadmin.add("开课部门");
+        title_kechengguanli_jwadmin.add("学分");
+        title_kechengguanli_jwadmin.add("课程类别");
+        title_kechengguanli_jwadmin.add("教师");
+        title_kechengguanli_jwadmin.add("地点");
+        title_kechengguanli_jwadmin.add("时间");
+        title_kechengguanli_jwadmin.add("报名人数");
+        title_kechengguanli_jwadmin.add("最大人数");
+
+        JTable table_chengjiguanli = new JTable();
+        scrollPane_AllCourse.setViewportView(table_chengjiguanli);
 
         // jwadmin右侧内容区 -> 课程管理 -> 新建课程
         JPanel panel_xinjiankecheng_jwadmin = new JPanel();
@@ -196,11 +279,6 @@ public class JwadminPanel {
         comboBox_1_1_1.setBounds(358, 190, 165, 26);
         panel_xinjiankecheng_jwadmin.add(comboBox_1_1_1);
 
-//        JButton btnAbout_2_1 = new JButton("新建课程");
-//        btnAbout_2_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-//        btnAbout_2_1.setBounds(393, 345, 130, 35);
-//        panel_xinjiankecheng_jwadmin.add(btnAbout_2_1);
-
         JTextField textField_4 = new JTextField();
         textField_4.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_4.setColumns(10);
@@ -212,105 +290,13 @@ public class JwadminPanel {
         btnCreateCourse_1.setBounds(423, 304, 100, 33);
         panel_xinjiankecheng_jwadmin.add(btnCreateCourse_1);
 
-        // jwadmin右侧内容区 -> 课程管理 -> 所有课程
-        JScrollPane scrollPane_AllCourse = new JScrollPane();
-        panel_course_sub_jwadmin.add(scrollPane_AllCourse, "name_830259794174500");
-
-        JTable table_xtadmin = new JTable();
-        table_xtadmin.setModel(new DefaultTableModel(new Object[][]{{null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null, null},}, new String[]{"\u8BFE\u7A0B\u7F16\u53F7", "\u8BFE\u7A0B\u540D\u79F0", "\u5F00\u8BFE\u90E8\u95E8", "\u5B66\u5206", "\u8BFE\u7A0B\u7C7B\u522B", "\u6388\u8BFE\u6559\u5E08", "\u8BFE\u7A0B\u6559\u5BA4", "\u65F6\u95F4", "\u9009\u8BFE\u4EBA\u6570", "\u6700\u5927\u4EBA\u6570"}));
-        scrollPane_AllCourse.setViewportView(table_xtadmin);
-
-        // jwadmin右侧内容区 -> 主页
-        JPanel panel_homePage_jwadmin = new JPanel();
-        panel_homePage_jwadmin.setLayout(null);
-        panel_container_jwadmin.add(panel_homePage_jwadmin, "name_829339301915200");
-
-        JButton btnExit_jwadmin = new JButton("更换账号");
-        btnExit_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnExit_jwadmin.setBounds(443, 56, 100, 33);
-        panel_homePage_jwadmin.add(btnExit_jwadmin);
-
-        JLabel lblImg_jwadmin = new JLabel("头像");
-        lblImg_jwadmin.setOpaque(true);
-        lblImg_jwadmin.setHorizontalAlignment(SwingConstants.CENTER);
-        lblImg_jwadmin.setBackground(Color.WHITE);
-        lblImg_jwadmin.setBounds(10, 56, 110, 150);
-        panel_homePage_jwadmin.add(lblImg_jwadmin);
-
-        JLabel lblHello_jwadmin = new JLabel("XXX，你好！");
-        lblHello_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblHello_jwadmin.setBounds(149, 56, 365, 35);
-        panel_homePage_jwadmin.add(lblHello_jwadmin);
-
-        JLabel lblTid_jwadmin = new JLabel("教职工号：");
-        lblTid_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblTid_jwadmin.setBounds(149, 101, 69, 24);
-        panel_homePage_jwadmin.add(lblTid_jwadmin);
-
-        JLabel lblTid_present_jwadmin = new JLabel("20110203");
-        lblTid_present_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblTid_present_jwadmin.setBounds(219, 101, 88, 24);
-        panel_homePage_jwadmin.add(lblTid_present_jwadmin);
-
-        JLabel lblCollege_jwadmin = new JLabel("学部（院）：");
-        lblCollege_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblCollege_jwadmin.setBounds(317, 101, 78, 24);
-        panel_homePage_jwadmin.add(lblCollege_jwadmin);
-
-        JLabel lblCollege_present_jwadmin = new JLabel("经济与管理学院");
-        lblCollege_present_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblCollege_present_jwadmin.setBounds(400, 101, 134, 24);
-        panel_homePage_jwadmin.add(lblCollege_present_jwadmin);
-
-        JLabel lblGender_jwadmin = new JLabel("性别：");
-        lblGender_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblGender_jwadmin.setBounds(149, 135, 69, 24);
-        panel_homePage_jwadmin.add(lblGender_jwadmin);
-
-        JLabel lblGender_present_jwadmin = new JLabel("男");
-        lblGender_present_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblGender_present_jwadmin.setBounds(219, 135, 88, 24);
-        panel_homePage_jwadmin.add(lblGender_present_jwadmin);
-
-        JLabel lblFirstYear_jwadmin = new JLabel("入职年份：");
-        lblFirstYear_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblFirstYear_jwadmin.setBounds(149, 169, 69, 24);
-        panel_homePage_jwadmin.add(lblFirstYear_jwadmin);
-
-        JLabel lblFirstYear_present_jwadmin = new JLabel("2020");
-        lblFirstYear_present_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblFirstYear_present_jwadmin.setBounds(219, 169, 88, 24);
-        panel_homePage_jwadmin.add(lblFirstYear_present_jwadmin);
-
-        JLabel lblTitle_jwadmin = new JLabel("职称：");
-        lblTitle_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblTitle_jwadmin.setBounds(317, 135, 78, 24);
-        panel_homePage_jwadmin.add(lblTitle_jwadmin);
-
-        JLabel lblTitle_present_jwadmin = new JLabel("国家主席&国家军委主席");
-        lblTitle_present_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblTitle_present_jwadmin.setBounds(376, 135, 167, 24);
-        panel_homePage_jwadmin.add(lblTitle_present_jwadmin);
-
-        // jwadmin右侧内容区 -> 主页 -> 标题区
-        JPanel panel_title_zhuye_jwadmin = new JPanel();
-        panel_title_zhuye_jwadmin.setLayout(null);
-        panel_title_zhuye_jwadmin.setForeground(SystemColor.activeCaption);
-        panel_title_zhuye_jwadmin.setBackground(SystemColor.scrollbar);
-        panel_title_zhuye_jwadmin.setBounds(0, 0, 553, 46);
-        panel_homePage_jwadmin.add(panel_title_zhuye_jwadmin);
-
-        JLabel lblNewLabel_8_1 = new JLabel("主页");
-        lblNewLabel_8_1.setFont(new Font("微软雅黑", Font.BOLD, 16));
-        lblNewLabel_8_1.setBounds(10, 10, 64, 22);
-        panel_title_zhuye_jwadmin.add(lblNewLabel_8_1);
 
         // jwadmin右侧内容区 -> 人员管理
         JPanel panel_renyuanmanage_jwadmin = new JPanel();
         panel_container_jwadmin.add(panel_renyuanmanage_jwadmin, "name_832752096213200");
         panel_renyuanmanage_jwadmin.setLayout(null);
 
-        JButton btnHomPage_jwadmin_1 = new JButton("教职工列表");
+        JButton btnHomPage_jwadmin_1 = new JButton("教师列表");
         btnHomPage_jwadmin_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_1.setBounds(10, 56, 100, 33);
         panel_renyuanmanage_jwadmin.add(btnHomPage_jwadmin_1);
@@ -320,7 +306,7 @@ public class JwadminPanel {
         btnHomPage_jwadmin_2.setBounds(120, 56, 100, 33);
         panel_renyuanmanage_jwadmin.add(btnHomPage_jwadmin_2);
 
-        JButton btnHomPage_jwadmin_2_1 = new JButton("添加教职工/学生");
+        JButton btnHomPage_jwadmin_2_1 = new JButton("添加教师/学生");
         btnHomPage_jwadmin_2_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_1.setBounds(413, 56, 130, 33);
         panel_renyuanmanage_jwadmin.add(btnHomPage_jwadmin_2_1);
@@ -350,7 +336,7 @@ public class JwadminPanel {
         panel_renyuanmanage.add(panel_tianjia, "name_833802145576100");
         panel_tianjia.setLayout(null);
 
-        JRadioButton rdbtnNewRadioButton = new JRadioButton("添加教职工");
+        JRadioButton rdbtnNewRadioButton = new JRadioButton("添加教师");
         rdbtnNewRadioButton.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         rdbtnNewRadioButton.setBounds(6, 6, 121, 23);
         panel_tianjia.add(rdbtnNewRadioButton);
@@ -359,6 +345,11 @@ public class JwadminPanel {
         rdbtnNewRadioButton_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         rdbtnNewRadioButton_1.setBounds(129, 7, 121, 23);
         panel_tianjia.add(rdbtnNewRadioButton_1);
+
+        // btnGroup为了让两个radioButton不能同时被选中
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(rdbtnNewRadioButton);
+        buttonGroup.add(rdbtnNewRadioButton_1);
 
         // jwadmin右侧内容区 -> 人员管理 -> 添加教职工/学生 -> 添加教职工
         JPanel panel_2 = new JPanel();
@@ -543,7 +534,7 @@ public class JwadminPanel {
         panel_title_renyuanguanli_jwadmin.setBounds(0, 0, 553, 46);
         panel_renyuanmanage_jwadmin.add(panel_title_renyuanguanli_jwadmin);
 
-        JLabel lbl_title_renyuanguanli_jwadmin = new JLabel("人员管理");
+        JLabel lbl_title_renyuanguanli_jwadmin = new JLabel("人员管理 / 添加教师/学生");
         lbl_title_renyuanguanli_jwadmin.setFont(new Font("微软雅黑", Font.BOLD, 16));
         lbl_title_renyuanguanli_jwadmin.setBounds(10, 10, 215, 22);
         panel_title_renyuanguanli_jwadmin.add(lbl_title_renyuanguanli_jwadmin);
@@ -558,27 +549,30 @@ public class JwadminPanel {
         lbl_title_renyuanguanli_jwadmin_1_1.setBounds(10, 10, 215, 22);
         panel_title_renyuanguanli_jwadmin.add(lbl_title_renyuanguanli_jwadmin_1_1);
 
+        lbl_title_renyuanguanli_jwadmin.setVisible(false);
+        lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
+
         // jwadmin右侧内容区 -> 退课审批
         JPanel panel_tuikeApproval = new JPanel();
         panel_container_jwadmin.add(panel_tuikeApproval, "name_835090315174800");
         panel_tuikeApproval.setLayout(null);
 
         JScrollPane scrollPane_2 = new JScrollPane();
-        scrollPane_2.setBounds(10, 56, 533, 344);
+        scrollPane_2.setBounds(10, 56, 533, 346);
         panel_tuikeApproval.add(scrollPane_2);
 
         JTable table_2 = new JTable();
-        table_2.setModel(new DefaultTableModel(new Object[][]{{null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null}, {null, null, null, null, null, null},}, new String[]{"\u5B66\u53F7", "\u59D3\u540D", "\u8BFE\u7A0B\u7F16\u53F7", "\u8BFE\u7A0B", "\u4EFB\u8BFE\u6559\u5E08", "\u7533\u8BF7\u65F6\u95F4"}));
         scrollPane_2.setViewportView(table_2);
+
 
         JButton btnAbout_2_4 = new JButton("同意");
         btnAbout_2_4.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnAbout_2_4.setBounds(413, 410, 130, 35);
+        btnAbout_2_4.setBounds(443, 412, 100, 33);
         panel_tuikeApproval.add(btnAbout_2_4);
 
         JButton btnAbout_2_5 = new JButton("驳回");
         btnAbout_2_5.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnAbout_2_5.setBounds(273, 410, 130, 35);
+        btnAbout_2_5.setBounds(335, 412, 100, 33);
         panel_tuikeApproval.add(btnAbout_2_5);
 
         // jwadmin右侧内容区 -> 退课审批 -> 标题区
@@ -605,11 +599,32 @@ public class JwadminPanel {
                     panel_homePage_jwadmin.setVisible(true);
                     System.out.println("zhuye");
                 } else if (e.getSource().equals(btnCoursemanae_jwadmin)) {
-//                    panel_course_sub_jwadmin.removeAll();
-//                    panel_course_sub_jwadmin.add(scrollPane_AllCourse);
-//                    panel_course_sub_jwadmin.validate();
-//                    panel_course_sub_jwadmin.repaint();
-//                    scrollPane_AllCourse.setVisible(true);
+                    // 课程管理
+                    lbl_title_kechengguanli_jwadmin_1.setVisible(false);
+                    lbl_title_kechengguanli_jwadmin.setVisible(true);
+
+                    CourseService courseService = new CourseService();
+                    Vector<Vector<Object>> data_kechengguanli_jwadmin = courseService.getAllCourseVector_jwadmin(dbConnector);
+                    DefaultTableModel new_model_kechengguanli_jwadmin = new DefaultTableModel(data_kechengguanli_jwadmin, title_kechengguanli_jwadmin) {
+                        //设置table内容不能改，但能被选中行
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return false;
+                        }
+                    };
+                    table_chengjiguanli.setModel(new_model_kechengguanli_jwadmin);
+                    table_chengjiguanli.updateUI();
+
+                    // 把成绩表scrollPanel加到subPanel
+                    panel_course_sub_jwadmin.removeAll();
+                    panel_course_sub_jwadmin.add(scrollPane_AllCourse);
+                    panel_course_sub_jwadmin.validate();
+                    panel_course_sub_jwadmin.repaint();
+                    scrollPane_AllCourse.setVisible(true);
+
+                    // subPanel一直在coursePage里
+
+                    // 把coursePage加到container里
                     panel_container_jwadmin.removeAll();
                     panel_container_jwadmin.add(panel_coursePage_jwadmin);
                     panel_container_jwadmin.validate();
@@ -629,30 +644,64 @@ public class JwadminPanel {
                     panel_container_jwadmin.repaint();
                     panel_tuikeApproval.setVisible(true);
                 } else if (e.getSource().equals(btnAllCourse)) {
+                    // 课程管理 -> 所有课程
+                    System.out.println("suoyoukecheng");
+
+                    lbl_title_kechengguanli_jwadmin_1.setVisible(false);
+                    lbl_title_kechengguanli_jwadmin.setVisible(true);
+
+                    CourseService courseService = new CourseService();
+                    Vector<Vector<Object>> data_kechengguanli_jwadmin = courseService.getAllCourseVector_jwadmin(dbConnector);
+                    DefaultTableModel new_model_kechengguanli_jwadmin = new DefaultTableModel(data_kechengguanli_jwadmin, title_kechengguanli_jwadmin) {
+                        //设置table内容不能改，但能被选中行
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return false;
+                        }
+                    };
+                    table_chengjiguanli.setModel(new_model_kechengguanli_jwadmin);
+                    table_chengjiguanli.updateUI();
+
                     panel_course_sub_jwadmin.removeAll();
                     panel_course_sub_jwadmin.add(scrollPane_AllCourse);
                     panel_course_sub_jwadmin.validate();
                     panel_course_sub_jwadmin.repaint();
                     scrollPane_AllCourse.setVisible(true);
                 } else if (e.getSource().equals(btnCreateCourse)) {
+                    // 课程管理 -> 新建课程
+                    lbl_title_kechengguanli_jwadmin_1.setVisible(true);
+                    lbl_title_kechengguanli_jwadmin.setVisible(false);
+
                     panel_course_sub_jwadmin.removeAll();
                     panel_course_sub_jwadmin.add(panel_xinjiankecheng_jwadmin);
                     panel_course_sub_jwadmin.validate();
                     panel_course_sub_jwadmin.repaint();
                     panel_xinjiankecheng_jwadmin.setVisible(true);
                 } else if (e.getSource().equals(btnHomPage_jwadmin_1)) {
+                    lbl_title_renyuanguanli_jwadmin.setVisible(false);
+                    lbl_title_renyuanguanli_jwadmin_1.setVisible(true);
+                    lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
+
                     panel_renyuanmanage.removeAll();
                     panel_renyuanmanage.add(scrollPane);
                     panel_renyuanmanage.validate();
                     panel_renyuanmanage.repaint();
                     scrollPane.setVisible(true);
                 } else if (e.getSource().equals(btnHomPage_jwadmin_2)) {
+                    lbl_title_renyuanguanli_jwadmin.setVisible(false);
+                    lbl_title_renyuanguanli_jwadmin_1.setVisible(false);
+                    lbl_title_renyuanguanli_jwadmin_1_1.setVisible(true);
+
                     panel_renyuanmanage.removeAll();
                     panel_renyuanmanage.add(scrollPane_1);
                     panel_renyuanmanage.validate();
                     panel_renyuanmanage.repaint();
                     scrollPane_1.setVisible(true);
                 } else if (e.getSource().equals(btnHomPage_jwadmin_2_1)) {
+                    lbl_title_renyuanguanli_jwadmin.setVisible(true);
+                    lbl_title_renyuanguanli_jwadmin_1.setVisible(false);
+                    lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
+
                     panel_renyuanmanage.removeAll();
                     panel_renyuanmanage.add(panel_tianjia);
                     panel_renyuanmanage.validate();
@@ -670,6 +719,16 @@ public class JwadminPanel {
                     panel_2.validate();
                     panel_2.repaint();
                     panel_4.setVisible(true);
+                } else if (e.getSource().equals(btnExit_jwadmin)) {
+                    // 重新登陆按钮
+                    System.out.println("tuichudenglu");
+                    contentPane.removeAll();
+                    LoginPanel loginPanel = new LoginPanel();
+                    contentPane.add(loginPanel.getPanel());
+                    contentPane.validate();
+                    contentPane.repaint();
+                    loginPanel.getPanel().setVisible(true);
+                    dbConnector.closeConnection();
                 }
             }
         };
@@ -684,5 +743,6 @@ public class JwadminPanel {
         btnHomPage_jwadmin_2_1.addActionListener(actionListener_jwamin);
         rdbtnNewRadioButton.addActionListener(actionListener_jwamin);
         rdbtnNewRadioButton_1.addActionListener(actionListener_jwamin);
+        btnExit_jwadmin.addActionListener(actionListener_jwamin);
     }
 }
