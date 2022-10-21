@@ -26,7 +26,7 @@ public class LoginPanel {
     public LoginPanel() {
     }
 
-    public static void enterPressesWhenFocused(JButton button){
+    public static void enterPressesWhenFocused(JButton button) {
         button.registerKeyboardAction(button.getActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false)),
                 KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), JComponent.WHEN_FOCUSED);
 
@@ -34,6 +34,7 @@ public class LoginPanel {
                 KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), JComponent.WHEN_FOCUSED);
 
     }
+
     public static void enterPressesWhenFocused(JTextField textField, ActionListener actionListener) {
         textField.registerKeyboardAction(actionListener,
                 KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), JComponent.WHEN_FOCUSED);
