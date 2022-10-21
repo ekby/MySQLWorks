@@ -290,7 +290,6 @@ public class TeacherPanel {
                         System.out.println(String.format("---------> sid=%d, cid=%d, score=%d, gpa=%d", sid, selectedCourseID[0], score, getGPA(score)));
                     }
                 } else if (e.getSource().equals(btnExit_teacher)) {
-                    // TODO !!!!!!!!!!!!
                     contentPane.removeAll();
                     LoginPanel loginPanel = new LoginPanel();
                     contentPane.add(loginPanel.getPanel());

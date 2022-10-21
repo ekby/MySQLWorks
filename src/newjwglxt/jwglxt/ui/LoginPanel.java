@@ -21,32 +21,10 @@ import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
 import static newjwglxt.jwglxt.util.SHA256.SHA256;
 
 public class LoginPanel {
-    private static JPanel login;
+    private final JPanel login;
 
     public LoginPanel() {
-    }
-
-    public static void enterPressesWhenFocused(JButton button) {
-        button.registerKeyboardAction(button.getActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false)),
-                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), JComponent.WHEN_FOCUSED);
-
-        button.registerKeyboardAction(button.getActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true)),
-                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), JComponent.WHEN_FOCUSED);
-
-    }
-
-    public static void enterPressesWhenFocused(JTextField textField, ActionListener actionListener) {
-        textField.registerKeyboardAction(actionListener,
-                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), JComponent.WHEN_FOCUSED);
-
-        textField.registerKeyboardAction(actionListener,
-                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), JComponent.WHEN_FOCUSED);
-    }
-
-    public static void show() {
         login = new JPanel();
-
-        JPanel login = new JPanel();
         login.setBackground(new Color(255, 255, 255));
         contentPane.add(login, "name_601797172477500");
         login.setLayout(null);
@@ -222,6 +200,23 @@ public class LoginPanel {
         enterPressesWhenFocused(textField_login_account, actionListenerLogin);
         enterPressesWhenFocused(passwordField_login_password, actionListenerLogin);
 
+    }
+
+    public static void enterPressesWhenFocused(JButton button) {
+        button.registerKeyboardAction(button.getActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false)),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), JComponent.WHEN_FOCUSED);
+
+        button.registerKeyboardAction(button.getActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true)),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), JComponent.WHEN_FOCUSED);
+
+    }
+
+    public static void enterPressesWhenFocused(JTextField textField, ActionListener actionListener) {
+        textField.registerKeyboardAction(actionListener,
+                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), JComponent.WHEN_FOCUSED);
+
+        textField.registerKeyboardAction(actionListener,
+                KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true), JComponent.WHEN_FOCUSED);
     }
 
     public JPanel getPanel() {

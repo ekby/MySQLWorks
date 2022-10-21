@@ -40,7 +40,7 @@ public class MainWindow extends JFrame {
         contentPane.setLayout(cdprime);
 
         LoginPanel loginPanel = new LoginPanel();
-        loginPanel.show();
+
 
     }
 }
