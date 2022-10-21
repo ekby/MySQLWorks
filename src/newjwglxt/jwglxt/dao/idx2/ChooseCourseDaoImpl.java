@@ -1,15 +1,15 @@
 package newjwglxt.jwglxt.dao.idx2;
 
 import newjwglxt.jwglxt.entity.ChooseCourse;
-import newjwglxt.jwglxt.util.Db;
+import newjwglxt.jwglxt.util.DbConnector;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class ChooseCourseDaoImpl implements Dao_idx2<ChooseCourse> {
     public static void main(String[] args) {
-        Db db = new Db();
-        Connection connection = db.getConnection();
+        DbConnector dbConnector = new DbConnector();
+        Connection connection = dbConnector.getConnection();
         ChooseCourseDaoImpl chooseCourseDao = new ChooseCourseDaoImpl();
         ChooseCourse chooseCourse = new ChooseCourse(99, 30204, 12, 0, 0);
 

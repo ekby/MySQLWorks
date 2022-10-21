@@ -1,13 +1,13 @@
 package newjwglxt.jwglxt.ui;
 
 import newjwglxt.jwglxt.entity.Jwadmin;
+import newjwglxt.jwglxt.util.DbConnector;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 
 public class JwadminPanel {
     protected JPanel jwadmin;
@@ -16,7 +16,7 @@ public class JwadminPanel {
         return jwadmin;
     }
 
-    public JwadminPanel(Connection connection, Jwadmin jwadmin_login) {
+    public JwadminPanel(DbConnector dbConnector, Jwadmin jwadmin_login) {
         // jwadmin左侧边栏
         jwadmin = new JPanel();
         jwadmin.setLayout(null);

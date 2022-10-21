@@ -2,10 +2,8 @@ package newjwglxt.jwglxt;
 
 import newjwglxt.jwglxt.dao.idx2.ChooseCourseDaoImpl;
 import newjwglxt.jwglxt.entity.ChooseCourse;
-import newjwglxt.jwglxt.entity.Course;
-import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
-import newjwglxt.jwglxt.util.Db;
+import newjwglxt.jwglxt.util.DbConnector;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,8 +19,8 @@ public class Main {
 //        Student student1 = new Student("qkkk", 30121, "123", "f", "123", 2020, 201101, "xg", "jgxy");
 //        studentDao.Update(db.getConnection(), student, student1);
 
-        Db db = new Db();
-        Connection connection = db.getConnection();
+        DbConnector dbConnector = new DbConnector();
+        Connection connection = dbConnector.getConnection();
 //        System.out.println(studentDao.SelectById(connection, 30121).toString());
 //        System.out.println(studentDao.SelectByName(connection, "xrc").toString());
 //        System.out.println(studentDao.SelectByNameRough(connection, "x"));

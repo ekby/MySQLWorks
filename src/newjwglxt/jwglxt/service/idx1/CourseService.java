@@ -6,71 +6,71 @@ import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.entity.Student;
 import newjwglxt.jwglxt.entity.Teacher;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
+import newjwglxt.jwglxt.util.DbConnector;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Vector;
 
 public class CourseService implements Service_idx1<Course> {
     @Override
-    public void Add(Connection connection, Course course) {
+    public void Add(DbConnector dbConnector, Course course) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        courseDao.Insert(connection, course);
+        courseDao.Insert(dbConnector.getConnection(), course);
     }
 
     @Override
-    public void Delete(Connection connection, Course course) {
+    public void Delete(DbConnector dbConnector, Course course) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        courseDao.Delete(connection, course);
+        courseDao.Delete(dbConnector.getConnection(), course);
     }
 
     @Override
-    public void Update(Connection connection, Course course) {
+    public void Update(DbConnector dbConnector, Course course) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        courseDao.Update(connection, course);
+        courseDao.Update(dbConnector.getConnection(), course);
     }
 
     @Override
-    public ArrayList<Course> CheckById(Connection connection, int id) {
+    public ArrayList<Course> CheckById(DbConnector dbConnector, int id) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        return courseDao.SelectById(connection, id);
+        return courseDao.SelectById(dbConnector.getConnection(), id);
     }
 
     @Override
-    public ArrayList<Course> CheckByIdRough(Connection connection, int id) {
+    public ArrayList<Course> CheckByIdRough(DbConnector dbConnector, int id) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        return courseDao.SelectByIdRough(connection, id);
+        return courseDao.SelectByIdRough(dbConnector.getConnection(), id);
     }
 
     @Override
-    public ArrayList<Course> CheckByName(Connection connection, String name) {
+    public ArrayList<Course> CheckByName(DbConnector dbConnector, String name) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        return courseDao.SelectByName(connection, name);
+        return courseDao.SelectByName(dbConnector.getConnection(), name);
     }
 
     @Override
-    public ArrayList<Course> CheckByNameRough(Connection connection, String name) {
+    public ArrayList<Course> CheckByNameRough(DbConnector dbConnector, String name) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        return courseDao.SelectByNameRough(connection, name);
+        return courseDao.SelectByNameRough(dbConnector.getConnection(), name);
     }
 
-    public ArrayList<Course> ShowCourse(Connection connection) {
+    public ArrayList<Course> ShowCourse(DbConnector dbConnector) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        return courseDao.Select(connection);
+        return courseDao.Select(dbConnector.getConnection());
     }
 
     // 为studentPanel的可选课程功能返回该学生除去已选的课程之外的课程的信息
-    public Vector<Vector<Object>> getCourseVector_exceptSelectedCourses(Connection connection, Student student) {
+    public Vector<Vector<Object>> getCourseVector_exceptSelectedCourses(DbConnector dbConnector, Student student) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
         TeacherService teacherService = new TeacherService();
-        ArrayList<Course> allCourses = courseDao.Select(connection);
+        ArrayList<Course> allCourses = courseDao.Select(dbConnector.getConnection());
         ArrayList<Integer> allCourses_cid = new ArrayList<>();
         for (Course course : allCourses) {
             allCourses_cid.add(course.getCid());
         }
 
         ChooseCourseService chooseCourseService = new ChooseCourseService();
-        ArrayList<ChooseCourse> chosenCourses = chooseCourseService.CheckBySid(connection, student.getId());
+        ArrayList<ChooseCourse> chosenCourses = chooseCourseService.CheckBySid(dbConnector, student.getId());
         ArrayList<Integer> chosenCourses_cid = new ArrayList<>();
         for (ChooseCourse chooseCourse : chosenCourses) {
             chosenCourses_cid.add(chooseCourse.getCccid());
@@ -89,22 +89,22 @@ public class CourseService implements Service_idx1<Course> {
         Vector<Vector<Object>> courseCol = new Vector<>();
         for (int cid : courses_cid) {
             Vector<Object> courseRow = new Vector<>();
-            courseRow.add(courseService.CheckById(connection, cid).get(0).getCname());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCname());
             courseRow.add(cid);
-            courseRow.add(courseService.CheckById(connection, cid).get(0).getCtime());
-            courseRow.add(courseService.CheckById(connection, cid).get(0).getCroom());
-            courseRow.add(courseService.CheckById(connection, cid).get(0).getCcredit());
-            courseRow.add(courseService.CheckById(connection, cid).get(0).getCkclb());
-            courseRow.add(teacherService.CheckById(connection, courseService.CheckById(connection, cid).get(0).getCteacherid()).get(0).getName());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCtime());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCroom());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCcredit());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCkclb());
+            courseRow.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, cid).get(0).getCteacherid()).get(0).getName());
             courseCol.add(courseRow);
         }
         return courseCol;
     }
 
     // 为teacherPanel的我教的课程功能返回该老师所教的所有课程信息
-    public Vector<Vector<Object>> getMyCourseVector_teacher(Connection connection, Teacher teacher) {
+    public Vector<Vector<Object>> getMyCourseVector_teacher(DbConnector dbConnector, Teacher teacher) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        ArrayList<Course> myAllCourses = courseDao.SelectByTeacherID(connection, teacher.getId());
+        ArrayList<Course> myAllCourses = courseDao.SelectByTeacherID(dbConnector.getConnection(), teacher.getId());
         Vector<Vector<Object>> courseCol = new Vector<>();
         for (Course course : myAllCourses) {
             Vector<Object> courseRow = new Vector<>();
@@ -123,9 +123,9 @@ public class CourseService implements Service_idx1<Course> {
     }
 
     // 为teacherPanel的成绩管理的JcomboBox返回该老师所教的课的Name向量
-    public Vector<String> getMyCourseNameVector_teacher(Connection connection, Teacher teacher) {
+    public Vector<String> getMyCourseNameVector_teacher(DbConnector dbConnector, Teacher teacher) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        ArrayList<Course> myAllCourses = courseDao.SelectByTeacherID(connection, teacher.getId());
+        ArrayList<Course> myAllCourses = courseDao.SelectByTeacherID(dbConnector.getConnection(), teacher.getId());
         Vector<String> vector_myCourseName = new Vector<>();
         for (Course course : myAllCourses)
             vector_myCourseName.add(String.format("[%d]%s", course.getCid(), course.getCname()));

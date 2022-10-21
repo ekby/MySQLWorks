@@ -2,15 +2,15 @@ package newjwglxt.jwglxt.service.idx1;
 
 import newjwglxt.jwglxt.dao.idx1.XtadminDaoImpl;
 import newjwglxt.jwglxt.entity.Xtadmin;
+import newjwglxt.jwglxt.util.DbConnector;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 public class XtadminService implements Service_idx1<Xtadmin>, LoginService<Xtadmin> {
     @Override
-    public Xtadmin LoginVerify(Connection connection, int id, String pw) {
+    public Xtadmin LoginVerify(DbConnector dbConnector, int id, String pw) {
         XtadminDaoImpl xtadminDao = new XtadminDaoImpl();
-        ArrayList<Xtadmin> arrayList = xtadminDao.SelectById(connection, id);
+        ArrayList<Xtadmin> arrayList = xtadminDao.SelectById(dbConnector.getConnection(), id);
 
         if (arrayList.size() != 1)
             return null;
@@ -24,44 +24,44 @@ public class XtadminService implements Service_idx1<Xtadmin>, LoginService<Xtadm
     }
 
     @Override
-    public void Add(Connection connection, Xtadmin xtadmin) {
+    public void Add(DbConnector dbConnector, Xtadmin xtadmin) {
         XtadminDaoImpl xtadminDao = new XtadminDaoImpl();
-        xtadminDao.Insert(connection, xtadmin);
+        xtadminDao.Insert(dbConnector.getConnection(), xtadmin);
     }
 
     @Override
-    public void Delete(Connection connection, Xtadmin xtadmin) {
+    public void Delete(DbConnector dbConnector, Xtadmin xtadmin) {
         XtadminDaoImpl xtadminDao = new XtadminDaoImpl();
-        xtadminDao.Delete(connection, xtadmin);
+        xtadminDao.Delete(dbConnector.getConnection(), xtadmin);
     }
 
     @Override
-    public void Update(Connection connection, Xtadmin xtadmin) {
+    public void Update(DbConnector dbConnector, Xtadmin xtadmin) {
         XtadminDaoImpl xtadminDao = new XtadminDaoImpl();
-        xtadminDao.Update(connection, xtadmin);
+        xtadminDao.Update(dbConnector.getConnection(), xtadmin);
     }
 
     @Override
-    public ArrayList<Xtadmin> CheckById(Connection connection, int id) {
+    public ArrayList<Xtadmin> CheckById(DbConnector dbConnector, int id) {
         XtadminDaoImpl xtadminDao = new XtadminDaoImpl();
-        return xtadminDao.SelectById(connection, id);
+        return xtadminDao.SelectById(dbConnector.getConnection(), id);
     }
 
     @Override
-    public ArrayList<Xtadmin> CheckByIdRough(Connection connection, int id) {
+    public ArrayList<Xtadmin> CheckByIdRough(DbConnector dbConnector, int id) {
         XtadminDaoImpl xtadminDao = new XtadminDaoImpl();
-        return xtadminDao.SelectByIdRough(connection, id);
+        return xtadminDao.SelectByIdRough(dbConnector.getConnection(), id);
     }
 
     @Override
-    public ArrayList<Xtadmin> CheckByName(Connection connection, String name) {
+    public ArrayList<Xtadmin> CheckByName(DbConnector dbConnector, String name) {
         XtadminDaoImpl xtadminDao = new XtadminDaoImpl();
-        return xtadminDao.SelectByName(connection, name);
+        return xtadminDao.SelectByName(dbConnector.getConnection(), name);
     }
 
     @Override
-    public ArrayList<Xtadmin> CheckByNameRough(Connection connection, String name) {
+    public ArrayList<Xtadmin> CheckByNameRough(DbConnector dbConnector, String name) {
         XtadminDaoImpl xtadminDao = new XtadminDaoImpl();
-        return xtadminDao.SelectByNameRough(connection, name);
+        return xtadminDao.SelectByNameRough(dbConnector.getConnection(), name);
     }
 }

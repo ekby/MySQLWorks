@@ -4,6 +4,7 @@ import newjwglxt.jwglxt.entity.ChooseCourse;
 import newjwglxt.jwglxt.entity.Teacher;
 import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
+import newjwglxt.jwglxt.util.DbConnector;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Vector;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
@@ -25,7 +24,7 @@ public class TeacherPanel {
         return teacher;
     }
 
-    public TeacherPanel(Connection connection, Teacher teacher_login) {
+    public TeacherPanel(DbConnector dbConnector, Teacher teacher_login) {
         teacher = new JPanel();
         teacher.setLayout(null);
         teacher.setOpaque(false);
@@ -130,9 +129,9 @@ public class TeacherPanel {
         lblTitle_teacher.setBounds(317, 135, 78, 24);
         panel_homePage_teacher.add(lblTitle_teacher);
 
-        JLabel lblTitle_present_teacher = new JLabel(teacher_login.getTcollege());
+        JLabel lblTitle_present_teacher = new JLabel(teacher_login.getTtitle());
         lblTitle_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblTitle_present_teacher.setBounds(376, 135, 167, 24);
+        lblTitle_present_teacher.setBounds(400, 135, 167, 24);
         panel_homePage_teacher.add(lblTitle_present_teacher);
 
         // teacher右侧内容区 -> 主页 -> 标题区
@@ -172,7 +171,6 @@ public class TeacherPanel {
         panel_Coursemanage_teacher.add(scrollPane_3);
 
         JTable table_mycourse = new JTable();
-//        table_mycourse.setModel(new DefaultTableModel(new Object[][]{{null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null, null},}, new String[]{"\u8BFE\u7A0B\u7F16\u53F7", "\u8BFE\u7A0B\u540D\u79F0", "\u5F00\u8BFE\u90E8\u95E8", "\u5B66\u5206", "\u8BFE\u7A0B\u7C7B\u522B", "\u6559\u5BA4", "\u65F6\u95F4", "\u62A5\u540D\u4EBA\u6570", "\u6700\u5927\u4EBA\u6570"}));
         scrollPane_3.setViewportView(table_mycourse);
 
         // teacher右侧内容区 -> 成绩管理
@@ -216,7 +214,6 @@ public class TeacherPanel {
         panel_chengjiguanli_teacher.add(scrollPane_4);
 
         JTable table_4 = new JTable();
-//        table_4.setModel(new DefaultTableModel(new Object[][]{{null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null},}, new String[]{"\u5B66\u53F7", "\u59D3\u540D", "\u6210\u7EE9"}));
         scrollPane_4.setViewportView(table_4);
 
         final int[] selectedCourseID = new int[1];
@@ -246,7 +243,7 @@ public class TeacherPanel {
                     title_coursemanage_teacher.add("最大人数");
 
                     CourseService courseService = new CourseService();
-                    Vector<Vector<Object>> data_coursemanage_teacher = courseService.getMyCourseVector_teacher(connection, teacher_login);
+                    Vector<Vector<Object>> data_coursemanage_teacher = courseService.getMyCourseVector_teacher(dbConnector, teacher_login);
                     DefaultTableModel new_model_mycourse_teacher = new DefaultTableModel(data_coursemanage_teacher, title_coursemanage_teacher) {
                         //设置table内容不能改，但能被选中行
                         @Override
@@ -266,7 +263,7 @@ public class TeacherPanel {
 
                 } else if (e.getSource().equals(btnScoreManage_teacher)) {
                     // 成绩管理
-                    Vector<String> vector_myCourse_name = courseService.getMyCourseNameVector_teacher(connection, teacher_login);
+                    Vector<String> vector_myCourse_name = courseService.getMyCourseNameVector_teacher(dbConnector, teacher_login);
                     comboBox_chengjiguanli.setModel(new DefaultComboBoxModel(vector_myCourse_name));
 
                     panel_container_teacher.removeAll();
@@ -277,17 +274,16 @@ public class TeacherPanel {
                     panel_chengjiguanli_teacher.setVisible(true);
                 } else if (e.getSource().equals(btn_queren_teacher)) {
                     System.out.println("确认");
-                    // todo
                     int total_row = table_4.getRowCount();
                     for (int i = 0; i < total_row; i++) {
                         int sid = (int) table_4.getValueAt(i, 0);
                         int score = Integer.parseInt(table_4.getValueAt(i, 2).toString());
                         ChooseCourseService chooseCourseService = new ChooseCourseService();
-                        ChooseCourse ccObject = chooseCourseService.CheckBySidAndCid(connection, sid, selectedCourseID[0]).get(0);
+                        ChooseCourse ccObject = chooseCourseService.CheckBySidAndCid(dbConnector, sid, selectedCourseID[0]).get(0);
                         ccObject.setCcscore(score);
                         ccObject.setCcgpa(getGPA(score));
-                        chooseCourseService.Update(connection, ccObject);
-                        System.out.println(String.format("---------> sid=%d, cid=%d, score=%d, gpa=%d", sid, selectedCourseID[0], score, getGPA(score)));
+                        chooseCourseService.Update(dbConnector, ccObject);
+                        System.out.printf("---------> sid=%d, cid=%d, score=%d, gpa=%d%n", sid, selectedCourseID[0], score, getGPA(score));
                     }
                 } else if (e.getSource().equals(btnExit_teacher)) {
                     contentPane.removeAll();
@@ -296,12 +292,8 @@ public class TeacherPanel {
                     contentPane.validate();
                     contentPane.repaint();
                     loginPanel.getPanel().setVisible(true);
-                    try {
-                        connection.close();
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
 
+                    dbConnector.closeConnection();
                 }
             }
         };
@@ -316,11 +308,11 @@ public class TeacherPanel {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     System.out.println(e.getItem());
-                    for (String str : courseService.getMyCourseNameVector_teacher(connection, teacher_login)) {
+                    for (String str : courseService.getMyCourseNameVector_teacher(dbConnector, teacher_login)) {
                         if (e.getItem().equals(str)) {
                             selectedCourseID[0] = getID(str);
                             ChooseCourseService chooseCourseService = new ChooseCourseService();
-                            Vector<Vector<Object>> data_xueshengfenshu = chooseCourseService.getXueshengchengjibiaoVector(connection, selectedCourseID[0]);
+                            Vector<Vector<Object>> data_xueshengfenshu = chooseCourseService.getXueshengchengjibiaoVector(dbConnector, selectedCourseID[0]);
                             Vector<String> title_xueshengfenshu = new Vector<>();
                             title_xueshengfenshu.add("学号");
                             title_xueshengfenshu.add("姓名");

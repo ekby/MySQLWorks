@@ -2,15 +2,15 @@ package newjwglxt.jwglxt.service.idx1;
 
 import newjwglxt.jwglxt.dao.idx1.StudentDaoImpl;
 import newjwglxt.jwglxt.entity.Student;
+import newjwglxt.jwglxt.util.DbConnector;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 public class StudentService implements Service_idx1<Student>, LoginService<Student> {
     @Override
-    public Student LoginVerify(Connection connection, int id, String pw) {
+    public Student LoginVerify(DbConnector dbConnector, int id, String pw) {
         StudentDaoImpl studentDao = new StudentDaoImpl();
-        ArrayList<Student> arrayList = studentDao.SelectById(connection, id);
+        ArrayList<Student> arrayList = studentDao.SelectById(dbConnector.getConnection(), id);
 
         if (arrayList.size() != 1)
             return null;
@@ -24,44 +24,44 @@ public class StudentService implements Service_idx1<Student>, LoginService<Stude
     }
 
     @Override
-    public void Add(Connection connection, Student student) {
+    public void Add(DbConnector dbConnector, Student student) {
         StudentDaoImpl studentDao = new StudentDaoImpl();
-        studentDao.Insert(connection, student);
+        studentDao.Insert(dbConnector.getConnection(), student);
     }
 
     @Override
-    public void Delete(Connection connection, Student student) {
+    public void Delete(DbConnector dbConnector, Student student) {
         StudentDaoImpl studentDao = new StudentDaoImpl();
-        studentDao.Delete(connection, student);
+        studentDao.Delete(dbConnector.getConnection(), student);
     }
 
     @Override
-    public void Update(Connection connection, Student student) {
+    public void Update(DbConnector dbConnector, Student student) {
         StudentDaoImpl studentDao = new StudentDaoImpl();
-        studentDao.Update(connection, student);
+        studentDao.Update(dbConnector.getConnection(), student);
     }
 
     @Override
-    public ArrayList<Student> CheckById(Connection connection, int id) {
+    public ArrayList<Student> CheckById(DbConnector dbConnector, int id) {
         StudentDaoImpl studentDao = new StudentDaoImpl();
-        return studentDao.SelectById(connection, id);
+        return studentDao.SelectById(dbConnector.getConnection(), id);
     }
 
     @Override
-    public ArrayList<Student> CheckByIdRough(Connection connection, int id) {
+    public ArrayList<Student> CheckByIdRough(DbConnector dbConnector, int id) {
         StudentDaoImpl studentDao = new StudentDaoImpl();
-        return studentDao.SelectByIdRough(connection, id);
+        return studentDao.SelectByIdRough(dbConnector.getConnection(), id);
     }
 
     @Override
-    public ArrayList<Student> CheckByName(Connection connection, String name) {
+    public ArrayList<Student> CheckByName(DbConnector dbConnector, String name) {
         StudentDaoImpl studentDao = new StudentDaoImpl();
-        return studentDao.SelectByName(connection, name);
+        return studentDao.SelectByName(dbConnector.getConnection(), name);
     }
 
     @Override
-    public ArrayList<Student> CheckByNameRough(Connection connection, String name) {
+    public ArrayList<Student> CheckByNameRough(DbConnector dbConnector, String name) {
         StudentDaoImpl studentDao = new StudentDaoImpl();
-        return studentDao.SelectByNameRough(connection, name);
+        return studentDao.SelectByNameRough(dbConnector.getConnection(), name);
     }
 }

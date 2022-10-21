@@ -8,19 +8,19 @@ import newjwglxt.jwglxt.service.idx1.JwadminService;
 import newjwglxt.jwglxt.service.idx1.StudentService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx1.XtadminService;
-import newjwglxt.jwglxt.util.Db;
+import newjwglxt.jwglxt.util.DbConnector;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
 import static newjwglxt.jwglxt.util.SHA256.SHA256;
 
 public class LoginPanel {
+    private DbConnector dbConnector;
     private final JPanel login;
 
     public LoginPanel() {
@@ -97,8 +97,9 @@ public class LoginPanel {
         login_reminder_pw.setVisible(false);
 
         // 登陆验证
-        Db db = new Db();
-        Connection connection = db.getConnection();
+        // 点击了登陆按钮再建立connection，否则挂在登陆界面就连接浪费资源。
+        // getConnection()被移到了监听器的位置
+//        Connection connection = db.getConnection();
 
         //TODO:只输入用户名未输入密码报错
         ActionListener actionListenerLogin = new ActionListener() {
@@ -116,13 +117,14 @@ public class LoginPanel {
                     } else {
                         System.out.println("输了密码");
                         if (accountText.length() == 3) {
+                            dbConnector = new DbConnector();
                             System.out.println("xtadmin");
                             XtadminService xtadminService = new XtadminService();
-                            Xtadmin xtadmin_login = xtadminService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+                            Xtadmin xtadmin_login = xtadminService.LoginVerify(dbConnector, Integer.parseInt(accountText), passwordText_SHA256);
                             if (xtadmin_login != null) {
                                 // 账号密码正确，登录到xtadmin的界面
                                 contentPane.removeAll();
-                                XtadminPanel xtadminPanel = new XtadminPanel(connection, xtadmin_login);
+                                XtadminPanel xtadminPanel = new XtadminPanel(dbConnector, xtadmin_login);
                                 contentPane.add(xtadminPanel.getPanel());
                                 contentPane.validate();
                                 contentPane.repaint();
@@ -134,14 +136,15 @@ public class LoginPanel {
                             }
                         } else if (accountText.length() == 5) {
                             if (accountText.charAt(0) == '1') {
+                                dbConnector = new DbConnector();
                                 System.out.println("jwadmin");
                                 JwadminService jwadminService;
                                 jwadminService = new JwadminService();
-                                Jwadmin jwadmin_login = jwadminService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+                                Jwadmin jwadmin_login = jwadminService.LoginVerify(dbConnector, Integer.parseInt(accountText), passwordText_SHA256);
                                 if (jwadmin_login != null) {
                                     // 账号密码正确，登录到jwadmin的界面
                                     contentPane.removeAll();
-                                    JwadminPanel jwadminPanel = new JwadminPanel(connection, jwadmin_login);
+                                    JwadminPanel jwadminPanel = new JwadminPanel(dbConnector, jwadmin_login);
                                     contentPane.add(jwadminPanel.getPanel());
                                     contentPane.validate();
                                     contentPane.repaint();
@@ -152,13 +155,14 @@ public class LoginPanel {
                                     login_reminder_pw.setVisible(true);
                                 }
                             } else if (accountText.charAt(0) == '2') {
+                                dbConnector = new DbConnector();
                                 System.out.println("teacher");
                                 TeacherService teacherService = new TeacherService();
-                                Teacher teacher_login = teacherService.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+                                Teacher teacher_login = teacherService.LoginVerify(dbConnector, Integer.parseInt(accountText), passwordText_SHA256);
                                 if (teacher_login != null) {
                                     // 账号密码正确，登录到teacher的界面
                                     contentPane.removeAll();
-                                    TeacherPanel teacherPanel = new TeacherPanel(connection, teacher_login);
+                                    TeacherPanel teacherPanel = new TeacherPanel(dbConnector, teacher_login);
                                     contentPane.add(teacherPanel.getPanel());
                                     contentPane.validate();
                                     contentPane.repaint();
@@ -169,13 +173,14 @@ public class LoginPanel {
                                     login_reminder_pw.setVisible(true);
                                 }
                             } else if (accountText.charAt(0) == '3') {
+                                dbConnector = new DbConnector();
                                 System.out.println("student");
                                 StudentService studentservice = new StudentService();
-                                Student student_login = studentservice.LoginVerify(connection, Integer.parseInt(accountText), passwordText_SHA256);
+                                Student student_login = studentservice.LoginVerify(dbConnector, Integer.parseInt(accountText), passwordText_SHA256);
                                 if (student_login != null) {
                                     // 账号密码正确，登录到student的界面
                                     contentPane.removeAll();
-                                    StudentPanel studentPanel = new StudentPanel(connection, student_login);
+                                    StudentPanel studentPanel = new StudentPanel(dbConnector, student_login);
                                     contentPane.add(studentPanel.getPanel());
                                     contentPane.validate();
                                     contentPane.repaint();

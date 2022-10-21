@@ -4,6 +4,7 @@ import newjwglxt.jwglxt.entity.ChooseCourse;
 import newjwglxt.jwglxt.entity.Student;
 import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
+import newjwglxt.jwglxt.util.DbConnector;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -12,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
 import java.util.Vector;
 
 public class StudentPanel {
@@ -22,7 +22,7 @@ public class StudentPanel {
         return student;
     }
 
-    public StudentPanel(Connection connection, Student student_login) {
+    public StudentPanel(DbConnector dbConnector, Student student_login) {
         student = new JPanel();
         student.setOpaque(false);
         MainWindow.contentPane.add(student, "name_601806090402700");
@@ -261,7 +261,7 @@ public class StudentPanel {
 
                     CourseService courseService = new CourseService();
 
-                    DefaultTableModel model_availecourse = new DefaultTableModel(courseService.getCourseVector_exceptSelectedCourses(connection, student_login), title_avaiblecourse) {
+                    DefaultTableModel model_availecourse = new DefaultTableModel(courseService.getCourseVector_exceptSelectedCourses(dbConnector, student_login), title_avaiblecourse) {
                         //设置table内容不能改，但能被选中行
                         public boolean isCellEditable(int row, int column) {
                             return false;
@@ -311,7 +311,7 @@ public class StudentPanel {
                     title_nominatedCourse.add("任课教师");
 
                     ChooseCourseService chooseCourseService = new ChooseCourseService();
-                    Vector<Vector<Object>> data_nominatedCourse = chooseCourseService.getCourseVector(connection, student_login);
+                    Vector<Vector<Object>> data_nominatedCourse = chooseCourseService.getCourseVector(dbConnector, student_login);
 
                     JTable table_nominatedCourse = new JTable();
                     DefaultTableModel model_nominatedCourse = new DefaultTableModel(data_nominatedCourse, title_nominatedCourse) {
@@ -333,10 +333,10 @@ public class StudentPanel {
                             //object用来放选中课的信息
 
                             int seleted_cid = (Integer) table_avaiblecourse.getValueAt(flag, 1);
-                            chooseCourseService.Add(connection, new ChooseCourse(0, student_login.getId(), seleted_cid, 0, 0));
+                            chooseCourseService.Add(dbConnector, new ChooseCourse(0, student_login.getId(), seleted_cid, 0, 0));
 
-                            Vector<Vector<Object>> new_data_availableCourse = courseService.getCourseVector_exceptSelectedCourses(connection, student_login);
-                            Vector<Vector<Object>> new_data_nominatedCourse = chooseCourseService.getCourseVector(connection, student_login);
+                            Vector<Vector<Object>> new_data_availableCourse = courseService.getCourseVector_exceptSelectedCourses(dbConnector, student_login);
+                            Vector<Vector<Object>> new_data_nominatedCourse = chooseCourseService.getCourseVector(dbConnector, student_login);
 
                             DefaultTableModel new_model_availableCourse = new DefaultTableModel(new_data_availableCourse, title_nominatedCourse) {
                                 //设置table内容不能改，但能被选中行
