@@ -2,38 +2,38 @@ package newjwglxt.jwglxt.service.idx2;
 
 import newjwglxt.jwglxt.dao.idx2.DropCourseDaoImpl;
 import newjwglxt.jwglxt.entity.DropCourse;
+import newjwglxt.jwglxt.util.DbConnector;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 public class DropCourseService implements Service_idx2<DropCourse> {
     @Override
-    public void Add(Connection connection, DropCourse DropCourse) {
+    public void Add(DbConnector dbConnector, DropCourse DropCourse) {
         DropCourseDaoImpl DropCourseDao = new DropCourseDaoImpl();
-        DropCourseDao.Insert(connection, DropCourse);
+        DropCourseDao.Insert(dbConnector.getConnection(), DropCourse);
     }
 
     @Override
-    public void Delete(Connection connection, DropCourse DropCourse) {
+    public void Delete(DbConnector dbConnector, DropCourse DropCourse) {
         DropCourseDaoImpl DropCourseDao = new DropCourseDaoImpl();
-        DropCourseDao.Delete(connection, DropCourse);
+        DropCourseDao.Delete(dbConnector.getConnection(), DropCourse);
     }
 
     @Override
-    public void Update(Connection connection, DropCourse DropCourse) {
+    public void Update(DbConnector dbConnector, DropCourse DropCourse) {
         DropCourseDaoImpl DropCourseDao = new DropCourseDaoImpl();
-        DropCourseDao.Update(connection, DropCourse);
+        DropCourseDao.Update(dbConnector.getConnection(), DropCourse);
     }
 
     @Override
-    public ArrayList<DropCourse> CheckBySid(Connection connection, int sid) {
+    public ArrayList<DropCourse> CheckBySid(DbConnector dbConnector, int sid) {
         DropCourseDaoImpl DropCourseDao = new DropCourseDaoImpl();
-        return DropCourseDao.SelectBySid(connection, sid);
+        return DropCourseDao.SelectBySid(dbConnector.getConnection(), sid);
     }
 
     @Override
-    public ArrayList<DropCourse> CheckByCid(Connection connection, int cid) {
+    public ArrayList<DropCourse> CheckByCid(DbConnector dbConnector, int cid) {
         DropCourseDaoImpl DropCourseDao = new DropCourseDaoImpl();
-        return DropCourseDao.SelectByCid(connection, cid);
+        return DropCourseDao.SelectByCid(dbConnector.getConnection(), cid);
     }
 }

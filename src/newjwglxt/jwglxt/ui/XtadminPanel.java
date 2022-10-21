@@ -1,13 +1,13 @@
 package newjwglxt.jwglxt.ui;
 
 import newjwglxt.jwglxt.entity.Xtadmin;
+import newjwglxt.jwglxt.util.DbConnector;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 
 public class XtadminPanel {
     protected JPanel xtadmin;
@@ -16,7 +16,7 @@ public class XtadminPanel {
         return xtadmin;
     }
 
-    public XtadminPanel(Connection connection, Xtadmin xtadmin_login) {
+    public XtadminPanel(DbConnector dbConnector, Xtadmin xtadmin_login) {
         xtadmin = new JPanel();
         xtadmin.setLayout(null);
         xtadmin.setOpaque(false);

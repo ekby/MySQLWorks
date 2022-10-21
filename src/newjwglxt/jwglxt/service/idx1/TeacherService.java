@@ -1,16 +1,17 @@
 package newjwglxt.jwglxt.service.idx1;
+
 import newjwglxt.jwglxt.dao.idx1.TeacherDaoImpl;
 import newjwglxt.jwglxt.entity.Teacher;
+import newjwglxt.jwglxt.util.DbConnector;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 
 public class TeacherService implements Service_idx1<Teacher>, LoginService<Teacher> {
 
     @Override
-    public Teacher LoginVerify(Connection connection, int id, String pw) {
+    public Teacher LoginVerify(DbConnector dbConnector, int id, String pw) {
         TeacherDaoImpl teacherDao = new TeacherDaoImpl();
-        ArrayList<Teacher> arrayList = teacherDao.SelectById(connection, id);
+        ArrayList<Teacher> arrayList = teacherDao.SelectById(dbConnector.getConnection(), id);
 
         if (arrayList.size() != 1)
             return null;
@@ -24,45 +25,45 @@ public class TeacherService implements Service_idx1<Teacher>, LoginService<Teach
     }
 
     @Override
-    public void Add(Connection connection, Teacher teacher) {
+    public void Add(DbConnector dbConnector, Teacher teacher) {
         TeacherDaoImpl teacherDao = new TeacherDaoImpl();
-        teacherDao.Insert(connection, teacher);
+        teacherDao.Insert(dbConnector.getConnection(), teacher);
     }
 
     @Override
-    public void Delete(Connection connection, Teacher teacher) {
+    public void Delete(DbConnector dbConnector, Teacher teacher) {
         TeacherDaoImpl teacherDao = new TeacherDaoImpl();
-        teacherDao.Delete(connection, teacher);
+        teacherDao.Delete(dbConnector.getConnection(), teacher);
     }
 
     @Override
-    public void Update(Connection connection, Teacher teacher) {
+    public void Update(DbConnector dbConnector, Teacher teacher) {
         TeacherDaoImpl teacherDao = new TeacherDaoImpl();
-        teacherDao.Update(connection, teacher);
+        teacherDao.Update(dbConnector.getConnection(), teacher);
     }
 
     @Override
-    public ArrayList<Teacher> CheckById(Connection connection, int id) {
+    public ArrayList<Teacher> CheckById(DbConnector dbConnector, int id) {
         TeacherDaoImpl teacherDao = new TeacherDaoImpl();
-        return teacherDao.SelectById(connection, id);
+        return teacherDao.SelectById(dbConnector.getConnection(), id);
     }
 
     @Override
-    public ArrayList<Teacher> CheckByIdRough(Connection connection, int id) {
+    public ArrayList<Teacher> CheckByIdRough(DbConnector dbConnector, int id) {
         TeacherDaoImpl teacherDao = new TeacherDaoImpl();
-        return teacherDao.SelectByIdRough(connection, id);
+        return teacherDao.SelectByIdRough(dbConnector.getConnection(), id);
     }
 
     @Override
-    public ArrayList<Teacher> CheckByName(Connection connection, String name) {
+    public ArrayList<Teacher> CheckByName(DbConnector dbConnector, String name) {
         TeacherDaoImpl teacherDao = new TeacherDaoImpl();
-        return teacherDao.SelectByName(connection, name);
+        return teacherDao.SelectByName(dbConnector.getConnection(), name);
     }
 
     @Override
-    public ArrayList<Teacher> CheckByNameRough(Connection connection, String name) {
+    public ArrayList<Teacher> CheckByNameRough(DbConnector dbConnector, String name) {
         TeacherDaoImpl teacherDao = new TeacherDaoImpl();
-        return teacherDao.SelectByName(connection, name);
+        return teacherDao.SelectByName(dbConnector.getConnection(), name);
     }
 
 }

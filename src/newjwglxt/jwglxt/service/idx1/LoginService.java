@@ -1,8 +1,8 @@
 package newjwglxt.jwglxt.service.idx1;
 
-import java.sql.Connection;
+import newjwglxt.jwglxt.util.DbConnector;
 
 public interface LoginService<T> {
-    T LoginVerify(Connection connection, int id, String pw);
+    T LoginVerify(DbConnector dbConnector, int id, String pw);
 
 }
