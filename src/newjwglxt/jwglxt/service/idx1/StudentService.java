@@ -5,6 +5,7 @@ import newjwglxt.jwglxt.entity.Student;
 import newjwglxt.jwglxt.util.DbConnector;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class StudentService implements Service_idx1<Student>, LoginService<Student> {
     @Override
@@ -63,5 +64,24 @@ public class StudentService implements Service_idx1<Student>, LoginService<Stude
     public ArrayList<Student> CheckByNameRough(DbConnector dbConnector, String name) {
         StudentDaoImpl studentDao = new StudentDaoImpl();
         return studentDao.SelectByNameRough(dbConnector.getConnection(), name);
+    }
+
+    public Vector<Vector<Object>> getAllStudentVector(DbConnector dbConnector) {
+        StudentDaoImpl studentDao = new StudentDaoImpl();
+        ArrayList<Student> allStudents = studentDao.Select(dbConnector.getConnection());
+        Vector<Vector<Object>> studentCol = new Vector<>();
+        for (Student student: allStudents) {
+            Vector<Object> studentRow = new Vector<>();
+            studentRow.add(student.getId());
+            studentRow.add(student.getName());
+            studentRow.add(student.getGender());
+            studentRow.add(student.getSfirstyear());
+            studentRow.add(student.getSmajor());
+            studentRow.add(student.getSclass());
+            studentRow.add(student.getScollege());
+            studentRow.add(student.getContact());
+            studentCol.add(studentRow);
+        }
+        return studentCol;
     }
 }

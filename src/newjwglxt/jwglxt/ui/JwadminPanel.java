@@ -3,6 +3,8 @@ package newjwglxt.jwglxt.ui;
 import newjwglxt.jwglxt.entity.Jwadmin;
 import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx1.JwadminService;
+import newjwglxt.jwglxt.service.idx1.StudentService;
+import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.util.DbConnector;
 
 import javax.swing.*;
@@ -317,19 +319,36 @@ public class JwadminPanel {
         panel_renyuanmanage_jwadmin.add(panel_renyuanmanage);
         panel_renyuanmanage.setLayout(new CardLayout(0, 0));
 
-        JScrollPane scrollPane = new JScrollPane();
-        panel_renyuanmanage.add(scrollPane, "name_832952906374300");
+        JScrollPane scrollPane_jiaoshiliebiao = new JScrollPane();
+        panel_renyuanmanage.add(scrollPane_jiaoshiliebiao, "name_832952906374300");
 
-        JTable table = new JTable();
-        table.setModel(new DefaultTableModel(new Object[][]{{null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null}, {null, null, null, null, null, null, null},}, new String[]{"\u6559\u804C\u5DE5\u7F16\u53F7", "\u59D3\u540D", "\u6027\u522B", "\u5165\u804C\u5E74\u4EFD", "\u804C\u79F0", "\u5B66\u90E8\uFF08\u9662\uFF09", "\u8054\u7CFB\u65B9\u5F0F"}));
-        scrollPane.setViewportView(table);
+        JTable table_jiaoshiliebiao = new JTable();
+        scrollPane_jiaoshiliebiao.setViewportView(table_jiaoshiliebiao);
 
-        JScrollPane scrollPane_1 = new JScrollPane();
-        panel_renyuanmanage.add(scrollPane_1, "name_833096910647600");
+        Vector<String> title_jiaoshiliebiao_jwadmin = new Vector<>();
+        title_jiaoshiliebiao_jwadmin.add("教师编号");
+        title_jiaoshiliebiao_jwadmin.add("姓名");
+        title_jiaoshiliebiao_jwadmin.add("性别");
+        title_jiaoshiliebiao_jwadmin.add("入职年份");
+        title_jiaoshiliebiao_jwadmin.add("职称");
+        title_jiaoshiliebiao_jwadmin.add("学部（院）");
+        title_jiaoshiliebiao_jwadmin.add("联系方式");
 
-        JTable table_1 = new JTable();
-        table_1.setModel(new DefaultTableModel(new Object[][]{{null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null}, {null, null, null, null, null, null, null, null},}, new String[]{"\u5B66\u53F7", "\u59D3\u540D", "\u6027\u522B", "\u5165\u5B66\u5E74\u4EFD", "\u4E13\u4E1A", "\u884C\u653F\u73ED", "\u5B66\u90E8\uFF08\u9662\uFF09", "\u8054\u7CFB\u65B9\u5F0F"}));
-        scrollPane_1.setViewportView(table_1);
+        JScrollPane scrollPane_xueshengliebiao = new JScrollPane();
+        panel_renyuanmanage.add(scrollPane_xueshengliebiao, "name_833096910647600");
+
+        Vector<String> title_xueshengliebiao_jwadmin = new Vector<>();
+        title_xueshengliebiao_jwadmin.add("学号");
+        title_xueshengliebiao_jwadmin.add("姓名");
+        title_xueshengliebiao_jwadmin.add("性别");
+        title_xueshengliebiao_jwadmin.add("入学年份");
+        title_xueshengliebiao_jwadmin.add("专业");
+        title_xueshengliebiao_jwadmin.add("行政班");
+        title_xueshengliebiao_jwadmin.add("学部（院）");
+        title_xueshengliebiao_jwadmin.add("联系方式");
+
+        JTable table_xueshengliebiao = new JTable();
+        scrollPane_xueshengliebiao.setViewportView(table_xueshengliebiao);
 
         // jwadmin右侧内容区 -> 人员管理 -> 添加教职工/学生
         JPanel panel_tianjia = new JPanel();
@@ -632,12 +651,34 @@ public class JwadminPanel {
                     panel_coursePage_jwadmin.setVisible(true);
                     System.out.println("kechengguanli");
                 } else if (e.getSource().equals(btnApproval)) {
+                    // 人员管理
+                    lbl_title_renyuanguanli_jwadmin.setVisible(false);
+                    lbl_title_renyuanguanli_jwadmin_1.setVisible(true);
+                    lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
+
+                    TeacherService teacherService = new TeacherService();
+                    Vector<Vector<Object>> data_jiaoshiliebiao = teacherService.getAllTeacherVector_jwadmin(dbConnector);
+                    table_jiaoshiliebiao.setModel(new DefaultTableModel(data_jiaoshiliebiao, title_jiaoshiliebiao_jwadmin) {
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return false;
+                        }
+                    });
+                    table_jiaoshiliebiao.updateUI();
+
+                    panel_renyuanmanage.removeAll();
+                    panel_renyuanmanage.add(scrollPane_jiaoshiliebiao);
+                    panel_renyuanmanage.validate();
+                    panel_renyuanmanage.repaint();
+                    scrollPane_jiaoshiliebiao.setVisible(true);
+
                     panel_container_jwadmin.removeAll();
                     panel_container_jwadmin.add(panel_renyuanmanage_jwadmin);
                     panel_container_jwadmin.validate();
                     panel_container_jwadmin.repaint();
                     panel_renyuanmanage_jwadmin.setVisible(true);
                 } else if (e.getSource().equals(btnUnknown8)) {
+                    // 退课审批
                     panel_container_jwadmin.removeAll();
                     panel_container_jwadmin.add(panel_tuikeApproval);
                     panel_container_jwadmin.validate();
@@ -678,25 +719,47 @@ public class JwadminPanel {
                     panel_course_sub_jwadmin.repaint();
                     panel_xinjiankecheng_jwadmin.setVisible(true);
                 } else if (e.getSource().equals(btnHomPage_jwadmin_1)) {
+                    // 教师列表
                     lbl_title_renyuanguanli_jwadmin.setVisible(false);
                     lbl_title_renyuanguanli_jwadmin_1.setVisible(true);
                     lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
 
+                    TeacherService teacherService = new TeacherService();
+                    Vector<Vector<Object>> data_jiaoshiliebiao = teacherService.getAllTeacherVector_jwadmin(dbConnector);
+                    table_jiaoshiliebiao.setModel(new DefaultTableModel(data_jiaoshiliebiao, title_jiaoshiliebiao_jwadmin) {
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return false;
+                        }
+                    });
+                    table_jiaoshiliebiao.updateUI();
+
                     panel_renyuanmanage.removeAll();
-                    panel_renyuanmanage.add(scrollPane);
+                    panel_renyuanmanage.add(scrollPane_jiaoshiliebiao);
                     panel_renyuanmanage.validate();
                     panel_renyuanmanage.repaint();
-                    scrollPane.setVisible(true);
+                    scrollPane_jiaoshiliebiao.setVisible(true);
                 } else if (e.getSource().equals(btnHomPage_jwadmin_2)) {
+                    // 学生列表
                     lbl_title_renyuanguanli_jwadmin.setVisible(false);
                     lbl_title_renyuanguanli_jwadmin_1.setVisible(false);
                     lbl_title_renyuanguanli_jwadmin_1_1.setVisible(true);
 
+                    StudentService studentService = new StudentService();
+                    Vector<Vector<Object>> data_xueshengliebiao = studentService.getAllStudentVector(dbConnector);
+                    table_xueshengliebiao.setModel(new DefaultTableModel(data_xueshengliebiao, title_xueshengliebiao_jwadmin) {
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return false;
+                        }
+                    });
+                    table_xueshengliebiao.updateUI();
+
                     panel_renyuanmanage.removeAll();
-                    panel_renyuanmanage.add(scrollPane_1);
+                    panel_renyuanmanage.add(scrollPane_xueshengliebiao);
                     panel_renyuanmanage.validate();
                     panel_renyuanmanage.repaint();
-                    scrollPane_1.setVisible(true);
+                    scrollPane_xueshengliebiao.setVisible(true);
                 } else if (e.getSource().equals(btnHomPage_jwadmin_2_1)) {
                     lbl_title_renyuanguanli_jwadmin.setVisible(true);
                     lbl_title_renyuanguanli_jwadmin_1.setVisible(false);

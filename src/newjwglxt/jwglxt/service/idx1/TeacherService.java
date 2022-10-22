@@ -5,6 +5,7 @@ import newjwglxt.jwglxt.entity.Teacher;
 import newjwglxt.jwglxt.util.DbConnector;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class TeacherService implements Service_idx1<Teacher>, LoginService<Teacher> {
 
@@ -66,4 +67,22 @@ public class TeacherService implements Service_idx1<Teacher>, LoginService<Teach
         return teacherDao.SelectByName(dbConnector.getConnection(), name);
     }
 
+    public Vector<Vector<Object>> getAllTeacherVector_jwadmin(DbConnector dbConnector) {
+        TeacherDaoImpl teacherDao = new TeacherDaoImpl();
+        ArrayList<Teacher> allTeachers = teacherDao.Select(dbConnector.getConnection());
+        Vector<Vector<Object>> teacherCol = new Vector<>();
+        for (Teacher teacher : allTeachers) {
+            Vector<Object> teacherRow = new Vector<>();
+            teacherRow.add(teacher.getId());
+            teacherRow.add(teacher.getName());
+            teacherRow.add(teacher.getGender());
+            teacherRow.add(teacher.getTfirstyear());
+            teacherRow.add(teacher.getTtitle());
+            teacherRow.add(teacher.getTcollege());
+            teacherRow.add(teacher.getContact());
+            teacherCol.add(teacherRow);
+        }
+        return teacherCol;
+
+    }
 }
