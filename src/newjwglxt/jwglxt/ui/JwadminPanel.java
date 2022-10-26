@@ -6,6 +6,7 @@ import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx1.JwadminService;
 import newjwglxt.jwglxt.service.idx1.StudentService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
+import newjwglxt.jwglxt.service.idx2.DropCourseService;
 import newjwglxt.jwglxt.util.DbConnector;
 
 import javax.swing.*;
@@ -13,7 +14,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -278,36 +278,47 @@ public class JwadminPanel {
 
             @Override
             public void insertUpdate(DocumentEvent e) {
-                Document document = e.getDocument();
-                if (e.getDocument().equals(textField_1.getDocument())) {
-                    try {
-                        str = document.getText(0, document.getLength());
-                        System.out.printf("insert: %s\n", str);
-                        lblCourseId_1_1.setText(String.format("%s", teacherService.CheckById(dbConnector, Integer.parseInt(str)).get(0).getName()));
-                    } catch (BadLocationException ex) {
-                        throw new RuntimeException(ex);
+                try {
+                    str = e.getDocument().getText(0, textField_1.getDocument().getLength());
+                    System.out.printf("insert: %s\n", str);
+                    // 判断tid是否存在
+                    if (str != "") {
+                        if (teacherService.ifIdExist(dbConnector, Integer.parseInt(str))) {
+                            System.out.printf("insert IN: %s\n", str);
+                            lblCourseId_1_1.setText(teacherService.CheckById(dbConnector, Integer.parseInt(str)).get(0).getName());
+                        } else {
+                            lblCourseId_1_1.setText("");
+                        }
                     }
+                } catch (BadLocationException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                Document document = e.getDocument();
-                if (e.getDocument().equals(textField_1.getDocument())) {
-                    try {
-                        str = document.getText(0, document.getLength());
-                        System.out.printf("remove: %s\n", str);
-                        lblCourseId_1_1.setText(teacherService.CheckById(dbConnector, Integer.parseInt(str)).get(0).getName());
-                    } catch (BadLocationException ex) {
-                        throw new RuntimeException(ex);
+                try {
+                    str = e.getDocument().getText(0, textField_1.getDocument().getLength());
+                    System.out.printf("remove: %s\n", str);
+                    // removeUpdate的特性：str可能是null
+                    if (!str.equals("")) {
+                        System.out.println("!re");
+                        if (teacherService.ifIdExist(dbConnector, Integer.parseInt(str))) {
+                            System.out.printf("remove IN: %s\n", str);
+                            lblCourseId_1_1.setText(teacherService.CheckById(dbConnector, Integer.parseInt(str)).get(0).getName());
+                        } else {
+                            lblCourseId_1_1.setText("");
+                        }
                     }
+                } catch (BadLocationException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-
             }
+
         };
         textField_1.getDocument().addDocumentListener(documentListener);
 
@@ -638,6 +649,12 @@ public class JwadminPanel {
 
         JTable table_2 = new JTable();
         scrollPane_2.setViewportView(table_2);
+        Vector<String> title_tuikeshenpi_jwadmin = new Vector<>();
+        title_tuikeshenpi_jwadmin.add("工单编号");
+        title_tuikeshenpi_jwadmin.add("学生学号");
+        title_tuikeshenpi_jwadmin.add("学生姓名");
+        title_tuikeshenpi_jwadmin.add("课程编号");
+        title_tuikeshenpi_jwadmin.add("课程名称");
 
 
         JButton btnAbout_2_4 = new JButton("同意");
@@ -758,6 +775,16 @@ public class JwadminPanel {
                     panel_renyuanmanage_jwadmin.setVisible(true);
                 } else if (e.getSource().equals(btnUnknown8)) {
                     // 退课审批
+                    DropCourseService dropCourseService = new DropCourseService();
+                    Vector<Vector<Object>> data_tuikeshenpi_jwadmin = dropCourseService.getUnhandledCourses(dbConnector);
+                    table_2.setModel(new DefaultTableModel(data_tuikeshenpi_jwadmin, title_tuikeshenpi_jwadmin) {
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return false;
+                        }
+                    });
+                    table_2.updateUI();
+
                     panel_container_jwadmin.removeAll();
                     panel_container_jwadmin.add(panel_tuikeApproval);
                     panel_container_jwadmin.validate();
@@ -890,8 +917,7 @@ public class JwadminPanel {
                     dbConnector.closeConnection();
                 } else if (e.getSource().equals(btnCreateCourse_1)) {
                     // 确认新建课程
-                    if (textField_4.getText().equals("") || textField.getText().equals("") || textField_3.getText().equals("")
-                            || textField_1.getText().equals("") || tt.getText().equals("") || ttt.getText().equals("")) {
+                    if (textField_4.getText().equals("") || textField.getText().equals("") || textField_3.getText().equals("") || textField_1.getText().equals("") || tt.getText().equals("") || ttt.getText().equals("")) {
                         System.out.println("有空值");
                     } else {
                         int cid = Integer.parseInt(textField_4.getText());
@@ -936,7 +962,6 @@ public class JwadminPanel {
         rdbtnNewRadioButton_1.addActionListener(actionListener_jwamin);
         btnExit_jwadmin.addActionListener(actionListener_jwamin);
         btnCreateCourse_1.addActionListener(actionListener_jwamin);
-
 
     }
 }
