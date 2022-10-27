@@ -85,4 +85,15 @@ public class TeacherService implements Service_idx1<Teacher>, LoginService<Teach
         return teacherCol;
 
     }
+
+    // 判断一个tid是否存在
+    public boolean ifIdExist(DbConnector dbConnector, int id) {
+        TeacherDaoImpl teacherDao = new TeacherDaoImpl();
+        ArrayList<Teacher> teachers = teacherDao.Select(dbConnector.getConnection());
+        for (Teacher teacher : teachers) {
+            if (teacher.getId() == id)
+                return true;
+        }
+        return false;
+    }
 }

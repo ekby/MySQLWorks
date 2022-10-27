@@ -1,6 +1,7 @@
 package newjwglxt.jwglxt.dao.idx2;
 
 import newjwglxt.jwglxt.entity.DropCourse;
+import newjwglxt.jwglxt.entity.Student;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -118,13 +119,11 @@ public class DropCourseDaoImpl implements Dao_idx2<DropCourse> {
         return arrayList;
     }
 
-    @Override
-    public ArrayList<DropCourse> Select(Connection connection, int id) {
+    public ArrayList<DropCourse> Select(Connection connection) {
         DatabaseMetaData databaseMetaData;
         ArrayList<DropCourse> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse WHERE dcsid = ? ", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
-            preparedStatement.setInt(1, id);
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
             databaseMetaData = connection.getMetaData();
@@ -145,12 +144,12 @@ public class DropCourseDaoImpl implements Dao_idx2<DropCourse> {
         return arrayList;
     }
 
-    @Override
-    public ArrayList<DropCourse> Select(Connection connection) {
+    public ArrayList<DropCourse> Select(Connection connection, Student student) {
         DatabaseMetaData databaseMetaData;
         ArrayList<DropCourse> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse WHERE dcsid = ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            preparedStatement.setInt(1, student.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
             databaseMetaData = connection.getMetaData();
@@ -170,4 +169,5 @@ public class DropCourseDaoImpl implements Dao_idx2<DropCourse> {
         }
         return arrayList;
     }
+
 }

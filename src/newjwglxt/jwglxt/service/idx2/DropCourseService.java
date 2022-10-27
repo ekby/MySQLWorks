@@ -1,5 +1,7 @@
 package newjwglxt.jwglxt.service.idx2;
 
+import newjwglxt.jwglxt.dao.idx1.CourseDaoImpl;
+import newjwglxt.jwglxt.dao.idx1.StudentDaoImpl;
 import newjwglxt.jwglxt.dao.idx2.DropCourseDaoImpl;
 import newjwglxt.jwglxt.entity.DropCourse;
 import newjwglxt.jwglxt.entity.Student;
@@ -43,7 +45,7 @@ public class DropCourseService implements Service_idx2<DropCourse> {
 
     public Vector<Vector<Object>> getDropCourseVector(DbConnector dbConnector, Student student){
         DropCourseDaoImpl dropCourseDao = new DropCourseDaoImpl();
-        ArrayList<DropCourse> dropCourses = dropCourseDao.Select(dbConnector.getConnection(), student.getId());
+        ArrayList<DropCourse> dropCourses = dropCourseDao.Select(dbConnector.getConnection(), student);
         Vector<Vector<Object>> dropCourseCol = new Vector<>();
         CourseService courseService = new CourseService();
         TeacherService teacherService = new TeacherService();
@@ -60,5 +62,25 @@ public class DropCourseService implements Service_idx2<DropCourse> {
         }
 
         return dropCourseCol;
+    }
+
+    public Vector<Vector<Object>> getUnhandledCourses(DbConnector dbConnector) {
+        StudentDaoImpl studentDao = new StudentDaoImpl();
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        DropCourseDaoImpl dropCourseDao = new DropCourseDaoImpl();
+        ArrayList<DropCourse> unhandeldCourses = dropCourseDao.Select(dbConnector.getConnection());
+        Vector<Vector<Object>> col = new Vector<>();
+        for (DropCourse dropCourse : unhandeldCourses) {
+            if (dropCourse.getDchandle() == 0) {
+                Vector<Object> row = new Vector<>();
+                row.add(dropCourse.getDcid());
+                row.add(dropCourse.getDcsid());
+                row.add(studentDao.SelectById(dbConnector.getConnection(), dropCourse.getDcsid()).get(0).getName());
+                row.add(dropCourse.getDccid());
+                row.add(courseDao.SelectById(dbConnector.getConnection(), dropCourse.getDccid()).get(0).getCname());
+                col.add(row);
+            }
+        }
+        return col;
     }
 }
