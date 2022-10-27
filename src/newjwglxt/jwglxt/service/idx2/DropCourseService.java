@@ -43,14 +43,14 @@ public class DropCourseService implements Service_idx2<DropCourse> {
         return DropCourseDao.SelectByCid(dbConnector.getConnection(), cid);
     }
 
-    public Vector<Vector<Object>> getDropCourseVector(DbConnector dbConnector, Student student){
+    public Vector<Vector<Object>> getDropCourseVector(DbConnector dbConnector, Student student) {
         DropCourseDaoImpl dropCourseDao = new DropCourseDaoImpl();
         ArrayList<DropCourse> dropCourses = dropCourseDao.Select(dbConnector.getConnection(), student);
         Vector<Vector<Object>> dropCourseCol = new Vector<>();
         CourseService courseService = new CourseService();
         TeacherService teacherService = new TeacherService();
 
-        for(DropCourse dropCourse : dropCourses){
+        for (DropCourse dropCourse : dropCourses) {
             Vector<Object> dropCourseRow = new Vector<>();
             dropCourseRow.add(dropCourse.getDccid());
             dropCourseRow.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCname());
@@ -82,5 +82,10 @@ public class DropCourseService implements Service_idx2<DropCourse> {
             }
         }
         return col;
+    }
+
+    public ArrayList<DropCourse> CheckByDcid(DbConnector dbConnector, int dcid) {
+        DropCourseDaoImpl dropCourseDao = new DropCourseDaoImpl();
+        return dropCourseDao.SelectByDcid(dbConnector.getConnection(), dcid);
     }
 }
