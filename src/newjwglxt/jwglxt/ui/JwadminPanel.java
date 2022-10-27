@@ -3,7 +3,6 @@ package newjwglxt.jwglxt.ui;
 import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.entity.Jwadmin;
 import newjwglxt.jwglxt.service.idx1.CourseService;
-import newjwglxt.jwglxt.service.idx1.JwadminService;
 import newjwglxt.jwglxt.service.idx1.StudentService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx2.DropCourseService;
@@ -15,7 +14,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -32,8 +30,6 @@ public class JwadminPanel {
     }
 
     public JwadminPanel(DbConnector dbConnector, Jwadmin jwadmin_login) {
-        JwadminService jwadminService = new JwadminService();
-
         // jwadmin左侧边栏
         jwadmin = new JPanel();
         jwadmin.setLayout(null);
@@ -703,121 +699,257 @@ public class JwadminPanel {
         comboBox.addItemListener(itemListener_depart);
         comboBox_1.addItemListener(itemListener_kclb);
 
-        ActionListener actionListener_jwamin = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource().equals(btnHomPage_jwadmin)) {
-                    panel_container_jwadmin.removeAll();
-                    panel_container_jwadmin.add(panel_homePage_jwadmin);
-                    panel_container_jwadmin.validate();
-                    panel_container_jwadmin.repaint();
-                    panel_homePage_jwadmin.setVisible(true);
-                    System.out.println("zhuye");
-                } else if (e.getSource().equals(btnCoursemanae_jwadmin)) {
-                    // 课程管理
-                    lbl_title_kechengguanli_jwadmin_1.setVisible(false);
-                    lbl_title_kechengguanli_jwadmin.setVisible(true);
+        // jwadmin右侧内容区 -> 关于
+        JPanel panel_about_jwadmin = new JPanel();
+        panel_about_jwadmin.setLayout(null);
+        panel_container_jwadmin.add(panel_about_jwadmin);
 
+        // jwadmin右侧内容区 -> 关于 -> 标题区
+        JPanel panel_title_about_jwadmin = new JPanel();
+        panel_title_about_jwadmin.setLayout(null);
+        panel_title_about_jwadmin.setForeground(SystemColor.activeCaption);
+        panel_title_about_jwadmin.setBackground(SystemColor.scrollbar);
+        panel_title_about_jwadmin.setBounds(0, 0, 553, 46);
+        panel_about_jwadmin.add(panel_title_about_jwadmin);
+
+        JLabel lblabout = new JLabel("关于");
+        lblabout.setFont(new Font("微软雅黑", Font.BOLD, 16));
+        lblabout.setBounds(10, 10, 64, 22);
+        panel_title_about_jwadmin.add(lblabout);
+
+        JLabel lblabout_1 = new JLabel("教务管理系统 ");
+        lblabout_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
+        lblabout_1.setBounds(10, 56, 150, 22);
+        panel_about_jwadmin.add(lblabout_1);
+
+        ActionListener actionListener_jwamin = e -> {
+            if (e.getSource().equals(btnHomPage_jwadmin)) {
+                panel_container_jwadmin.removeAll();
+                panel_container_jwadmin.add(panel_homePage_jwadmin);
+                panel_container_jwadmin.validate();
+                panel_container_jwadmin.repaint();
+                panel_homePage_jwadmin.setVisible(true);
+                System.out.println("zhuye");
+            } else if (e.getSource().equals(btnCoursemanae_jwadmin)) {
+                // 课程管理
+                lbl_title_kechengguanli_jwadmin_1.setVisible(false);
+                lbl_title_kechengguanli_jwadmin.setVisible(true);
+
+                CourseService courseService = new CourseService();
+                Vector<Vector<Object>> data_kechengguanli_jwadmin = courseService.getAllCourseVector_jwadmin(dbConnector);
+                DefaultTableModel new_model_kechengguanli_jwadmin = new DefaultTableModel(data_kechengguanli_jwadmin, title_kechengguanli_jwadmin) {
+                    //设置table内容不能改，但能被选中行
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                table_chengjiguanli.setModel(new_model_kechengguanli_jwadmin);
+                table_chengjiguanli.updateUI();
+
+                // 把成绩表scrollPanel加到subPanel
+                panel_course_sub_jwadmin.removeAll();
+                panel_course_sub_jwadmin.add(scrollPane_AllCourse);
+                panel_course_sub_jwadmin.validate();
+                panel_course_sub_jwadmin.repaint();
+                scrollPane_AllCourse.setVisible(true);
+
+                // subPanel一直在coursePage里
+
+                // 把coursePage加到container里
+                panel_container_jwadmin.removeAll();
+                panel_container_jwadmin.add(panel_coursePage_jwadmin);
+                panel_container_jwadmin.validate();
+                panel_container_jwadmin.repaint();
+                panel_coursePage_jwadmin.setVisible(true);
+                System.out.println("kechengguanli");
+            } else if (e.getSource().equals(btnApproval)) {
+                // 人员管理
+                lbl_title_renyuanguanli_jwadmin.setVisible(false);
+                lbl_title_renyuanguanli_jwadmin_1.setVisible(true);
+                lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
+
+                TeacherService teacherService = new TeacherService();
+                Vector<Vector<Object>> data_jiaoshiliebiao = teacherService.getAllTeacherVector_jwadmin(dbConnector);
+                table_jiaoshiliebiao.setModel(new DefaultTableModel(data_jiaoshiliebiao, title_jiaoshiliebiao_jwadmin) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                });
+                table_jiaoshiliebiao.updateUI();
+
+                panel_renyuanmanage.removeAll();
+                panel_renyuanmanage.add(scrollPane_jiaoshiliebiao);
+                panel_renyuanmanage.validate();
+                panel_renyuanmanage.repaint();
+                scrollPane_jiaoshiliebiao.setVisible(true);
+
+                panel_container_jwadmin.removeAll();
+                panel_container_jwadmin.add(panel_renyuanmanage_jwadmin);
+                panel_container_jwadmin.validate();
+                panel_container_jwadmin.repaint();
+                panel_renyuanmanage_jwadmin.setVisible(true);
+            } else if (e.getSource().equals(btnUnknown8)) {
+                // 退课审批
+                DropCourseService dropCourseService = new DropCourseService();
+                Vector<Vector<Object>> data_tuikeshenpi_jwadmin = dropCourseService.getUnhandledCourses(dbConnector);
+                table_2.setModel(new DefaultTableModel(data_tuikeshenpi_jwadmin, title_tuikeshenpi_jwadmin) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                });
+                table_2.updateUI();
+
+                panel_container_jwadmin.removeAll();
+                panel_container_jwadmin.add(panel_tuikeApproval);
+                panel_container_jwadmin.validate();
+                panel_container_jwadmin.repaint();
+                panel_tuikeApproval.setVisible(true);
+            } else if (e.getSource().equals(btnAllCourse)) {
+                // 课程管理 -> 所有课程
+                System.out.println("suoyoukecheng");
+
+                lbl_title_kechengguanli_jwadmin_1.setVisible(false);
+                lbl_title_kechengguanli_jwadmin.setVisible(true);
+
+                CourseService courseService = new CourseService();
+                Vector<Vector<Object>> data_kechengguanli_jwadmin = courseService.getAllCourseVector_jwadmin(dbConnector);
+                DefaultTableModel new_model_kechengguanli_jwadmin = new DefaultTableModel(data_kechengguanli_jwadmin, title_kechengguanli_jwadmin) {
+                    //设置table内容不能改，但能被选中行
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                table_chengjiguanli.setModel(new_model_kechengguanli_jwadmin);
+                table_chengjiguanli.updateUI();
+
+                panel_course_sub_jwadmin.removeAll();
+                panel_course_sub_jwadmin.add(scrollPane_AllCourse);
+                panel_course_sub_jwadmin.validate();
+                panel_course_sub_jwadmin.repaint();
+                scrollPane_AllCourse.setVisible(true);
+            } else if (e.getSource().equals(btnCreateCourse)) {
+                // 课程管理 -> 新建课程
+                lbl_title_kechengguanli_jwadmin_1.setVisible(true);
+                lbl_title_kechengguanli_jwadmin.setVisible(false);
+                textField_4.setText("");
+                textField.setText("");
+                textField_3.setText("");
+                textField_1.setText("");
+                tt.setText("");
+                ttt.setText("");
+                textField_2.setText("");
+                comboBox.setSelectedIndex(0);
+                comboBox_1.setSelectedIndex(0);
+                selected_value_of_comboboxes[0] = "经济与管理学院";
+                selected_value_of_comboboxes[1] = "学科基础必修课";
+                lblCourseId_1_1.setText("");
+//                    // 每次点击新建课程，复位
+//                    selected_value_of_comboboxes[0] = "经济与管理学院";
+//                    selected_value_of_comboboxes[1] = "学科基础必修课";
+//                    comboBox.setSelectedIndex(0);
+//                    comboBox_1.setSelectedIndex(0);
+
+                panel_course_sub_jwadmin.removeAll();
+                panel_course_sub_jwadmin.add(panel_xinjiankecheng_jwadmin);
+                panel_course_sub_jwadmin.validate();
+                panel_course_sub_jwadmin.repaint();
+                panel_xinjiankecheng_jwadmin.setVisible(true);
+            } else if (e.getSource().equals(btnHomPage_jwadmin_1)) {
+                // 教师列表
+                lbl_title_renyuanguanli_jwadmin.setVisible(false);
+                lbl_title_renyuanguanli_jwadmin_1.setVisible(true);
+                lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
+
+                TeacherService teacherService = new TeacherService();
+                Vector<Vector<Object>> data_jiaoshiliebiao = teacherService.getAllTeacherVector_jwadmin(dbConnector);
+                table_jiaoshiliebiao.setModel(new DefaultTableModel(data_jiaoshiliebiao, title_jiaoshiliebiao_jwadmin) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                });
+                table_jiaoshiliebiao.updateUI();
+
+                panel_renyuanmanage.removeAll();
+                panel_renyuanmanage.add(scrollPane_jiaoshiliebiao);
+                panel_renyuanmanage.validate();
+                panel_renyuanmanage.repaint();
+                scrollPane_jiaoshiliebiao.setVisible(true);
+            } else if (e.getSource().equals(btnHomPage_jwadmin_2)) {
+                // 学生列表
+                lbl_title_renyuanguanli_jwadmin.setVisible(false);
+                lbl_title_renyuanguanli_jwadmin_1.setVisible(false);
+                lbl_title_renyuanguanli_jwadmin_1_1.setVisible(true);
+
+                StudentService studentService = new StudentService();
+                Vector<Vector<Object>> data_xueshengliebiao = studentService.getAllStudentVector(dbConnector);
+                table_xueshengliebiao.setModel(new DefaultTableModel(data_xueshengliebiao, title_xueshengliebiao_jwadmin) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                });
+                table_xueshengliebiao.updateUI();
+
+                panel_renyuanmanage.removeAll();
+                panel_renyuanmanage.add(scrollPane_xueshengliebiao);
+                panel_renyuanmanage.validate();
+                panel_renyuanmanage.repaint();
+                scrollPane_xueshengliebiao.setVisible(true);
+            } else if (e.getSource().equals(btnHomPage_jwadmin_2_1)) {
+                lbl_title_renyuanguanli_jwadmin.setVisible(true);
+                lbl_title_renyuanguanli_jwadmin_1.setVisible(false);
+                lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
+
+                panel_renyuanmanage.removeAll();
+                panel_renyuanmanage.add(panel_tianjia);
+                panel_renyuanmanage.validate();
+                panel_renyuanmanage.repaint();
+                panel_tianjia.setVisible(true);
+            } else if (e.getSource().equals(rdbtnNewRadioButton)) {
+                panel_2.removeAll();
+                panel_2.add(panel_3);
+                panel_2.validate();
+                panel_2.repaint();
+                panel_3.setVisible(true);
+            } else if (e.getSource().equals(rdbtnNewRadioButton_1)) {
+                panel_2.removeAll();
+                panel_2.add(panel_4);
+                panel_2.validate();
+                panel_2.repaint();
+                panel_4.setVisible(true);
+            } else if (e.getSource().equals(btnExit_jwadmin)) {
+                // 重新登陆按钮
+                System.out.println("tuichudenglu");
+                contentPane.removeAll();
+                LoginPanel loginPanel = new LoginPanel();
+                contentPane.add(loginPanel.getPanel());
+                contentPane.validate();
+                contentPane.repaint();
+                loginPanel.getPanel().setVisible(true);
+                dbConnector.closeConnection();
+            } else if (e.getSource().equals(btnCreateCourse_1)) {
+                // 确认新建课程
+                if (textField_4.getText().equals("") || textField.getText().equals("") || textField_3.getText().equals("") || textField_1.getText().equals("") || tt.getText().equals("") || ttt.getText().equals("")) {
+                    System.out.println("有空值");
+                } else {
+                    int cid = Integer.parseInt(textField_4.getText());
+                    String cname = textField.getText();
+                    int cxuefen = Integer.parseInt(textField_3.getText());
+                    String depart = selected_value_of_comboboxes[0];
+                    String kclb = selected_value_of_comboboxes[1];
+                    int tid = Integer.parseInt(textField_1.getText());
+                    String croom = tt.getText();
+                    String ctime = ttt.getText();
+                    int cmax_num = Integer.parseInt(textField_2.getText());
+                    System.out.println(Arrays.toString(selected_value_of_comboboxes));
                     CourseService courseService = new CourseService();
-                    Vector<Vector<Object>> data_kechengguanli_jwadmin = courseService.getAllCourseVector_jwadmin(dbConnector);
-                    DefaultTableModel new_model_kechengguanli_jwadmin = new DefaultTableModel(data_kechengguanli_jwadmin, title_kechengguanli_jwadmin) {
-                        //设置table内容不能改，但能被选中行
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
-                        }
-                    };
-                    table_chengjiguanli.setModel(new_model_kechengguanli_jwadmin);
-                    table_chengjiguanli.updateUI();
-
-                    // 把成绩表scrollPanel加到subPanel
-                    panel_course_sub_jwadmin.removeAll();
-                    panel_course_sub_jwadmin.add(scrollPane_AllCourse);
-                    panel_course_sub_jwadmin.validate();
-                    panel_course_sub_jwadmin.repaint();
-                    scrollPane_AllCourse.setVisible(true);
-
-                    // subPanel一直在coursePage里
-
-                    // 把coursePage加到container里
-                    panel_container_jwadmin.removeAll();
-                    panel_container_jwadmin.add(panel_coursePage_jwadmin);
-                    panel_container_jwadmin.validate();
-                    panel_container_jwadmin.repaint();
-                    panel_coursePage_jwadmin.setVisible(true);
-                    System.out.println("kechengguanli");
-                } else if (e.getSource().equals(btnApproval)) {
-                    // 人员管理
-                    lbl_title_renyuanguanli_jwadmin.setVisible(false);
-                    lbl_title_renyuanguanli_jwadmin_1.setVisible(true);
-                    lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
-
-                    TeacherService teacherService = new TeacherService();
-                    Vector<Vector<Object>> data_jiaoshiliebiao = teacherService.getAllTeacherVector_jwadmin(dbConnector);
-                    table_jiaoshiliebiao.setModel(new DefaultTableModel(data_jiaoshiliebiao, title_jiaoshiliebiao_jwadmin) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
-                        }
-                    });
-                    table_jiaoshiliebiao.updateUI();
-
-                    panel_renyuanmanage.removeAll();
-                    panel_renyuanmanage.add(scrollPane_jiaoshiliebiao);
-                    panel_renyuanmanage.validate();
-                    panel_renyuanmanage.repaint();
-                    scrollPane_jiaoshiliebiao.setVisible(true);
-
-                    panel_container_jwadmin.removeAll();
-                    panel_container_jwadmin.add(panel_renyuanmanage_jwadmin);
-                    panel_container_jwadmin.validate();
-                    panel_container_jwadmin.repaint();
-                    panel_renyuanmanage_jwadmin.setVisible(true);
-                } else if (e.getSource().equals(btnUnknown8)) {
-                    // 退课审批
-                    DropCourseService dropCourseService = new DropCourseService();
-                    Vector<Vector<Object>> data_tuikeshenpi_jwadmin = dropCourseService.getUnhandledCourses(dbConnector);
-                    table_2.setModel(new DefaultTableModel(data_tuikeshenpi_jwadmin, title_tuikeshenpi_jwadmin) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
-                        }
-                    });
-                    table_2.updateUI();
-
-                    panel_container_jwadmin.removeAll();
-                    panel_container_jwadmin.add(panel_tuikeApproval);
-                    panel_container_jwadmin.validate();
-                    panel_container_jwadmin.repaint();
-                    panel_tuikeApproval.setVisible(true);
-                } else if (e.getSource().equals(btnAllCourse)) {
-                    // 课程管理 -> 所有课程
-                    System.out.println("suoyoukecheng");
-
-                    lbl_title_kechengguanli_jwadmin_1.setVisible(false);
-                    lbl_title_kechengguanli_jwadmin.setVisible(true);
-
-                    CourseService courseService = new CourseService();
-                    Vector<Vector<Object>> data_kechengguanli_jwadmin = courseService.getAllCourseVector_jwadmin(dbConnector);
-                    DefaultTableModel new_model_kechengguanli_jwadmin = new DefaultTableModel(data_kechengguanli_jwadmin, title_kechengguanli_jwadmin) {
-                        //设置table内容不能改，但能被选中行
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
-                        }
-                    };
-                    table_chengjiguanli.setModel(new_model_kechengguanli_jwadmin);
-                    table_chengjiguanli.updateUI();
-
-                    panel_course_sub_jwadmin.removeAll();
-                    panel_course_sub_jwadmin.add(scrollPane_AllCourse);
-                    panel_course_sub_jwadmin.validate();
-                    panel_course_sub_jwadmin.repaint();
-                    scrollPane_AllCourse.setVisible(true);
-                } else if (e.getSource().equals(btnCreateCourse)) {
-                    // 课程管理 -> 新建课程
-                    lbl_title_kechengguanli_jwadmin_1.setVisible(true);
-                    lbl_title_kechengguanli_jwadmin.setVisible(false);
+                    courseService.Add(dbConnector, new Course(cid, cname, depart, cxuefen, kclb, tid, croom, ctime, 0, cmax_num));
+                    // 确认后复位
                     textField_4.setText("");
                     textField.setText("");
                     textField_3.setText("");
@@ -830,123 +962,13 @@ public class JwadminPanel {
                     selected_value_of_comboboxes[0] = "经济与管理学院";
                     selected_value_of_comboboxes[1] = "学科基础必修课";
                     lblCourseId_1_1.setText("");
-//                    // 每次点击新建课程，复位
-//                    selected_value_of_comboboxes[0] = "经济与管理学院";
-//                    selected_value_of_comboboxes[1] = "学科基础必修课";
-//                    comboBox.setSelectedIndex(0);
-//                    comboBox_1.setSelectedIndex(0);
-
-                    panel_course_sub_jwadmin.removeAll();
-                    panel_course_sub_jwadmin.add(panel_xinjiankecheng_jwadmin);
-                    panel_course_sub_jwadmin.validate();
-                    panel_course_sub_jwadmin.repaint();
-                    panel_xinjiankecheng_jwadmin.setVisible(true);
-                } else if (e.getSource().equals(btnHomPage_jwadmin_1)) {
-                    // 教师列表
-                    lbl_title_renyuanguanli_jwadmin.setVisible(false);
-                    lbl_title_renyuanguanli_jwadmin_1.setVisible(true);
-                    lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
-
-                    TeacherService teacherService = new TeacherService();
-                    Vector<Vector<Object>> data_jiaoshiliebiao = teacherService.getAllTeacherVector_jwadmin(dbConnector);
-                    table_jiaoshiliebiao.setModel(new DefaultTableModel(data_jiaoshiliebiao, title_jiaoshiliebiao_jwadmin) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
-                        }
-                    });
-                    table_jiaoshiliebiao.updateUI();
-
-                    panel_renyuanmanage.removeAll();
-                    panel_renyuanmanage.add(scrollPane_jiaoshiliebiao);
-                    panel_renyuanmanage.validate();
-                    panel_renyuanmanage.repaint();
-                    scrollPane_jiaoshiliebiao.setVisible(true);
-                } else if (e.getSource().equals(btnHomPage_jwadmin_2)) {
-                    // 学生列表
-                    lbl_title_renyuanguanli_jwadmin.setVisible(false);
-                    lbl_title_renyuanguanli_jwadmin_1.setVisible(false);
-                    lbl_title_renyuanguanli_jwadmin_1_1.setVisible(true);
-
-                    StudentService studentService = new StudentService();
-                    Vector<Vector<Object>> data_xueshengliebiao = studentService.getAllStudentVector(dbConnector);
-                    table_xueshengliebiao.setModel(new DefaultTableModel(data_xueshengliebiao, title_xueshengliebiao_jwadmin) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
-                        }
-                    });
-                    table_xueshengliebiao.updateUI();
-
-                    panel_renyuanmanage.removeAll();
-                    panel_renyuanmanage.add(scrollPane_xueshengliebiao);
-                    panel_renyuanmanage.validate();
-                    panel_renyuanmanage.repaint();
-                    scrollPane_xueshengliebiao.setVisible(true);
-                } else if (e.getSource().equals(btnHomPage_jwadmin_2_1)) {
-                    lbl_title_renyuanguanli_jwadmin.setVisible(true);
-                    lbl_title_renyuanguanli_jwadmin_1.setVisible(false);
-                    lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
-
-                    panel_renyuanmanage.removeAll();
-                    panel_renyuanmanage.add(panel_tianjia);
-                    panel_renyuanmanage.validate();
-                    panel_renyuanmanage.repaint();
-                    panel_tianjia.setVisible(true);
-                } else if (e.getSource().equals(rdbtnNewRadioButton)) {
-                    panel_2.removeAll();
-                    panel_2.add(panel_3);
-                    panel_2.validate();
-                    panel_2.repaint();
-                    panel_3.setVisible(true);
-                } else if (e.getSource().equals(rdbtnNewRadioButton_1)) {
-                    panel_2.removeAll();
-                    panel_2.add(panel_4);
-                    panel_2.validate();
-                    panel_2.repaint();
-                    panel_4.setVisible(true);
-                } else if (e.getSource().equals(btnExit_jwadmin)) {
-                    // 重新登陆按钮
-                    System.out.println("tuichudenglu");
-                    contentPane.removeAll();
-                    LoginPanel loginPanel = new LoginPanel();
-                    contentPane.add(loginPanel.getPanel());
-                    contentPane.validate();
-                    contentPane.repaint();
-                    loginPanel.getPanel().setVisible(true);
-                    dbConnector.closeConnection();
-                } else if (e.getSource().equals(btnCreateCourse_1)) {
-                    // 确认新建课程
-                    if (textField_4.getText().equals("") || textField.getText().equals("") || textField_3.getText().equals("") || textField_1.getText().equals("") || tt.getText().equals("") || ttt.getText().equals("")) {
-                        System.out.println("有空值");
-                    } else {
-                        int cid = Integer.parseInt(textField_4.getText());
-                        String cname = textField.getText();
-                        int cxuefen = Integer.parseInt(textField_3.getText());
-                        String depart = selected_value_of_comboboxes[0];
-                        String kclb = selected_value_of_comboboxes[1];
-                        int tid = Integer.parseInt(textField_1.getText());
-                        String croom = tt.getText();
-                        String ctime = ttt.getText();
-                        int cmax_num = Integer.parseInt(textField_2.getText());
-                        System.out.println(Arrays.toString(selected_value_of_comboboxes));
-                        CourseService courseService = new CourseService();
-                        courseService.Add(dbConnector, new Course(cid, cname, depart, cxuefen, kclb, tid, croom, ctime, 0, cmax_num));
-                        // 确认后复位
-                        textField_4.setText("");
-                        textField.setText("");
-                        textField_3.setText("");
-                        textField_1.setText("");
-                        tt.setText("");
-                        ttt.setText("");
-                        textField_2.setText("");
-                        comboBox.setSelectedIndex(0);
-                        comboBox_1.setSelectedIndex(0);
-                        selected_value_of_comboboxes[0] = "经济与管理学院";
-                        selected_value_of_comboboxes[1] = "学科基础必修课";
-                        lblCourseId_1_1.setText("");
-                    }
                 }
+            } else if (e.getSource().equals(btnAbout_2)) {
+                panel_container_jwadmin.removeAll();
+                panel_container_jwadmin.add(panel_about_jwadmin);
+                panel_container_jwadmin.validate();
+                panel_container_jwadmin.repaint();
+                panel_container_jwadmin.setVisible(true);
             }
         };
         btnHomPage_jwadmin.addActionListener(actionListener_jwamin);
@@ -962,6 +984,6 @@ public class JwadminPanel {
         rdbtnNewRadioButton_1.addActionListener(actionListener_jwamin);
         btnExit_jwadmin.addActionListener(actionListener_jwamin);
         btnCreateCourse_1.addActionListener(actionListener_jwamin);
-
+        btnAbout_2.addActionListener(actionListener_jwamin);
     }
 }
