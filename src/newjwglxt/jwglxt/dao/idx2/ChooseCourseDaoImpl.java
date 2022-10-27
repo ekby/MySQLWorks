@@ -1,6 +1,7 @@
 package newjwglxt.jwglxt.dao.idx2;
 
 import newjwglxt.jwglxt.entity.ChooseCourse;
+import newjwglxt.jwglxt.entity.DropCourse;
 import newjwglxt.jwglxt.util.DbConnector;
 
 import java.sql.*;
@@ -156,6 +157,7 @@ public class ChooseCourseDaoImpl implements Dao_idx2<ChooseCourse> {
         return arrayList;
     }
 
+
     public ArrayList<ChooseCourse> SelectBySidAndCid(Connection connection, int sid, int cid) {
         DatabaseMetaData databaseMetaData;
         ArrayList<ChooseCourse> arrayList;
@@ -181,6 +183,11 @@ public class ChooseCourseDaoImpl implements Dao_idx2<ChooseCourse> {
             throw new RuntimeException(e);
         }
         return arrayList;
+    }
+
+    @Override
+    public ArrayList<ChooseCourse> Select(Connection connection) {
+        return null;
     }
 
 }

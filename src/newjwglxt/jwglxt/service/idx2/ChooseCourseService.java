@@ -65,6 +65,24 @@ public class ChooseCourseService implements Service_idx2<ChooseCourse> {
         return courseCol;
     }
 
+    public Vector<Vector<Object>> getScoreVector(DbConnector dbConnector, Student student){
+        ChooseCourseDaoImpl chooseCourseDao = new ChooseCourseDaoImpl();
+        CourseService courseService = new CourseService();
+        ArrayList<ChooseCourse> chooseCourses = chooseCourseDao.Select(dbConnector.getConnection(), student.getId());
+        Vector<Vector<Object>> score = new Vector<>();
+        for (ChooseCourse chooseCourse : chooseCourses){
+            Vector<Object> scoreRow = new Vector<>();
+            scoreRow.add(chooseCourse.getCccid());
+            scoreRow.add(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCname());
+            scoreRow.add(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCkclb());
+            scoreRow.add(chooseCourse.getCcscore());
+            scoreRow.add(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCcredit());
+            scoreRow.add(chooseCourse.getCcgpa());
+            score.add(scoreRow);
+        }
+        return score;
+    }
+
     // 为teacherPanel的成绩管理功能返回数据库中的sid, sname, score信息
     public Vector<Vector<Object>> getXueshengchengjibiaoVector(DbConnector dbConnector, int courseID) {
         ChooseCourseService chooseCourseService = new ChooseCourseService();
@@ -88,8 +106,20 @@ public class ChooseCourseService implements Service_idx2<ChooseCourse> {
         return sid_sname_score_COL;
     }
 
+//    public ArrayList<ChooseCourse> getChooseCourseType(DbConnector dbConnector, Vector<Vector<Object>> chooseCoursesVector){
+//        ArrayList<ChooseCourse> chooseCourses = new ArrayList<>();
+//        for (Vector<Object> chooseCourseVector : chooseCoursesVector){
+//            for (ChooseCourse chooseCourse : chooseCourses){
+//                chooseCourse.setCcid(0);
+//                chooseCourse.setCccid((int)chooseCourseVector.get(0));
+//                chooseCourse.setCcgpa();
+//            }
+//        }
+//    }
+
     public ArrayList<ChooseCourse> CheckBySidAndCid(DbConnector dbConnector, int sid, int cid) {
         ChooseCourseDaoImpl chooseCourseDao = new ChooseCourseDaoImpl();
         return chooseCourseDao.SelectBySidAndCid(dbConnector.getConnection(), sid, cid);
     }
+
 }

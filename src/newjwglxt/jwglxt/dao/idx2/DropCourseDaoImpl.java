@@ -13,7 +13,7 @@ public class DropCourseDaoImpl implements Dao_idx2<DropCourse> {
         try {
             databaseMetaData = connection.getMetaData();
             preparedStatement = connection.prepareStatement("INSERT INTO dropcourse VALUES(?,?,?,?)");
-            preparedStatement.setInt(1, dropCourse.getDccid());
+            preparedStatement.setInt(1, dropCourse.getDcid());
             preparedStatement.setInt(2, dropCourse.getDcsid());
             preparedStatement.setInt(3, dropCourse.getDccid());
             preparedStatement.setInt(4, dropCourse.getDchandle());
@@ -98,6 +98,59 @@ public class DropCourseDaoImpl implements Dao_idx2<DropCourse> {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse WHERE dccid=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setInt(1, cid);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new DropCourse(resultSet.getInt("dcid"), resultSet.getInt("dcsid"), resultSet.getInt("dccid"),
+                        resultSet.getInt("dchandle")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
+    @Override
+    public ArrayList<DropCourse> Select(Connection connection, int id) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<DropCourse> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse WHERE dcsid = ? ", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new DropCourse(resultSet.getInt("dcid"), resultSet.getInt("dcsid"), resultSet.getInt("dccid"),
+                        resultSet.getInt("dchandle")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
+    @Override
+    public ArrayList<DropCourse> Select(Connection connection) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<DropCourse> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
             databaseMetaData = connection.getMetaData();

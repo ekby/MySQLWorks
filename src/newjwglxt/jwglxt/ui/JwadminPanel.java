@@ -580,9 +580,21 @@ public class JwadminPanel {
         scrollPane_2.setBounds(10, 56, 533, 346);
         panel_tuikeApproval.add(scrollPane_2);
 
-        JTable table_2 = new JTable();
-        scrollPane_2.setViewportView(table_2);
+        JTable table_dropcourse = new JTable();
+        scrollPane_2.setViewportView(table_dropcourse);
 
+        Vector<Object> dropcourse_title = new Vector<>();
+        dropcourse_title.add("处理情况");
+        dropcourse_title.add("退课学生学号");
+        dropcourse_title.add("退课学生姓名");
+        dropcourse_title.add("所退课程编号");
+        dropcourse_title.add("所退课程名");
+        dropcourse_title.add("任课教师");
+
+        Vector<Vector<Object>> dropcourse_data = jwadminService.getDropCourseVector(dbConnector);
+        DefaultTableModel dropcourse_model = new DefaultTableModel(dropcourse_data, dropcourse_title);
+        table_dropcourse.setModel(dropcourse_model);
+        table_dropcourse.updateUI();
 
         JButton btnAbout_2_4 = new JButton("同意");
         btnAbout_2_4.setFont(new Font("微软雅黑", Font.PLAIN, 13));

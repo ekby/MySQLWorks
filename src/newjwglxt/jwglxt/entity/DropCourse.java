@@ -13,6 +13,10 @@ public class DropCourse {
         this.dchandle = dchandle;
     }
 
+    public DropCourse() {
+
+    }
+
     public int getDcid() {
         return dcid;
     }

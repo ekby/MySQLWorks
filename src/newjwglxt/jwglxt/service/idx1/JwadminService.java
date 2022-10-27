@@ -1,10 +1,13 @@
 package newjwglxt.jwglxt.service.idx1;
 
 import newjwglxt.jwglxt.dao.idx1.JwadminDaoImpl;
+import newjwglxt.jwglxt.dao.idx2.DropCourseDaoImpl;
+import newjwglxt.jwglxt.entity.DropCourse;
 import newjwglxt.jwglxt.entity.Jwadmin;
 import newjwglxt.jwglxt.util.DbConnector;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class JwadminService implements Service_idx1<Jwadmin>, LoginService<Jwadmin> {
     @Override
@@ -65,4 +68,31 @@ public class JwadminService implements Service_idx1<Jwadmin>, LoginService<Jwadm
         return JwadminDao.SelectByNameRough(dbConnector.getConnection(), name);
     }
 
+    public Vector<Vector<Object>> getDropCourseVector(DbConnector dbConnector) {
+        DropCourseDaoImpl dropCourseDao = new DropCourseDaoImpl();
+        ArrayList<DropCourse> dropCourses = dropCourseDao.Select(dbConnector.getConnection());
+        Vector<Vector<Object>> dropCourseCol = new Vector<>();
+        CourseService courseService = new CourseService();
+        TeacherService teacherService = new TeacherService();
+        StudentService studentService = new StudentService();
+
+        for (DropCourse dropCourse : dropCourses) {
+            Vector<Object> dropCourseRow = new Vector<>();
+            //处理情况
+            dropCourseRow.add(dropCourse.getDchandle());
+            //学号
+            dropCourseRow.add(dropCourse.getDcsid());
+            //姓名
+            dropCourseRow.add(studentService.CheckById(dbConnector, dropCourse.getDcsid()).get(0).getName());
+            //课程号
+            dropCourseRow.add(dropCourse.getDccid());
+            //课程名
+            dropCourseRow.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCname());
+            //任课教师
+            dropCourseRow.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCteacherid()).get(0).getName());
+
+            dropCourseCol.add(dropCourseRow);
+        }
+        return dropCourseCol;
+    }
 }
