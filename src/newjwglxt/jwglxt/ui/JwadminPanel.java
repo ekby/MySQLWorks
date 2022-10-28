@@ -280,7 +280,7 @@ public class JwadminPanel {
         panel_coursePage_jwadmin.add(btnCreateCourse);
 
         JPanel panel_course_sub_jwadmin = new JPanel();
-        panel_course_sub_jwadmin.setBounds(10, 98, 533, 347);
+        panel_course_sub_jwadmin.setBounds(10, 98, 543, 357);
         panel_coursePage_jwadmin.add(panel_course_sub_jwadmin);
         panel_course_sub_jwadmin.setLayout(new CardLayout(0, 0));
 
@@ -488,7 +488,7 @@ public class JwadminPanel {
 
         JButton btnCreateCourse_1 = new JButton("确认");
         btnCreateCourse_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnCreateCourse_1.setBounds(423, 304, 100, 33);
+        btnCreateCourse_1.setBounds(433, 314, 100, 33);
         panel_xinjiankecheng_jwadmin.add(btnCreateCourse_1);
 
 
