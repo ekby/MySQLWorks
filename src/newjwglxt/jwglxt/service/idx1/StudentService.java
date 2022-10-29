@@ -70,7 +70,7 @@ public class StudentService implements Service_idx1<Student>, LoginService<Stude
         StudentDaoImpl studentDao = new StudentDaoImpl();
         ArrayList<Student> allStudents = studentDao.Select(dbConnector.getConnection());
         Vector<Vector<Object>> studentCol = new Vector<>();
-        for (Student student: allStudents) {
+        for (Student student : allStudents) {
             Vector<Object> studentRow = new Vector<>();
             studentRow.add(student.getId());
             studentRow.add(student.getName());
@@ -84,4 +84,20 @@ public class StudentService implements Service_idx1<Student>, LoginService<Stude
         }
         return studentCol;
     }
+
+    // 判断一个sid是否存在
+    public boolean ifIdExist(DbConnector dbConnector, int id) {
+        if (Integer.toString(id).length() != 5)
+            return false;
+        else {
+            StudentDaoImpl studentDao = new StudentDaoImpl();
+            ArrayList<Student> students = studentDao.Select(dbConnector.getConnection());
+            for (Student student : students) {
+                if (student.getId() == id)
+                    return true;
+            }
+            return false;
+        }
+    }
+
 }

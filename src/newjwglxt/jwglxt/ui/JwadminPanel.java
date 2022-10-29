@@ -1,8 +1,6 @@
 package newjwglxt.jwglxt.ui;
 
-import newjwglxt.jwglxt.entity.Course;
-import newjwglxt.jwglxt.entity.DropCourse;
-import newjwglxt.jwglxt.entity.Jwadmin;
+import newjwglxt.jwglxt.entity.*;
 import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx1.JwadminService;
 import newjwglxt.jwglxt.service.idx1.StudentService;
@@ -10,6 +8,7 @@ import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx2.DropCourseService;
 import newjwglxt.jwglxt.util.DbConnector;
 import newjwglxt.jwglxt.util.SHA256;
+import newjwglxt.jwglxt.util.ToPinYin;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -22,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Vector;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
@@ -34,12 +34,12 @@ public class JwadminPanel {
     }
 
     public JwadminPanel(DbConnector dbConnector, Jwadmin jwadmin_login) {
-        // jwadmin左侧边栏
         jwadmin = new JPanel();
         jwadmin.setLayout(null);
         jwadmin.setOpaque(false);
         MainWindow.contentPane.add(jwadmin, "name_611224359007700");
 
+        // jwadmin左侧边栏
         JPanel panel_category_jwadmin = new JPanel();
         panel_category_jwadmin.setLayout(null);
         panel_category_jwadmin.setBounds(10, 10, 150, 455);
@@ -145,123 +145,6 @@ public class JwadminPanel {
         lblNewLabel_8_1.setFont(new Font("微软雅黑", Font.BOLD, 16));
         lblNewLabel_8_1.setBounds(10, 10, 64, 22);
         panel_title_zhuye_jwadmin.add(lblNewLabel_8_1);
-
-        // jwadmin右侧内容区 -> 修改个人信息
-        JPanel panel_editInfo_jwadmin = new JPanel();
-        panel_container_jwadmin.add(panel_editInfo_jwadmin);
-        panel_editInfo_jwadmin.setLayout(null);
-
-        JLabel lbleditInfo_id = new JLabel("教职工号：");
-        lbleditInfo_id.setHorizontalAlignment(SwingConstants.RIGHT);
-        lbleditInfo_id.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lbleditInfo_id.setBounds(117, 135, 94, 26);
-        panel_editInfo_jwadmin.add(lbleditInfo_id);
-
-        JLabel lbleditInfo_name = new JLabel("姓名：");
-        lbleditInfo_name.setHorizontalAlignment(SwingConstants.RIGHT);
-        lbleditInfo_name.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lbleditInfo_name.setBounds(117, 171, 94, 26);
-        panel_editInfo_jwadmin.add(lbleditInfo_name);
-
-        JLabel lbleditInfo_pw = new JLabel("密码：");
-        lbleditInfo_pw.setHorizontalAlignment(SwingConstants.RIGHT);
-        lbleditInfo_pw.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lbleditInfo_pw.setBounds(117, 207, 94, 26);
-        panel_editInfo_jwadmin.add(lbleditInfo_pw);
-
-        JLabel lbleditInfo_gender = new JLabel("性别：");
-        lbleditInfo_gender.setHorizontalAlignment(SwingConstants.RIGHT);
-        lbleditInfo_gender.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lbleditInfo_gender.setBounds(117, 243, 94, 26);
-        panel_editInfo_jwadmin.add(lbleditInfo_gender);
-
-        JLabel lbleditInfo_contact = new JLabel("联系方式：");
-        lbleditInfo_contact.setHorizontalAlignment(SwingConstants.RIGHT);
-        lbleditInfo_contact.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lbleditInfo_contact.setBounds(117, 279, 94, 26);
-        panel_editInfo_jwadmin.add(lbleditInfo_contact);
-
-        // 教职工号
-        JLabel textField_61 = new JLabel(String.valueOf(jwadmin_login.getId()));
-        textField_61.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        textField_61.setBounds(237, 135, 146, 26);
-        panel_editInfo_jwadmin.add(textField_61);
-
-        // 姓名
-        JTextField textField_51 = new JTextField(jwadmin_login.getName());
-        textField_51.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        textField_51.setBounds(237, 171, 146, 26);
-        panel_editInfo_jwadmin.add(textField_51);
-        textField_51.setColumns(10);
-
-        // 性别
-        JComboBox comboBox_21 = new JComboBox(new String[]{"男", "女"});
-        comboBox_21.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        if (jwadmin_login.getGender().equals("女"))
-            comboBox_21.setSelectedIndex(1);
-        comboBox_21.setBounds(237, 243, 68, 26);
-        panel_editInfo_jwadmin.add(comboBox_21);
-
-        // 密码
-        JTextField textField_511 = new JTextField();
-        textField_511.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        textField_511.setBounds(237, 207, 146, 26);
-        panel_editInfo_jwadmin.add(textField_511);
-        textField_511.setColumns(10);
-
-        // 联系方式
-        JTextField textField_5111 = new JTextField(jwadmin_login.getContact());
-        textField_5111.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        textField_5111.setBounds(237, 279, 146, 26);
-        panel_editInfo_jwadmin.add(textField_5111);
-        textField_5111.setColumns(10);
-
-        JButton btneditInfo_jwadmin = new JButton("确认");
-        btneditInfo_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btneditInfo_jwadmin.setBounds(443, 412, 100, 33);
-        panel_editInfo_jwadmin.add(btneditInfo_jwadmin);
-        btneditInfo_jwadmin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource().equals(btneditInfo_jwadmin)) {
-                    JwadminService jwadminService = new JwadminService();
-
-                    String new_pw;
-                    if (textField_511.getText().equals(""))
-                        new_pw = jwadmin_login.getPw();
-                    else
-                        new_pw = SHA256.SHA256(textField_511.getText());
-
-                    System.out.println(textField_5111.getText());
-
-                    Jwadmin new_jwadmin = new Jwadmin(textField_51.getText(), jwadmin_login.getId(), new_pw, (String) comboBox_21.getSelectedItem(), textField_5111.getText());
-                    jwadminService.Update(dbConnector, new_jwadmin);
-
-                    textField_51.setText(jwadminService.CheckById(dbConnector, jwadmin_login.getId()).get(0).getName());
-                    if (jwadminService.CheckById(dbConnector, jwadmin_login.getId()).get(0).getGender().equals("男")) {
-                        comboBox_21.setSelectedIndex(0);
-                        System.out.println(0);
-                    } else {
-                        comboBox_21.setSelectedIndex(1);
-                        System.out.println(1);
-                    }
-                    textField_5111.setText(jwadminService.CheckById(dbConnector, jwadmin_login.getId()).get(0).getContact());
-                }
-            }
-        });
-
-        // jwadmin右侧内容区 -> 修改个人信息 -> 标题区
-        JPanel panel_title_editInfo_jwadmin = new JPanel();
-        panel_title_editInfo_jwadmin.setLayout(null);
-        panel_title_editInfo_jwadmin.setBounds(0, 0, 553, 46);
-        panel_editInfo_jwadmin.add(panel_title_editInfo_jwadmin);
-        panel_title_editInfo_jwadmin.setBackground(SystemColor.scrollbar);
-        panel_title_editInfo_jwadmin.setForeground(SystemColor.activeCaption);
-
-        JLabel lbl_title_editinfo_jwadmin = new JLabel("修改个人信息");
-        lbl_title_editinfo_jwadmin.setBounds(10, 10, 207, 22);
-        lbl_title_editinfo_jwadmin.setFont(new Font("微软雅黑", Font.BOLD, 16));
-        panel_title_editInfo_jwadmin.add(lbl_title_editinfo_jwadmin);
 
 
         // jwadmin右侧内容区 -> 课程管理
@@ -415,7 +298,7 @@ public class JwadminPanel {
                     str = e.getDocument().getText(0, textField_1.getDocument().getLength());
                     System.out.printf("insert: %s\n", str);
                     // 判断tid是否存在
-                    if (str != "") {
+                    if (!str.equals("")) {
                         if (teacherService.ifIdExist(dbConnector, Integer.parseInt(str))) {
                             System.out.printf("insert IN: %s\n", str);
                             lblCourseId_1_1.setText(teacherService.CheckById(dbConnector, Integer.parseInt(str)).get(0).getName());
@@ -494,7 +377,7 @@ public class JwadminPanel {
 
         // jwadmin右侧内容区 -> 人员管理
         JPanel panel_renyuanmanage_jwadmin = new JPanel();
-        panel_container_jwadmin.add(panel_renyuanmanage_jwadmin, "name_832752096213200");
+        panel_container_jwadmin.add(panel_renyuanmanage_jwadmin);
         panel_renyuanmanage_jwadmin.setLayout(null);
 
         JButton btnHomPage_jwadmin_1 = new JButton("教师列表");
@@ -506,6 +389,11 @@ public class JwadminPanel {
         btnHomPage_jwadmin_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2.setBounds(120, 56, 100, 33);
         panel_renyuanmanage_jwadmin.add(btnHomPage_jwadmin_2);
+
+        JButton btnHomPage_jwadmin_2_11 = new JButton("修改教师/学生");
+        btnHomPage_jwadmin_2_11.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnHomPage_jwadmin_2_11.setBounds(273, 56, 130, 33);
+        panel_renyuanmanage_jwadmin.add(btnHomPage_jwadmin_2_11);
 
         JButton btnHomPage_jwadmin_2_1 = new JButton("添加教师/学生");
         btnHomPage_jwadmin_2_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
@@ -519,7 +407,7 @@ public class JwadminPanel {
         panel_renyuanmanage.setLayout(new CardLayout(0, 0));
 
         JScrollPane scrollPane_jiaoshiliebiao = new JScrollPane();
-        panel_renyuanmanage.add(scrollPane_jiaoshiliebiao, "name_832952906374300");
+        panel_renyuanmanage.add(scrollPane_jiaoshiliebiao);
 
         JTable table_jiaoshiliebiao = new JTable();
         scrollPane_jiaoshiliebiao.setViewportView(table_jiaoshiliebiao);
@@ -534,7 +422,7 @@ public class JwadminPanel {
         title_jiaoshiliebiao_jwadmin.add("联系方式");
 
         JScrollPane scrollPane_xueshengliebiao = new JScrollPane();
-        panel_renyuanmanage.add(scrollPane_xueshengliebiao, "name_833096910647600");
+        panel_renyuanmanage.add(scrollPane_xueshengliebiao);
 
         Vector<String> title_xueshengliebiao_jwadmin = new Vector<>();
         title_xueshengliebiao_jwadmin.add("学号");
@@ -548,6 +436,460 @@ public class JwadminPanel {
 
         JTable table_xueshengliebiao = new JTable();
         scrollPane_xueshengliebiao.setViewportView(table_xueshengliebiao);
+
+        // jwadmin右侧内容区 -> 人员管理 -> 修改教职工/学生
+        JPanel panel_xiugai = new JPanel();
+        panel_renyuanmanage.add(panel_xiugai, "name_833802145576100");
+        panel_xiugai.setLayout(null);
+
+        JRadioButton rdbtnNewRadioButton1 = new JRadioButton("修改教师");
+        rdbtnNewRadioButton1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        rdbtnNewRadioButton1.setBounds(6, 6, 121, 23);
+        rdbtnNewRadioButton1.setSelected(true);
+        panel_xiugai.add(rdbtnNewRadioButton1);
+
+        JRadioButton rdbtnNewRadioButton_11 = new JRadioButton("修改学生");
+        rdbtnNewRadioButton_11.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        rdbtnNewRadioButton_11.setBounds(129, 7, 121, 23);
+        panel_xiugai.add(rdbtnNewRadioButton_11);
+
+        // btnGroup为了让两个radioButton不能同时被选中
+        ButtonGroup buttonGroup1 = new ButtonGroup();
+        buttonGroup1.add(rdbtnNewRadioButton1);
+        buttonGroup1.add(rdbtnNewRadioButton_11);
+
+        // jwadmin右侧内容区 -> 人员管理 -> 修改教职工/学生 -> 修改教师
+        JPanel panel_21 = new JPanel();
+        panel_21.setBounds(0, 35, 543, 321);
+        panel_xiugai.add(panel_21);
+        panel_21.setLayout(new CardLayout(0, 0));
+
+        JPanel panel_31 = new JPanel();
+        panel_21.add(panel_31);
+        panel_31.setLayout(null);
+
+        JLabel lblNewLabel10 = new JLabel("教职工号：");
+        lblNewLabel10.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel10.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel10.setBounds(117, 13, 94, 26);
+        panel_31.add(lblNewLabel10);
+
+        JTextField textField_510 = new JTextField();
+        textField_510.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_510.setBounds(237, 13, 73, 26);
+        panel_31.add(textField_510);
+        textField_510.setColumns(10);
+
+        JLabel lblNewLabel1 = new JLabel("姓名：");
+        lblNewLabel1.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel1.setBounds(117, 49, 94, 26);
+        panel_31.add(lblNewLabel1);
+
+        JLabel lblNewLabel_11 = new JLabel("性别：");
+        lblNewLabel_11.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_11.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_11.setBounds(117, 85, 94, 26);
+        panel_31.add(lblNewLabel_11);
+
+        JLabel lblNewLabel_21 = new JLabel("入职年份：");
+        lblNewLabel_21.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_21.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_21.setBounds(117, 121, 94, 26);
+        panel_31.add(lblNewLabel_21);
+
+        JLabel lblNewLabel_31 = new JLabel("职称：");
+        lblNewLabel_31.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_31.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_31.setBounds(117, 157, 94, 26);
+        panel_31.add(lblNewLabel_31);
+
+        JLabel lblNewLabel_41 = new JLabel("学部（院）：");
+        lblNewLabel_41.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_41.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_41.setBounds(117, 193, 94, 26);
+        panel_31.add(lblNewLabel_41);
+
+        JLabel lblNewLabel_51 = new JLabel("联系方式：");
+        lblNewLabel_51.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_51.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_51.setBounds(117, 229, 94, 26);
+        panel_31.add(lblNewLabel_51);
+
+        JTextField textField_51 = new JTextField();
+        textField_51.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_51.setBounds(237, 49, 146, 26);
+        panel_31.add(textField_51);
+        textField_51.setColumns(10);
+
+        JComboBox comboBox_21 = new JComboBox(new String[]{"男", "女"});
+        comboBox_21.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        comboBox_21.setBounds(237, 85, 68, 26);
+        panel_31.add(comboBox_21);
+
+        JTextField textField_61 = new JTextField();
+        textField_61.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_61.setColumns(10);
+        textField_61.setBounds(237, 121, 146, 26);
+        panel_31.add(textField_61);
+
+        JComboBox comboBox_2_11 = new JComboBox(new String[]{"讲师", "副教授", "教授", "院士"});
+        comboBox_2_11.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        comboBox_2_11.setBounds(237, 157, 146, 26);
+        panel_31.add(comboBox_2_11);
+
+        JComboBox comboBox_2_21 = new JComboBox(new String[]{"经济与管理学院", "文法学部", "信息学部", "艺术设计学院"});
+        comboBox_2_21.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        comboBox_2_21.setBounds(237, 193, 146, 26);
+        panel_31.add(comboBox_2_21);
+
+        JTextField textField_71 = new JTextField();
+        textField_71.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_71.setColumns(10);
+        textField_71.setBounds(237, 229, 146, 26);
+        panel_31.add(textField_71);
+
+        // 教师编号textfield的动态监听器
+        DocumentListener documentListener1 = new DocumentListener() {
+            String str;
+            TeacherService teacherService = new TeacherService();
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                try {
+                    str = e.getDocument().getText(0, textField_510.getDocument().getLength());
+                    System.out.printf("insert: %s\n", str);
+                    // 判断tid是否存在
+                    if (!str.equals("")) {
+                        if (teacherService.ifIdExist(dbConnector, Integer.parseInt(str))) {
+                            System.out.printf("insert IN: %s\n", str);
+                            Teacher teacher = teacherService.CheckById(dbConnector, Integer.parseInt(str)).get(0);
+                            // 姓名
+                            textField_51.setText(teacher.getName());
+                            // 性别
+                            if (teacher.getGender().equals("男")) comboBox_21.setSelectedIndex(0);
+                            else comboBox_21.setSelectedIndex(1);
+                            // 入职年份
+                            textField_61.setText(Integer.toString(teacher.getTfirstyear()));
+                            // 职称
+                            comboBox_2_11.setSelectedItem(teacher.getTtitle());
+                            // 学院
+                            comboBox_2_21.setSelectedItem(teacher.getTcollege());
+                            // contact
+                            textField_71.setText(teacher.getContact());
+                        } else {
+                            textField_51.setText("");
+                            comboBox_21.setSelectedIndex(0);
+                            textField_61.setText("");
+                            comboBox_2_11.setSelectedIndex(0);
+                            comboBox_2_21.setSelectedIndex(0);
+                            textField_71.setText("");
+                        }
+                    }
+                } catch (BadLocationException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                try {
+                    str = e.getDocument().getText(0, textField_510.getDocument().getLength());
+                    System.out.printf("remove: %s\n", str);
+                    // 判断tid是否存在
+                    if (!str.equals("")) {
+                        System.out.printf("rem: %s\n", str);
+                        if (teacherService.ifIdExist(dbConnector, Integer.parseInt(str))) {
+                            System.out.printf("remove IN: %s\n", str);
+                            Teacher teacher = teacherService.CheckById(dbConnector, Integer.parseInt(str)).get(0);
+                            // 姓名
+                            textField_51.setText(teacher.getName());
+                            // 性别
+                            comboBox_21.setSelectedItem(teacher.getGender());
+                            // 入职年份
+                            textField_61.setText(Integer.toString(teacher.getTfirstyear()));
+                            // 职称
+                            comboBox_2_11.setSelectedItem(teacher.getTtitle());
+                            // 学院
+                            comboBox_2_21.setSelectedItem(teacher.getTcollege());
+                            // contact
+                            textField_71.setText(teacher.getContact());
+                        } else {
+                            textField_51.setText("");
+                            comboBox_21.setSelectedIndex(0);
+                            textField_61.setText("");
+                            comboBox_2_11.setSelectedIndex(0);
+                            comboBox_2_21.setSelectedIndex(0);
+                            textField_71.setText("");
+                        }
+                    }
+                } catch (BadLocationException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        };
+        textField_510.getDocument().addDocumentListener(documentListener1);
+
+        JButton btnHomPage_jwadmin_2_21 = new JButton("确认修改");
+        btnHomPage_jwadmin_2_21.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnHomPage_jwadmin_2_21.setBounds(433, 278, 100, 33);
+        panel_31.add(btnHomPage_jwadmin_2_21);
+        btnHomPage_jwadmin_2_21.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int new_teacher_id = Integer.parseInt(textField_510.getText());
+                String new_teacher_name = textField_51.getText();
+                String new_teacher_gender = (String) comboBox_21.getSelectedItem();
+                String new_teacher_firstyear = textField_61.getText();
+                String new_teacher_title = (String) comboBox_2_11.getSelectedItem();
+                String new_teacher_college = (String) comboBox_2_21.getSelectedItem();
+                String new_teacher_conctact = textField_71.getText();
+                if (new_teacher_name.equals("") || new_teacher_firstyear.equals("") || new_teacher_conctact.equals("")) {
+                    System.out.println("有空值");
+                } else {
+                    TeacherService teacherService = new TeacherService();
+                    String new_teacher_pw = teacherService.CheckById(dbConnector, new_teacher_id).get(0).getPw();
+                    Teacher teacher = new Teacher(new_teacher_name, new_teacher_id, new_teacher_pw, new_teacher_gender, new_teacher_conctact, Integer.parseInt(new_teacher_firstyear), new_teacher_title, new_teacher_college);
+                    teacherService.Update(dbConnector, teacher);
+
+                    // 清空表单
+                    textField_510.setText("");
+                    textField_51.setText("");
+                    comboBox_21.setSelectedIndex(0);
+                    textField_61.setText("");
+                    comboBox_2_11.setSelectedIndex(0);
+                    comboBox_2_21.setSelectedIndex(0);
+                    textField_71.setText("");
+                }
+            }
+        });
+
+        // jwadmin右侧内容区 -> 人员管理 -> 修改教职工/学生 -> 修改学生
+        JPanel panel_4a = new JPanel();
+        panel_21.add(panel_4a, "name_834083056259600");
+        panel_4a.setLayout(null);
+
+        JLabel lblNewLabel_6aq = new JLabel("学号：");
+        lblNewLabel_6aq.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_6aq.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_6aq.setBounds(117, 5, 94, 26);
+        panel_4a.add(lblNewLabel_6aq);
+
+        JTextField textField_8aq = new JTextField();
+        textField_8aq.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_8aq.setColumns(10);
+        textField_8aq.setBounds(237, 5, 73, 26);
+        panel_4a.add(textField_8aq);
+
+        JLabel lblNewLabel_6a = new JLabel("姓名：");
+        lblNewLabel_6a.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_6a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_6a.setBounds(117, 41, 94, 26);
+        panel_4a.add(lblNewLabel_6a);
+
+        JTextField textField_8a = new JTextField();
+        textField_8a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_8a.setColumns(10);
+        textField_8a.setBounds(237, 41, 146, 26);
+        panel_4a.add(textField_8a);
+
+        JComboBox comboBox_2_3a = new JComboBox(new String[]{"男", "女"});
+        comboBox_2_3a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        comboBox_2_3a.setBounds(237, 77, 68, 26);
+        panel_4a.add(comboBox_2_3a);
+
+        JLabel lblNewLabel_6_1a = new JLabel("性别：");
+        lblNewLabel_6_1a.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_6_1a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_6_1a.setBounds(117, 77, 94, 26);
+        panel_4a.add(lblNewLabel_6_1a);
+
+        JLabel lblNewLabel_6_2a = new JLabel("入学年份：");
+        lblNewLabel_6_2a.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_6_2a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_6_2a.setBounds(117, 113, 94, 26);
+        panel_4a.add(lblNewLabel_6_2a);
+
+        JLabel lblNewLabel_6_3a = new JLabel("专业：");
+        lblNewLabel_6_3a.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_6_3a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_6_3a.setBounds(117, 149, 94, 26);
+        panel_4a.add(lblNewLabel_6_3a);
+
+        JLabel lblNewLabel_6_4a = new JLabel("联系方式：");
+        lblNewLabel_6_4a.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_6_4a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_6_4a.setBounds(117, 257, 94, 26);
+        panel_4a.add(lblNewLabel_6_4a);
+
+        JLabel lblNewLabel_6_5a = new JLabel("学部（院）：");
+        lblNewLabel_6_5a.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_6_5a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_6_5a.setBounds(117, 221, 94, 26);
+        panel_4a.add(lblNewLabel_6_5a);
+
+        JTextField textField_9a = new JTextField();
+        textField_9a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_9a.setColumns(10);
+        textField_9a.setBounds(237, 113, 146, 26);
+        panel_4a.add(textField_9a);
+
+        JTextField textField_11a = new JTextField();
+        textField_11a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_11a.setColumns(10);
+        textField_11a.setBounds(237, 185, 146, 26);
+        panel_4a.add(textField_11a);
+
+        JTextField textField_12a = new JTextField();
+        textField_12a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_12a.setColumns(10);
+        textField_12a.setBounds(237, 257, 146, 26);
+        panel_4a.add(textField_12a);
+
+        JTextField textField_121a = new JTextField();
+        textField_121a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_121a.setColumns(10);
+        textField_121a.setBounds(237, 149, 146, 26);
+        panel_4a.add(textField_121a);
+
+        JLabel lblNewLabel_6_4_1a = new JLabel("行政班：");
+        lblNewLabel_6_4_1a.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_6_4_1a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_6_4_1a.setBounds(117, 185, 94, 26);
+        panel_4a.add(lblNewLabel_6_4_1a);
+
+        JComboBox comboBox_2_3_1_1a = new JComboBox(new String[]{"经济与管理学院", "文法学部", "信息学部", "理学部", "艺术设计学院"});
+        comboBox_2_3_1_1a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        comboBox_2_3_1_1a.setBounds(237, 221, 146, 26);
+        panel_4a.add(comboBox_2_3_1_1a);
+
+        DocumentListener documentListener2 = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                System.out.println("in dl2");
+                String str;
+                StudentService studentService = new StudentService();
+                try {
+                    str = e.getDocument().getText(0, textField_8aq.getDocument().getLength());
+                    if (!str.equals("")) {
+                        if (studentService.ifIdExist(dbConnector, Integer.parseInt(str))) {
+                            Student student = studentService.CheckById(dbConnector, Integer.parseInt(str)).get(0);
+                            // 姓名
+                            textField_8a.setText(student.getName());
+                            // 性别
+                            comboBox_2_3a.setSelectedItem(student.getGender());
+                            // 入学年份
+                            textField_9a.setText(Integer.toString(student.getSfirstyear()));
+                            // 专业
+                            textField_121a.setText(student.getSmajor());
+                            // 行政班
+                            textField_11a.setText(Integer.toString(student.getSclass()));
+                            // 学院
+                            comboBox_2_3_1_1a.setSelectedItem(student.getScollege());
+                            // contact
+                            textField_12a.setText(student.getContact());
+                        } else {
+                            textField_8a.setText("");
+                            comboBox_2_3a.setSelectedIndex(0);
+                            textField_9a.setText("");
+                            textField_121a.setText("");
+                            textField_11a.setText("");
+                            comboBox_2_3_1_1a.setSelectedIndex(0);
+                            textField_12a.setText("");
+                        }
+                    }
+                } catch (BadLocationException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String str;
+                StudentService studentService = new StudentService();
+                try {
+                    str = e.getDocument().getText(0, textField_8aq.getDocument().getLength());
+                    if (!str.equals("")) {
+                        if (studentService.ifIdExist(dbConnector, Integer.parseInt(str))) {
+                            Student student = studentService.CheckById(dbConnector, Integer.parseInt(str)).get(0);
+                            // 姓名
+                            textField_8a.setText(student.getName());
+                            // 性别
+                            comboBox_2_3a.setSelectedItem(student.getGender());
+                            // 入学年份
+                            textField_9a.setText(Integer.toString(student.getSfirstyear()));
+                            // 专业
+                            textField_121a.setText(student.getSmajor());
+                            // 行政班
+                            textField_11a.setText(Integer.toString(student.getSclass()));
+                            // 学院
+                            comboBox_2_3_1_1a.setSelectedItem(student.getScollege());
+                            // contact
+                            textField_12a.setText(student.getContact());
+                        } else {
+                            textField_8a.setText("");
+                            comboBox_2_3a.setSelectedIndex(0);
+                            textField_9a.setText("");
+                            textField_121a.setText("");
+                            textField_11a.setText("");
+                            comboBox_2_3_1_1a.setSelectedIndex(0);
+                            textField_12a.setText("");
+                        }
+                    }
+                } catch (BadLocationException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        };
+        textField_8aq.getDocument().addDocumentListener(documentListener2);
+
+
+        JButton btnHomPage_jwadmin_2_21a = new JButton("确认修改");
+        btnHomPage_jwadmin_2_21a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnHomPage_jwadmin_2_21a.setBounds(433, 278, 100, 33);
+        panel_4a.add(btnHomPage_jwadmin_2_21a);
+        btnHomPage_jwadmin_2_21a.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int new_stu_id = Integer.parseInt(textField_8aq.getText());
+                String new_stu_name = textField_8a.getText();
+                String new_stu_gender = (String) comboBox_2_3a.getSelectedItem();
+                String new_stu_firstyear = textField_9a.getText();
+                String new_stu_major = textField_121a.getText();
+                String new_stu_class = textField_11a.getText();
+                String new_stu_coll = (String) comboBox_2_3_1_1a.getSelectedItem();
+                String new_stu_contact = textField_12a.getText();
+
+                if (new_stu_name.equals("") || new_stu_firstyear.equals("") || new_stu_major.equals("") || new_stu_class.equals("") || new_stu_coll.equals("") || new_stu_contact.equals("")) {
+                    System.out.println("有空值");
+                } else {
+                    StudentService studentService = new StudentService();
+                    String new_stu_pw = studentService.CheckById(dbConnector, new_stu_id).get(0).getPw();
+                    Student student = new Student(new_stu_name, new_stu_id, new_stu_pw, new_stu_gender, new_stu_contact, Integer.parseInt(new_stu_firstyear), Integer.parseInt(new_stu_class), new_stu_major, new_stu_coll);
+                    studentService.Update(dbConnector, student);
+
+                    textField_8aq.setText("");
+                    textField_8a.setText("");
+                    comboBox_2_3a.setSelectedIndex(0);
+                    textField_9a.setText("");
+                    textField_121a.setText("");
+                    textField_11a.setText("");
+                    comboBox_2_3_1_1a.setSelectedIndex(0);
+                    textField_12a.setText("");
+                }
+            }
+        });
+
 
         // jwadmin右侧内容区 -> 人员管理 -> 添加教职工/学生
         JPanel panel_tianjia = new JPanel();
@@ -570,14 +912,15 @@ public class JwadminPanel {
         buttonGroup.add(rdbtnNewRadioButton);
         buttonGroup.add(rdbtnNewRadioButton_1);
 
+
         // jwadmin右侧内容区 -> 人员管理 -> 添加教职工/学生 -> 添加教职工
         JPanel panel_2 = new JPanel();
-        panel_2.setBounds(0, 35, 533, 311);
+        panel_2.setBounds(0, 35, 543, 321);
         panel_tianjia.add(panel_2);
         panel_2.setLayout(new CardLayout(0, 0));
 
         JPanel panel_3 = new JPanel();
-        panel_2.add(panel_3, "name_834076557968500");
+        panel_2.add(panel_3);
         panel_3.setLayout(null);
 
         JLabel lblNewLabel = new JLabel("姓名：");
@@ -622,7 +965,7 @@ public class JwadminPanel {
         panel_3.add(textField_5);
         textField_5.setColumns(10);
 
-        JComboBox comboBox_2 = new JComboBox();
+        JComboBox comboBox_2 = new JComboBox(new String[]{"男", "女"});
         comboBox_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2.setBounds(237, 62, 68, 26);
         panel_3.add(comboBox_2);
@@ -633,12 +976,12 @@ public class JwadminPanel {
         textField_6.setBounds(237, 98, 146, 26);
         panel_3.add(textField_6);
 
-        JComboBox comboBox_2_1 = new JComboBox();
+        JComboBox comboBox_2_1 = new JComboBox(new String[]{"讲师", "副教授", "教授", "院士"});
         comboBox_2_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_1.setBounds(237, 134, 146, 26);
         panel_3.add(comboBox_2_1);
 
-        JComboBox comboBox_2_2 = new JComboBox();
+        JComboBox comboBox_2_2 = new JComboBox(new String[]{"经济与管理学院", "文法学部", "信息学部", "艺术设计学院"});
         comboBox_2_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_2.setBounds(237, 170, 146, 26);
         panel_3.add(comboBox_2_2);
@@ -651,8 +994,42 @@ public class JwadminPanel {
 
         JButton btnHomPage_jwadmin_2_2 = new JButton("确认");
         btnHomPage_jwadmin_2_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnHomPage_jwadmin_2_2.setBounds(423, 270, 100, 33);
+        btnHomPage_jwadmin_2_2.setBounds(433, 278, 100, 33);
         panel_3.add(btnHomPage_jwadmin_2_2);
+        btnHomPage_jwadmin_2_2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String new_teacher_name = textField_5.getText();
+                String new_teacher_gender = (String) comboBox_2.getSelectedItem();
+                String new_teacher_firstyear = textField_6.getText();
+                String new_teacher_title = (String) comboBox_2_1.getSelectedItem();
+                String new_teacher_college = (String) comboBox_2_2.getSelectedItem();
+                String new_teacher_conctact = textField_7.getText();
+                if (new_teacher_name.equals("") || new_teacher_firstyear.equals("") || new_teacher_conctact.equals("")) {
+                    System.out.println("有空值");
+                } else {
+                    // 给新用户自动生成密码，按照姓名拼音
+                    String new_teacher_pw = SHA256.SHA256(ToPinYin.toPinyin(new_teacher_name));
+                    Random random = new Random();
+                    TeacherService teacherService = new TeacherService();
+                    int new_teacher_id;
+                    do {
+                        new_teacher_id = 20000 + random.nextInt(10000);
+                    } while (teacherService.ifIdExist(dbConnector, new_teacher_id));
+
+                    Teacher teacher = new Teacher(new_teacher_name, new_teacher_id, new_teacher_pw, new_teacher_gender, new_teacher_conctact, Integer.parseInt(new_teacher_firstyear), new_teacher_title, new_teacher_college);
+                    teacherService.Add(dbConnector, teacher);
+
+                    // 清空表单
+                    textField_5.setText("");
+                    comboBox_2.setSelectedIndex(0);
+                    textField_6.setText("");
+                    comboBox_2_1.setSelectedIndex(0);
+                    comboBox_2_2.setSelectedIndex(0);
+                    textField_7.setText("");
+                }
+            }
+        });
 
         // jwadmin右侧内容区 -> 人员管理 -> 添加教职工/学生 -> 添加学生
         JPanel panel_4 = new JPanel();
@@ -671,7 +1048,7 @@ public class JwadminPanel {
         textField_8.setBounds(237, 20, 146, 26);
         panel_4.add(textField_8);
 
-        JComboBox comboBox_2_3 = new JComboBox();
+        JComboBox comboBox_2_3 = new JComboBox(new String[]{"男", "女"});
         comboBox_2_3.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_3.setBounds(237, 56, 68, 26);
         panel_4.add(comboBox_2_3);
@@ -724,10 +1101,11 @@ public class JwadminPanel {
         textField_12.setBounds(237, 236, 146, 26);
         panel_4.add(textField_12);
 
-        JComboBox comboBox_2_3_1 = new JComboBox();
-        comboBox_2_3_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        comboBox_2_3_1.setBounds(237, 128, 146, 26);
-        panel_4.add(comboBox_2_3_1);
+        JTextField textField_121 = new JTextField();
+        textField_121.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_121.setColumns(10);
+        textField_121.setBounds(237, 128, 146, 26);
+        panel_4.add(textField_121);
 
         JLabel lblNewLabel_6_4_1 = new JLabel("行政班：");
         lblNewLabel_6_4_1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -735,15 +1113,48 @@ public class JwadminPanel {
         lblNewLabel_6_4_1.setBounds(117, 164, 94, 26);
         panel_4.add(lblNewLabel_6_4_1);
 
-        JComboBox comboBox_2_3_1_1 = new JComboBox();
+        JComboBox comboBox_2_3_1_1 = new JComboBox(new String[]{"经济与管理学院", "文法学部", "信息学部", "理学部", "艺术设计学院"});
         comboBox_2_3_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_3_1_1.setBounds(237, 200, 146, 26);
         panel_4.add(comboBox_2_3_1_1);
 
         JButton btnHomPage_jwadmin_2_2_1 = new JButton("确认");
         btnHomPage_jwadmin_2_2_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnHomPage_jwadmin_2_2_1.setBounds(423, 268, 100, 33);
+        btnHomPage_jwadmin_2_2_1.setBounds(433, 278, 100, 33);
         panel_4.add(btnHomPage_jwadmin_2_2_1);
+        btnHomPage_jwadmin_2_2_1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String new_stu_name = textField_8.getText();
+                String new_stu_gender = (String) comboBox_2_3.getSelectedItem();
+                String new_stu_firstyear = textField_9.getText();
+                String new_stu_major = textField_121.getText();
+                String new_stu_class = textField_11.getText();
+                String new_stu_college = (String) comboBox_2_3_1_1.getSelectedItem();
+                String new_stu_contact = textField_12.getText();
+                if (new_stu_name.equals("") || new_stu_firstyear.equals("") || new_stu_major.equals("") || new_stu_class.equals("") || new_stu_contact.equals("")) {
+                    System.out.println("有空值");
+                } else {
+                    StudentService studentService = new StudentService();
+                    String new_stu_pw = SHA256.SHA256(ToPinYin.toPinyin(new_stu_name));
+                    int new_stu_id;
+                    Random random = new Random();
+                    do {
+                        new_stu_id = 30000 + random.nextInt(10000);
+                    } while (studentService.ifIdExist(dbConnector, new_stu_id));
+                    Student student = new Student(new_stu_name, new_stu_id, new_stu_pw, new_stu_gender, new_stu_contact, Integer.parseInt(new_stu_firstyear), Integer.parseInt(new_stu_class), new_stu_major, new_stu_college);
+                    studentService.Add(dbConnector, student);
+
+                    textField_8.setText("");
+                    comboBox_2_3.setSelectedIndex(0);
+                    textField_9.setText("");
+                    textField_121.setText("");
+                    textField_11.setText("");
+                    comboBox_2_3_1_1.setSelectedIndex(0);
+                    textField_12.setText("");
+                }
+            }
+        });
 
         // jwadmin右侧内容区 -> 人员管理 -> 标题区
         JPanel panel_title_renyuanguanli_jwadmin = new JPanel();
@@ -752,6 +1163,11 @@ public class JwadminPanel {
         panel_title_renyuanguanli_jwadmin.setBackground(SystemColor.scrollbar);
         panel_title_renyuanguanli_jwadmin.setBounds(0, 0, 553, 46);
         panel_renyuanmanage_jwadmin.add(panel_title_renyuanguanli_jwadmin);
+
+        JLabel lbl_title_renyuanguanli1_jwadmin = new JLabel("人员管理 / 修改教师/学生");
+        lbl_title_renyuanguanli1_jwadmin.setFont(new Font("微软雅黑", Font.BOLD, 16));
+        lbl_title_renyuanguanli1_jwadmin.setBounds(10, 10, 215, 22);
+        panel_title_renyuanguanli_jwadmin.add(lbl_title_renyuanguanli1_jwadmin);
 
         JLabel lbl_title_renyuanguanli_jwadmin = new JLabel("人员管理 / 添加教师/学生");
         lbl_title_renyuanguanli_jwadmin.setFont(new Font("微软雅黑", Font.BOLD, 16));
@@ -887,6 +1303,118 @@ public class JwadminPanel {
         lblabout_1.setBounds(10, 56, 150, 22);
         panel_about_jwadmin.add(lblabout_1);
 
+        // jwadmin右侧内容区 -> 修改个人信息
+        JPanel panel_editInfo_jwadmin = new JPanel();
+        panel_container_jwadmin.add(panel_editInfo_jwadmin);
+        panel_editInfo_jwadmin.setLayout(null);
+
+        JLabel lbleditInfo_id = new JLabel("教职工号：");
+        lbleditInfo_id.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_id.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_id.setBounds(117, 135, 94, 26);
+        panel_editInfo_jwadmin.add(lbleditInfo_id);
+
+        JLabel lbleditInfo_name = new JLabel("姓名：");
+        lbleditInfo_name.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_name.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_name.setBounds(117, 171, 94, 26);
+        panel_editInfo_jwadmin.add(lbleditInfo_name);
+
+        JLabel lbleditInfo_pw = new JLabel("密码：");
+        lbleditInfo_pw.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_pw.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_pw.setBounds(117, 207, 94, 26);
+        panel_editInfo_jwadmin.add(lbleditInfo_pw);
+
+        JLabel lbleditInfo_gender = new JLabel("性别：");
+        lbleditInfo_gender.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_gender.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_gender.setBounds(117, 243, 94, 26);
+        panel_editInfo_jwadmin.add(lbleditInfo_gender);
+
+        JLabel lbleditInfo_contact = new JLabel("联系方式：");
+        lbleditInfo_contact.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_contact.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_contact.setBounds(117, 279, 94, 26);
+        panel_editInfo_jwadmin.add(lbleditInfo_contact);
+
+        // 教职工号
+        JLabel textField_613 = new JLabel(String.valueOf(jwadmin_login.getId()));
+        textField_613.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_613.setBounds(237, 135, 146, 26);
+        panel_editInfo_jwadmin.add(textField_613);
+
+        // 姓名
+        JTextField textField_513 = new JTextField(jwadmin_login.getName());
+        textField_513.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_513.setBounds(237, 171, 146, 26);
+        panel_editInfo_jwadmin.add(textField_513);
+        textField_513.setColumns(10);
+
+        // 性别
+        JComboBox comboBox_213 = new JComboBox(new String[]{"男", "女"});
+        comboBox_213.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        if (jwadmin_login.getGender().equals("女")) comboBox_213.setSelectedIndex(1);
+        comboBox_213.setBounds(237, 243, 68, 26);
+        panel_editInfo_jwadmin.add(comboBox_213);
+
+        // 密码
+        JTextField textField_511 = new JTextField();
+        textField_511.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_511.setBounds(237, 207, 146, 26);
+        panel_editInfo_jwadmin.add(textField_511);
+        textField_511.setColumns(10);
+
+        // 联系方式
+        JTextField textField_5111 = new JTextField(jwadmin_login.getContact());
+        textField_5111.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_5111.setBounds(237, 279, 146, 26);
+        panel_editInfo_jwadmin.add(textField_5111);
+        textField_5111.setColumns(10);
+
+        JButton btneditInfo_jwadmin = new JButton("确认");
+        btneditInfo_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btneditInfo_jwadmin.setBounds(443, 412, 100, 33);
+        panel_editInfo_jwadmin.add(btneditInfo_jwadmin);
+        btneditInfo_jwadmin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JwadminService jwadminService = new JwadminService();
+
+                String new_pw;
+                if (textField_511.getText().equals("")) new_pw = jwadmin_login.getPw();
+                else new_pw = SHA256.SHA256(textField_511.getText());
+
+                System.out.println(textField_5111.getText());
+
+                Jwadmin new_jwadmin = new Jwadmin(textField_513.getText(), jwadmin_login.getId(), new_pw, (String) comboBox_213.getSelectedItem(), textField_5111.getText());
+                jwadminService.Update(dbConnector, new_jwadmin);
+
+                textField_513.setText(jwadminService.CheckById(dbConnector, jwadmin_login.getId()).get(0).getName());
+                if (jwadminService.CheckById(dbConnector, jwadmin_login.getId()).get(0).getGender().equals("男")) {
+                    comboBox_213.setSelectedIndex(0);
+                    System.out.println(0);
+                } else {
+                    comboBox_213.setSelectedIndex(1);
+                    System.out.println(1);
+                }
+                textField_5111.setText(jwadminService.CheckById(dbConnector, jwadmin_login.getId()).get(0).getContact());
+            }
+        });
+
+        // jwadmin右侧内容区 -> 修改个人信息 -> 标题区
+        JPanel panel_title_editInfo_jwadmin = new JPanel();
+        panel_title_editInfo_jwadmin.setLayout(null);
+        panel_title_editInfo_jwadmin.setBounds(0, 0, 553, 46);
+        panel_editInfo_jwadmin.add(panel_title_editInfo_jwadmin);
+        panel_title_editInfo_jwadmin.setBackground(SystemColor.scrollbar);
+        panel_title_editInfo_jwadmin.setForeground(SystemColor.activeCaption);
+
+        JLabel lbl_title_editinfo_jwadmin = new JLabel("修改个人信息");
+        lbl_title_editinfo_jwadmin.setBounds(10, 10, 207, 22);
+        lbl_title_editinfo_jwadmin.setFont(new Font("微软雅黑", Font.BOLD, 16));
+        panel_title_editInfo_jwadmin.add(lbl_title_editinfo_jwadmin);
+
         ActionListener actionListener_jwamin = e -> {
             if (e.getSource().equals(btnHomPage_jwadmin)) {
                 JwadminService jwadminService = new JwadminService();
@@ -938,6 +1466,7 @@ public class JwadminPanel {
                 lbl_title_renyuanguanli_jwadmin.setVisible(false);
                 lbl_title_renyuanguanli_jwadmin_1.setVisible(true);
                 lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
+                lbl_title_renyuanguanli1_jwadmin.setVisible(false);
 
                 TeacherService teacherService = new TeacherService();
                 Vector<Vector<Object>> data_jiaoshiliebiao = teacherService.getAllTeacherVector_jwadmin(dbConnector);
@@ -1033,6 +1562,7 @@ public class JwadminPanel {
                 lbl_title_renyuanguanli_jwadmin.setVisible(false);
                 lbl_title_renyuanguanli_jwadmin_1.setVisible(true);
                 lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
+                lbl_title_renyuanguanli1_jwadmin.setVisible(false);
 
                 TeacherService teacherService = new TeacherService();
                 Vector<Vector<Object>> data_jiaoshiliebiao = teacherService.getAllTeacherVector_jwadmin(dbConnector);
@@ -1054,6 +1584,7 @@ public class JwadminPanel {
                 lbl_title_renyuanguanli_jwadmin.setVisible(false);
                 lbl_title_renyuanguanli_jwadmin_1.setVisible(false);
                 lbl_title_renyuanguanli_jwadmin_1_1.setVisible(true);
+                lbl_title_renyuanguanli1_jwadmin.setVisible(false);
 
                 StudentService studentService = new StudentService();
                 Vector<Vector<Object>> data_xueshengliebiao = studentService.getAllStudentVector(dbConnector);
@@ -1071,27 +1602,59 @@ public class JwadminPanel {
                 panel_renyuanmanage.repaint();
                 scrollPane_xueshengliebiao.setVisible(true);
             } else if (e.getSource().equals(btnHomPage_jwadmin_2_1)) {
+                // 新建教师/学生
                 lbl_title_renyuanguanli_jwadmin.setVisible(true);
                 lbl_title_renyuanguanli_jwadmin_1.setVisible(false);
                 lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
+                lbl_title_renyuanguanli1_jwadmin.setVisible(false);
 
                 panel_renyuanmanage.removeAll();
                 panel_renyuanmanage.add(panel_tianjia);
                 panel_renyuanmanage.validate();
                 panel_renyuanmanage.repaint();
                 panel_tianjia.setVisible(true);
+            } else if (e.getSource().equals(btnHomPage_jwadmin_2_11)) {
+                // 修改教师/学生
+                lbl_title_renyuanguanli_jwadmin.setVisible(false);
+                lbl_title_renyuanguanli_jwadmin_1.setVisible(false);
+                lbl_title_renyuanguanli_jwadmin_1_1.setVisible(false);
+                lbl_title_renyuanguanli1_jwadmin.setVisible(true);
+
+                panel_renyuanmanage.removeAll();
+                panel_renyuanmanage.add(panel_xiugai);
+                panel_renyuanmanage.validate();
+                panel_renyuanmanage.repaint();
+                panel_xiugai.setVisible(true);
             } else if (e.getSource().equals(rdbtnNewRadioButton)) {
+                // 新建教师/学生 -> 添加教师
                 panel_2.removeAll();
                 panel_2.add(panel_3);
                 panel_2.validate();
                 panel_2.repaint();
                 panel_3.setVisible(true);
             } else if (e.getSource().equals(rdbtnNewRadioButton_1)) {
+                // 新建教师/学生 -> 添加学生
                 panel_2.removeAll();
                 panel_2.add(panel_4);
                 panel_2.validate();
                 panel_2.repaint();
                 panel_4.setVisible(true);
+            } else if (e.getSource().equals(rdbtnNewRadioButton1)) {
+                // 修改教师/学生 -> 修改教师
+                panel_21.removeAll();
+                panel_21.add(panel_31);
+                panel_21.validate();
+                panel_21.repaint();
+                panel_31.setVisible(true);
+
+            } else if (e.getSource().equals(rdbtnNewRadioButton_11)) {
+                // 修改教师/学生 -> 修改学生
+                panel_21.removeAll();
+                panel_21.add(panel_4a);
+                panel_21.validate();
+                panel_21.repaint();
+                panel_4a.setVisible(true);
+
             } else if (e.getSource().equals(btnExit_jwadmin)) {
                 // 重新登陆按钮
                 System.out.println("tuichudenglu");
@@ -1162,5 +1725,8 @@ public class JwadminPanel {
         btnCreateCourse_1.addActionListener(actionListener_jwamin);
         btnAbout_2.addActionListener(actionListener_jwamin);
         btn_edit_info.addActionListener(actionListener_jwamin);
+        btnHomPage_jwadmin_2_11.addActionListener(actionListener_jwamin);
+        rdbtnNewRadioButton1.addActionListener(actionListener_jwamin);
+        rdbtnNewRadioButton_11.addActionListener(actionListener_jwamin);
     }
 }

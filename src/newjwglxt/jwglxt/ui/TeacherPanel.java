@@ -3,8 +3,10 @@ package newjwglxt.jwglxt.ui;
 import newjwglxt.jwglxt.entity.ChooseCourse;
 import newjwglxt.jwglxt.entity.Teacher;
 import newjwglxt.jwglxt.service.idx1.CourseService;
+import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
 import newjwglxt.jwglxt.util.DbConnector;
+import newjwglxt.jwglxt.util.SHA256;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -50,6 +52,11 @@ public class TeacherPanel {
         btnScoreManage_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnScoreManage_teacher.setBounds(10, 100, 130, 35);
         panel_category_teacher.add(btnScoreManage_teacher);
+
+        JButton btnEditInfo_teacher = new JButton("个人信息修改");
+        btnEditInfo_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btnEditInfo_teacher.setBounds(10, 145, 130, 35);
+        panel_category_teacher.add(btnEditInfo_teacher);
 
         JButton btnAbout_1 = new JButton("关于");
         btnAbout_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
@@ -134,6 +141,16 @@ public class TeacherPanel {
         lblTitle_present_teacher.setBounds(400, 135, 167, 24);
         panel_homePage_teacher.add(lblTitle_present_teacher);
 
+        JLabel lblContact_teacher = new JLabel("联系方式：");
+        lblContact_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblContact_teacher.setBounds(317, 169, 78, 24);
+        panel_homePage_teacher.add(lblContact_teacher);
+
+        JLabel lblContact_present_teacher = new JLabel(teacher_login.getContact());
+        lblContact_present_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblContact_present_teacher.setBounds(400, 169, 167, 24);
+        panel_homePage_teacher.add(lblContact_present_teacher);
+
         // teacher右侧内容区 -> 主页 -> 标题区
         JPanel panel_title_zhuye_teacher = new JPanel();
         panel_title_zhuye_teacher.setLayout(null);
@@ -146,6 +163,7 @@ public class TeacherPanel {
         lblNewLabel_8_9.setFont(new Font("微软雅黑", Font.BOLD, 16));
         lblNewLabel_8_9.setBounds(10, 10, 64, 22);
         panel_title_zhuye_teacher.add(lblNewLabel_8_9);
+
 
         // teacher右侧内容区 -> 我的课程
         JPanel panel_Coursemanage_teacher = new JPanel();
@@ -217,6 +235,152 @@ public class TeacherPanel {
         scrollPane_4.setViewportView(table_4);
 
         final int[] selectedCourseID = new int[1];
+
+        // teacher右侧内容区 -> 修改个人信息
+        JPanel panel_editInfo_teacher = new JPanel();
+        panel_container_teacher.add(panel_editInfo_teacher);
+        panel_editInfo_teacher.setLayout(null);
+
+        JLabel lbleditInfo_id = new JLabel("教职工号：");
+        lbleditInfo_id.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_id.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_id.setBounds(117, 90, 94, 26);
+        panel_editInfo_teacher.add(lbleditInfo_id);
+
+        JLabel lbleditInfo_name = new JLabel("姓名：");
+        lbleditInfo_name.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_name.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_name.setBounds(117, 126, 94, 26);
+        panel_editInfo_teacher.add(lbleditInfo_name);
+
+        JLabel lbleditInfo_pw = new JLabel("密码：");
+        lbleditInfo_pw.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_pw.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_pw.setBounds(117, 162, 94, 26);
+        panel_editInfo_teacher.add(lbleditInfo_pw);
+
+        JLabel lbleditInfo_gender = new JLabel("性别：");
+        lbleditInfo_gender.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_gender.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_gender.setBounds(117, 198, 94, 26);
+        panel_editInfo_teacher.add(lbleditInfo_gender);
+
+        JLabel lbleditInfo_firstyear = new JLabel("入职年份：");
+        lbleditInfo_firstyear.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_firstyear.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_firstyear.setBounds(117, 234, 94, 26);
+        panel_editInfo_teacher.add(lbleditInfo_firstyear);
+
+        JLabel lbleditInfo_coll = new JLabel("学部（院）：");
+        lbleditInfo_coll.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_coll.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_coll.setBounds(117, 270, 94, 26);
+        panel_editInfo_teacher.add(lbleditInfo_coll);
+
+        JLabel lbleditInfo_title = new JLabel("职称：");
+        lbleditInfo_title.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_title.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_title.setBounds(117, 306, 94, 26);
+        panel_editInfo_teacher.add(lbleditInfo_title);
+
+        JLabel lbleditInfo_contact = new JLabel("联系方式：");
+        lbleditInfo_contact.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_contact.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_contact.setBounds(117, 342, 94, 26);
+        panel_editInfo_teacher.add(lbleditInfo_contact);
+
+        // 教职工号
+        JLabel textField_61 = new JLabel(String.valueOf(teacher_login.getId()));
+        textField_61.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_61.setBounds(237, 90, 146, 26);
+        panel_editInfo_teacher.add(textField_61);
+
+        // 姓名
+        JLabel textField_611 = new JLabel(String.valueOf(teacher_login.getName()));
+        textField_611.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_611.setBounds(237, 126, 146, 26);
+        panel_editInfo_teacher.add(textField_611);
+
+        // 性别
+        JLabel textField_612 = new JLabel(String.valueOf(teacher_login.getGender()));
+        textField_612.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_612.setBounds(237, 198, 146, 26);
+        panel_editInfo_teacher.add(textField_612);
+
+        // 密码
+        JTextField textField_511 = new JTextField();
+        textField_511.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_511.setBounds(237, 162, 146, 26);
+        panel_editInfo_teacher.add(textField_511);
+        textField_511.setColumns(10);
+
+        // 入职年份
+        JLabel textField_6121 = new JLabel(String.valueOf(teacher_login.getTfirstyear()));
+        textField_6121.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_6121.setBounds(237, 234, 146, 26);
+        panel_editInfo_teacher.add(textField_6121);
+
+        // 学院
+        JLabel textField_6122 = new JLabel(String.valueOf(teacher_login.getTcollege()));
+        textField_6122.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_6122.setBounds(237, 270, 146, 26);
+        panel_editInfo_teacher.add(textField_6122);
+
+        // 职称
+        JLabel textField_6123 = new JLabel(String.valueOf(teacher_login.getTtitle()));
+        textField_6123.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_6123.setBounds(237, 306, 146, 26);
+        panel_editInfo_teacher.add(textField_6123);
+
+        // 联系方式
+        JTextField textField_5111 = new JTextField(teacher_login.getContact());
+        textField_5111.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_5111.setBounds(237, 342, 146, 26);
+        panel_editInfo_teacher.add(textField_5111);
+        textField_5111.setColumns(10);
+
+        JButton btneditInfo_confirm = new JButton("确认");
+        btneditInfo_confirm.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        btneditInfo_confirm.setBounds(443, 412, 100, 33);
+        panel_editInfo_teacher.add(btneditInfo_confirm);
+        btneditInfo_confirm.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TeacherService teacherService = new TeacherService();
+                String new_pw;
+                if (textField_511.getText().equals(""))
+                    new_pw = teacher_login.getPw();
+                else
+                    new_pw = SHA256.SHA256(textField_511.getText());
+
+                System.out.println(textField_5111.getText());
+
+                Teacher new_teacher = new Teacher(teacher_login.getName(), teacher_login.getId(), new_pw, teacher_login.getGender(), textField_5111.getText(), teacher_login.getTfirstyear(), teacher_login.getTtitle(), teacher_login.getTcollege());
+                teacherService.Update(dbConnector, new_teacher);
+
+                textField_5111.setText(teacherService.CheckById(dbConnector, teacher_login.getId()).get(0).getContact());
+
+                // 密码框复位
+                textField_511.setText("");
+                // 联系方式重新从数据库读取
+                textField_5111.setText(teacherService.CheckById(dbConnector, teacher_login.getId()).get(0).getContact());
+                // 主页的联系方式重新从数据库读取
+                lblContact_present_teacher.setText(teacherService.CheckById(dbConnector, teacher_login.getId()).get(0).getContact());
+            }
+        });
+
+        // teacher右侧内容区 -> 修改个人信息 -> 标题区
+        JPanel panel_title_edit_teacher = new JPanel();
+        panel_title_edit_teacher.setLayout(null);
+        panel_title_edit_teacher.setForeground(SystemColor.activeCaption);
+        panel_title_edit_teacher.setBackground(SystemColor.scrollbar);
+        panel_title_edit_teacher.setBounds(0, 0, 553, 46);
+        panel_editInfo_teacher.add(panel_title_edit_teacher);
+
+        JLabel lbl_edit_teacher = new JLabel("个人信息修改");
+        lbl_edit_teacher.setFont(new Font("微软雅黑", Font.BOLD, 16));
+        lbl_edit_teacher.setBounds(10, 10, 100, 22);
+        panel_title_edit_teacher.add(lbl_edit_teacher);
 
         ActionListener actionlistenerTeacher = new ActionListener() {
             @Override
@@ -294,6 +458,13 @@ public class TeacherPanel {
                     loginPanel.getPanel().setVisible(true);
 
                     dbConnector.closeConnection();
+                } else if (e.getSource().equals(btnEditInfo_teacher)) {
+                    panel_container_teacher.removeAll();
+                    panel_container_teacher.add(panel_editInfo_teacher);
+                    panel_container_teacher.validate();
+                    panel_container_teacher.repaint();
+                    System.out.println("pe");
+                    panel_chengjiguanli_teacher.setVisible(true);
                 }
             }
         };
@@ -302,6 +473,8 @@ public class TeacherPanel {
         btnScoreManage_teacher.addActionListener(actionlistenerTeacher);
         btn_queren_teacher.addActionListener(actionlistenerTeacher);
         btnExit_teacher.addActionListener(actionlistenerTeacher);
+        btnEditInfo_teacher.addActionListener(actionlistenerTeacher);
+
         // 成绩管理JComboBox的监听器
         ItemListener itemListener = new ItemListener() {
             @Override
