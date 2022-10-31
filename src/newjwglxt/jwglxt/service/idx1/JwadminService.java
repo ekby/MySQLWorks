@@ -73,7 +73,7 @@ public class JwadminService implements Service_idx1<Jwadmin>, LoginService<Jwadm
         ArrayList<DropCourse> dropCourses = dropCourseDao.Select(dbConnector.getConnection());
         Vector<Vector<Object>> dropCourseCol = new Vector<>();
         CourseService courseService = new CourseService();
-        TeacherService teacherService = new TeacherService();
+        JwadminService jwadminService = new JwadminService();
         StudentService studentService = new StudentService();
 
         for (DropCourse dropCourse : dropCourses) {
@@ -89,10 +89,42 @@ public class JwadminService implements Service_idx1<Jwadmin>, LoginService<Jwadm
             //课程名
             dropCourseRow.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCname());
             //任课教师
-            dropCourseRow.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCteacherid()).get(0).getName());
+            dropCourseRow.add(jwadminService.CheckById(dbConnector, courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCteacherid()).get(0).getName());
 
             dropCourseCol.add(dropCourseRow);
         }
         return dropCourseCol;
     }
+
+    // 判断一个jwid是否存在
+    public boolean ifIdExist(DbConnector dbConnector, int id) {
+        if (Integer.toString(id).length() != 5)
+            return false;
+        else {
+            JwadminDaoImpl jwadminDao = new JwadminDaoImpl();
+            ArrayList<Jwadmin> jwadmins = jwadminDao.Select(dbConnector.getConnection());
+            for (Jwadmin jwadmin : jwadmins) {
+                if (jwadmin.getId() == id)
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    public Vector<Vector<Object>> getAllJwadminVector(DbConnector dbConnector) {
+        JwadminDaoImpl jwadminDao = new JwadminDaoImpl();
+        ArrayList<Jwadmin> jwadmins = jwadminDao.Select(dbConnector.getConnection());
+        Vector<Vector<Object>> jwCol = new Vector<>();
+        for (Jwadmin jwadmin : jwadmins) {
+            Vector<Object> jwadminRow = new Vector<>();
+            jwadminRow.add(jwadmin.getId());
+            jwadminRow.add(jwadmin.getName());
+            jwadminRow.add(jwadmin.getGender());
+            jwadminRow.add(jwadmin.getContact());
+            jwCol.add(jwadminRow);
+        }
+        return jwCol;
+    }
+
+
 }

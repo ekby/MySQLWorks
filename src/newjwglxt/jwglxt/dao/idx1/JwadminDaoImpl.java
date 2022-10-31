@@ -176,6 +176,27 @@ public class JwadminDaoImpl implements Dao_idx1<Jwadmin> {
 
     @Override
     public ArrayList<Jwadmin> Select(Connection connection) {
-        return null;
+        DatabaseMetaData databaseMetaData;
+        ArrayList<Jwadmin> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM jwadmin", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new Jwadmin(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
     }
 }

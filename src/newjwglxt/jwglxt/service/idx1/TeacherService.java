@@ -83,7 +83,6 @@ public class TeacherService implements Service_idx1<Teacher>, LoginService<Teach
             teacherCol.add(teacherRow);
         }
         return teacherCol;
-
     }
 
     // 判断一个tid是否存在

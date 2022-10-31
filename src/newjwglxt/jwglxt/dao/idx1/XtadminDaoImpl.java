@@ -1,7 +1,5 @@
 package newjwglxt.jwglxt.dao.idx1;
 
-import newjwglxt.jwglxt.entity.Course;
-import newjwglxt.jwglxt.entity.Teacher;
 import newjwglxt.jwglxt.entity.Xtadmin;
 
 import java.sql.*;
@@ -54,8 +52,8 @@ public class XtadminDaoImpl implements Dao_idx1<Xtadmin> {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE xtadmin SET name=?, gender=?, pw=?, contact=? WHERE id=?");
             preparedStatement.setString(1, t.getName());
             preparedStatement.setString(2, t.getGender());
-            preparedStatement.setString(3, t.getContact());
-            preparedStatement.setString(4, t.getPw());
+            preparedStatement.setString(3, t.getPw());
+            preparedStatement.setString(4, t.getContact());
             preparedStatement.setInt(5, t.getId());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
