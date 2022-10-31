@@ -119,7 +119,6 @@ public class DropCourseDaoImpl implements Dao_idx2<DropCourse> {
         return arrayList;
     }
 
-
     public ArrayList<DropCourse> Select(Connection connection, int sid) {
         DatabaseMetaData databaseMetaData;
         ArrayList<DropCourse> arrayList;
@@ -153,6 +152,58 @@ public class DropCourseDaoImpl implements Dao_idx2<DropCourse> {
         ArrayList<DropCourse> arrayList;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new DropCourse(resultSet.getInt("dcid"), resultSet.getInt("dcsid"), resultSet.getInt("dccid"),
+                        resultSet.getInt("dchandle")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
+    public ArrayList<DropCourse> Select(Connection connection, Student student) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<DropCourse> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse WHERE dcsid = ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            preparedStatement.setInt(1, student.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new DropCourse(resultSet.getInt("dcid"), resultSet.getInt("dcsid"), resultSet.getInt("dccid"),
+                        resultSet.getInt("dchandle")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
+    public ArrayList<DropCourse> SelectByDcid(Connection connection, int dcid) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<DropCourse> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse WHERE dcid=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setInt(1, dcid);
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
             databaseMetaData = connection.getMetaData();

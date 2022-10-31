@@ -1,6 +1,5 @@
 package newjwglxt.jwglxt.dao.idx1;
 
-import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.entity.Jwadmin;
 
 import java.sql.*;
@@ -53,8 +52,8 @@ public class JwadminDaoImpl implements Dao_idx1<Jwadmin> {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE jwadmin SET name=?, gender=?, pw=?, contact=? WHERE id=?");
             preparedStatement.setString(1, t.getName());
             preparedStatement.setString(2, t.getGender());
-            preparedStatement.setString(3, t.getContact());
-            preparedStatement.setString(4, t.getPw());
+            preparedStatement.setString(3, t.getPw());
+            preparedStatement.setString(4, t.getContact());
             preparedStatement.setInt(5, t.getId());
             databaseMetaData = connection.getMetaData();
             if (preparedStatement.executeUpdate() != 0)
@@ -177,6 +176,27 @@ public class JwadminDaoImpl implements Dao_idx1<Jwadmin> {
 
     @Override
     public ArrayList<Jwadmin> Select(Connection connection) {
-        return null;
+        DatabaseMetaData databaseMetaData;
+        ArrayList<Jwadmin> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM jwadmin", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new Jwadmin(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
     }
 }
