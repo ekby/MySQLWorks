@@ -149,4 +149,19 @@ public class CourseService implements Service_idx1<Course> {
         }
         return courseCol;
     }
+
+    public boolean ifIdExist(DbConnector dbConnector, int id) {
+        if (Integer.toString(id).length() != 4)
+            return false;
+        else {
+            CourseDaoImpl courseDao = new CourseDaoImpl();
+            ArrayList<Course> courses = courseDao.Select(dbConnector.getConnection());
+            for (Course course : courses) {
+                if (course.getCid() == id)
+                    return true;
+            }
+            return false;
+        }
+
+    }
 }
