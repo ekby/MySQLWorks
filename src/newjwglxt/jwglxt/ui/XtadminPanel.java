@@ -202,7 +202,7 @@ public class XtadminPanel {
         panel_editInfo_xtadmin.add(comboBox_213);
 
         // 密码
-        JTextField textField_511 = new JTextField();
+        JPasswordField textField_511 = new JPasswordField();
         textField_511.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_511.setBounds(237, 207, 146, 26);
         panel_editInfo_xtadmin.add(textField_511);

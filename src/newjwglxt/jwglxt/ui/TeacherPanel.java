@@ -308,7 +308,7 @@ public class TeacherPanel {
         panel_editInfo_teacher.add(textField_612);
 
         // 密码
-        JTextField textField_511 = new JTextField();
+        JPasswordField textField_511 = new JPasswordField();
         textField_511.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_511.setBounds(237, 162, 146, 26);
         panel_editInfo_teacher.add(textField_511);
@@ -429,6 +429,20 @@ public class TeacherPanel {
                     // 成绩管理
                     Vector<String> vector_myCourse_name = courseService.getMyCourseNameVector_teacher(dbConnector, teacher_login);
                     comboBox_chengjiguanli.setModel(new DefaultComboBoxModel(vector_myCourse_name));
+                    Vector<String> title_xueshengfenshu = new Vector<>();
+                    title_xueshengfenshu.add("学号");
+                    title_xueshengfenshu.add("姓名");
+                    title_xueshengfenshu.add("成绩");
+                    if (vector_myCourse_name.isEmpty()) {
+                        table_4.setModel(new DefaultTableModel(new Vector<String>() {
+                        }, title_xueshengfenshu));
+                    } else {
+                        int firstID = getID(vector_myCourse_name.firstElement());
+                        ChooseCourseService chooseCourseService = new ChooseCourseService();
+                        Vector<Vector<Object>> data = chooseCourseService.getXueshengchengjibiaoVector(dbConnector, firstID);
+                        table_4.setModel(new DefaultTableModel(data, title_xueshengfenshu));
+                        table_4.updateUI();
+                    }
 
                     panel_container_teacher.removeAll();
                     panel_container_teacher.add(panel_chengjiguanli_teacher);
@@ -513,7 +527,7 @@ public class TeacherPanel {
     // 从[1]大学英语得到1
     private static int getID(String str) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= 4; i++) {
             if (str.charAt(i) == ']') {
                 break;
             } else {
