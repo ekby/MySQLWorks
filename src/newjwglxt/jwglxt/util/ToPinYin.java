@@ -7,9 +7,9 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 public class ToPinYin {
-    public static String toPinyin(String chinese) {
+    public static String toPinyin(String englishORchinese) {
         StringBuilder pinyinStr = new StringBuilder();
-        char[] newChar = chinese.toCharArray();
+        char[] newChar = englishORchinese.toCharArray();
         HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
         defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
         defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
@@ -20,11 +20,13 @@ public class ToPinYin {
                 } catch (BadHanyuPinyinOutputFormatCombination e) {
                     e.printStackTrace();
                 }
-            } else {
+            } else
                 pinyinStr.append(newChar[i]);
-            }
         }
-        return pinyinStr.toString();
+        return pinyinStr.toString().toLowerCase().replace(" ", "");
     }
 
+    public static void main(String[] args) {
+        System.out.println(toPinyin("kasd Lasd哈哈"));
+    }
 }
