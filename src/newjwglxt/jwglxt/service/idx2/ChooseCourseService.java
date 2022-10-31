@@ -2,6 +2,7 @@ package newjwglxt.jwglxt.service.idx2;
 
 import newjwglxt.jwglxt.dao.idx2.ChooseCourseDaoImpl;
 import newjwglxt.jwglxt.entity.ChooseCourse;
+import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.entity.Student;
 import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx1.StudentService;
@@ -106,20 +107,55 @@ public class ChooseCourseService implements Service_idx2<ChooseCourse> {
         return sid_sname_score_COL;
     }
 
-//    public ArrayList<ChooseCourse> getChooseCourseType(DbConnector dbConnector, Vector<Vector<Object>> chooseCoursesVector){
-//        ArrayList<ChooseCourse> chooseCourses = new ArrayList<>();
-//        for (Vector<Object> chooseCourseVector : chooseCoursesVector){
-//            for (ChooseCourse chooseCourse : chooseCourses){
-//                chooseCourse.setCcid(0);
-//                chooseCourse.setCccid((int)chooseCourseVector.get(0));
-//                chooseCourse.setCcgpa();
-//            }
-//        }
-//    }
-
     public ArrayList<ChooseCourse> CheckBySidAndCid(DbConnector dbConnector, int sid, int cid) {
         ChooseCourseDaoImpl chooseCourseDao = new ChooseCourseDaoImpl();
         return chooseCourseDao.SelectBySidAndCid(dbConnector.getConnection(), sid, cid);
     }
 
+    public boolean judgeRight (DbConnector dbConnector, int sid) {
+        CourseService courseService = new CourseService();
+        ChooseCourseService chooseCourseService = new ChooseCourseService();
+        ArrayList<Course> courses = courseService.selectAllCourses(dbConnector);
+        ArrayList<ChooseCourse> chooseCourses = chooseCourseService.CheckBySid(dbConnector, sid);
+
+        // 判断时间是否冲突
+        for (Course course : courses) {
+            for (ChooseCourse chooseCourse : chooseCourses) {
+                //所有课的开始周、结束周；所选课的开始周、结束周
+                int courseBeginWeek = new Integer(String.valueOf(course.getCtime().charAt(0)) + course.getCtime().charAt(1));
+                int courseEndWeek = new Integer(String.valueOf(course.getCtime().charAt(2)) + course.getCtime().charAt(3));
+                int chooseCourseBeginWeek = new Integer(String.valueOf(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(0))
+                        + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(1));
+                int chooseCourseEndWeek = new Integer(String.valueOf(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(2))
+                        + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(3));
+
+                //所有课的日期、开始时间、结束时间；所选课的日期、开始时间、结束时间
+                char courseWeekday = course.getCtime().charAt(4);
+                char chooseCourseWeekday = courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(4);
+                int courseBeginTime = new Integer(String.valueOf(course.getCtime().charAt(5)) + course.getCtime().charAt(6));
+                int courseEndTime = new Integer(String.valueOf(course.getCtime().charAt(7)) + course.getCtime().charAt(8));
+                int chooseCourseBeginTime = new Integer(String.valueOf(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(5))
+                        + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(6));
+                int chooseCourseEndTime = new Integer(String.valueOf(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(7))
+                        + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(8));
+
+                // 外层if先判断教学周有没有重复，没重复的直接可以；有重复的进行内层if判断星期和节数有没有冲突，如果有冲突滚蛋，没有留着。
+                if (chooseCourseEndWeek < courseBeginWeek || chooseCourseBeginWeek > courseEndWeek) {
+                    //教学周不冲突
+                    return true;
+                } else {
+                    //教学周有冲突,进行内部判断,先看星期是否一样
+                    if (courseWeekday != chooseCourseWeekday) {
+                        //星期不一样，可以
+                        return true;
+                    } else {
+                        /*星期一样，再判断具体上课时间是否重复
+                        所选课在之前，所选课在之后,可以;周冲突、星期几冲突、节冲突，不可以*/
+                        return chooseCourseEndTime < courseBeginTime || chooseCourseBeginTime > courseEndTime;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

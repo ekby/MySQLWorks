@@ -29,9 +29,12 @@ public class LoginPanel {
         contentPane.add(login, "name_601797172477500");
         login.setLayout(null);
 
-        JLabel LoginPicture = new JLabel("一张图片");
+        ImageIcon img = new ImageIcon("src/newjwglxt/jwglxt/Halland.png");
+        Image image = img.getImage();
+        image = image.getScaledInstance(515, 471, Image.SCALE_AREA_AVERAGING);
+        img.setImage(image);
+        JLabel LoginPicture = new JLabel(img);
         LoginPicture.setOpaque(true);
-        LoginPicture.setBackground(new Color(224, 255, 255));
         LoginPicture.setHorizontalAlignment(SwingConstants.CENTER);
         LoginPicture.setBounds(0, 0, 515, 471);
         login.add(LoginPicture);

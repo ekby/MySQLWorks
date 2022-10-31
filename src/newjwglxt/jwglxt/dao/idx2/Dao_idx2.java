@@ -2,6 +2,7 @@ package newjwglxt.jwglxt.dao.idx2;
 
 import newjwglxt.jwglxt.dao.BaseDao;
 import newjwglxt.jwglxt.entity.DropCourse;
+import newjwglxt.jwglxt.entity.Student;
 
 import java.sql.Connection;
 import java.util.ArrayList;

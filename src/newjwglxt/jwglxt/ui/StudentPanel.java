@@ -5,18 +5,23 @@ import newjwglxt.jwglxt.entity.DropCourse;
 import newjwglxt.jwglxt.entity.Student;
 import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx1.StudentService;
+import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
 import newjwglxt.jwglxt.service.idx2.DropCourseService;
 import newjwglxt.jwglxt.util.DbConnector;
+import newjwglxt.jwglxt.util.SHA256;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Vector;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
@@ -26,6 +31,26 @@ public class StudentPanel {
 
     public JPanel getPanel() {
         return student;
+    }
+
+    public void FitTableColumns(JTable myTable) {
+        JTableHeader header = myTable.getTableHeader();
+        int rowCount = myTable.getRowCount();
+        Enumeration<TableColumn> columns = myTable.getColumnModel().getColumns();
+        while (columns.hasMoreElements()) {
+            TableColumn column = (TableColumn) columns.nextElement();
+            int col = header.getColumnModel().getColumnIndex(column.getIdentifier());
+            int width = (int) myTable.getTableHeader().getDefaultRenderer()
+                    .getTableCellRendererComponent(myTable, column.getIdentifier()
+                            , false, false, -1, col).getPreferredSize().getWidth();
+            for (int row = 0; row < rowCount; row++) {
+                int preferedWidth = (int) myTable.getCellRenderer(row, col).getTableCellRendererComponent(myTable,
+                        myTable.getValueAt(row, col), false, false, row, col).getPreferredSize().getWidth();
+                width = Math.max(width, preferedWidth);
+            }
+            header.setResizingColumn(column); // 此行很重要
+            column.setWidth(width + myTable.getIntercellSpacing().width);
+        }
     }
 
     public StudentPanel(DbConnector dbConnector, Student student_login) {
@@ -99,7 +124,7 @@ public class StudentPanel {
         lblImg_student.setBounds(6, 73, 110, 150);
         panel_homePage_student.add(lblImg_student);
 
-        JLabel lblHello_student_present = new JLabel(String.format("%s,你好！",student_login.getName()));
+        JLabel lblHello_student_present = new JLabel(String.format("%s,你好！", student_login.getName()));
         lblHello_student_present.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         lblHello_student_present.setBounds(143, 84, 365, 35);
         panel_homePage_student.add(lblHello_student_present);
@@ -154,6 +179,16 @@ public class StudentPanel {
         lblFirstYear_present_student.setBounds(213, 186, 88, 24);
         panel_homePage_student.add(lblFirstYear_present_student);
 
+        JLabel lblContact_student = new JLabel("联系方式：");
+        lblContact_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblContact_student.setBounds(143, 220, 69, 24);
+        panel_homePage_student.add(lblContact_student);
+
+        JLabel lblContact_present_student = new JLabel(student_login.getContact());
+        lblContact_present_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblContact_present_student.setBounds(213, 220, 88, 24);
+        panel_homePage_student.add(lblContact_present_student);
+
         JLabel lblClasses_student = new JLabel("行政班：");
         lblClasses_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         lblClasses_student.setBounds(311, 186, 78, 24);
@@ -177,19 +212,6 @@ public class StudentPanel {
         lblNewLabel_8_4.setBounds(10, 10, 64, 22);
         panel_5_4.add(lblNewLabel_8_4);
 
-        JPanel panel_coursetablePage_student = new JPanel();
-        panel_container_student.add(panel_coursetablePage_student, "name_610722426758000");
-
-        JPanel panel_changeinfoPage_student = new JPanel();
-        panel_container_student.add(panel_changeinfoPage_student, "name_610724537767700");
-
-        JPanel panel_about_student = new JPanel();
-        panel_container_student.add(panel_about_student, "about");
-        panel_about_student.setLayout(null);
-
-        JLabel lbl_spa = new JLabel("曹尼玛");
-        lbl_spa.setBounds(110, 85, 61, 16);
-        panel_about_student.add(lbl_spa);
 
         ActionListener actionlistenerStudent = new ActionListener() {
             @Override
@@ -275,13 +297,6 @@ public class StudentPanel {
                     lbl_ccsFalse.setForeground(Color.red);
                     lbl_ccsFalse.setVisible(false);
 
-                    JLabel lbl_ccsFalse_1 = new JLabel("选课失败,所选课程已被选！");
-                    lbl_ccsFalse_1.setFont(new Font("Lucida Grande", Font.BOLD, 16));
-                    lbl_ccsFalse_1.setBounds(238, 208, 82, 27);
-                    panel_coursePage_student.add(lbl_ccsFalse_1);
-                    lbl_ccsFalse_1.setForeground(Color.red);
-                    lbl_ccsFalse_1.setVisible(false);
-
                     // student右侧内容区 -> 我的课程 -> 已选课程
                     Vector<String> title_nominatedCourse = new Vector<>();
                     title_nominatedCourse.add("课程名称");
@@ -315,39 +330,49 @@ public class StudentPanel {
                             //object用来放选中课的信息
 
                             int seleted_cid = (Integer) table_avaiblecourse.getValueAt(flag, 1);
-                            chooseCourseService.Add(dbConnector, new ChooseCourse(0, student_login.getId(), seleted_cid, 0, 0));
 
-                            Vector<Vector<Object>> new_data_availableCourse = courseService.getCourseVector_exceptSelectedCourses(dbConnector, student_login);
-                            Vector<Vector<Object>> new_data_nominatedCourse = chooseCourseService.getCourseVector(dbConnector, student_login);
+                            //todo 选课判断时间和地点是否重复，如果重复就不让加
+                            System.out.println(chooseCourseService.judgeRight(dbConnector, student_login.getId()));
+                            if (chooseCourseService.judgeRight(dbConnector, student_login.getId())) {
+                                chooseCourseService.Add(dbConnector, new ChooseCourse(0, student_login.getId(), seleted_cid, 0, 0));
 
-                            DefaultTableModel new_model_availableCourse = new DefaultTableModel(new_data_availableCourse, title_nominatedCourse) {
-                                //设置table内容不能改，但能被选中行
-                                public boolean isCellEditable(int row, int column) {
-                                    return false;
-                                }
-                            };
-                            table_avaiblecourse.setModel(new_model_availableCourse);
-                            table_avaiblecourse.updateUI();
+                                Vector<Vector<Object>> new_data_availableCourse = courseService.getCourseVector_exceptSelectedCourses(dbConnector, student_login);
+                                Vector<Vector<Object>> new_data_nominatedCourse = chooseCourseService.getCourseVector(dbConnector, student_login);
 
-                            DefaultTableModel new_model_nominatedCourse = new DefaultTableModel(new_data_nominatedCourse, title_nominatedCourse) {
-                                //设置table内容不能改，但能被选中行
-                                public boolean isCellEditable(int row, int column) {
-                                    return false;
-                                }
-                            };
-                            table_nominatedCourse.setModel(new_model_nominatedCourse);
-                            table_nominatedCourse.updateUI();
+                                DefaultTableModel new_model_availableCourse = new DefaultTableModel(new_data_availableCourse, title_nominatedCourse) {
+                                    //设置table内容不能改，但能被选中行
+                                    public boolean isCellEditable(int row, int column) {
+                                        return false;
+                                    }
+                                };
+                                table_avaiblecourse.setModel(new_model_availableCourse);
+                                table_avaiblecourse.updateUI();
+
+                                DefaultTableModel new_model_nominatedCourse = new DefaultTableModel(new_data_nominatedCourse, title_nominatedCourse) {
+                                    //设置table内容不能改，但能被选中行
+                                    public boolean isCellEditable(int row, int column) {
+                                        return false;
+                                    }
+                                };
+                                table_nominatedCourse.setModel(new_model_nominatedCourse);
+                                table_nominatedCourse.updateUI();
+                            } else {
+                                lbl_ccsFalse.setVisible(true);
+                            }
                         }
 
                         @Override
                         public void mousePressed(MouseEvent e) {
                         }
+
                         @Override
                         public void mouseReleased(MouseEvent e) {
                         }
+
                         @Override
                         public void mouseEntered(MouseEvent e) {
                         }
+
                         @Override
                         public void mouseExited(MouseEvent e) {
                         }
@@ -377,7 +402,6 @@ public class StudentPanel {
                     lbl_dcsFalse.setForeground(Color.red);
                     lbl_dcsFalse.setVisible(false);
 
-                    // todo 提交退课申请给管理员
                     MouseListener mouseListener_dropclass = new MouseListener() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
@@ -390,7 +414,7 @@ public class StudentPanel {
 
                                 //选课表中所选对应课程信息消失
                                 // todo bug
-                                chooseCourseService.Delete(dbConnector, chooseCourseService.CheckByCid(dbConnector,(int)table_nominatedCourse.getValueAt(flag, 1)).get(0));
+                                chooseCourseService.Delete(dbConnector, chooseCourseService.CheckByCid(dbConnector, (int) table_nominatedCourse.getValueAt(flag, 1)).get(0));
                                 Vector<Vector<Object>> new_data_nominatedCourse = chooseCourseService.getCourseVector(dbConnector, student_login);
                                 DefaultTableModel new_model_nominatedCourse = new DefaultTableModel(new_data_nominatedCourse, title_nominatedCourse);
                                 table_nominatedCourse.setModel(new_model_nominatedCourse);
@@ -417,12 +441,15 @@ public class StudentPanel {
                         @Override
                         public void mousePressed(MouseEvent e) {
                         }
+
                         @Override
                         public void mouseReleased(MouseEvent e) {
                         }
+
                         @Override
                         public void mouseEntered(MouseEvent e) {
                         }
+
                         @Override
                         public void mouseExited(MouseEvent e) {
                         }
@@ -484,8 +511,7 @@ public class StudentPanel {
                     System.out.println("3");
                     panel_gradePage_student.setVisible(true);
 
-                } else if (e.getSource().equals(btn_dropcoursepresent)){
-                    // todo:退课管理的panel
+                } else if (e.getSource().equals(btn_dropcoursepresent)) {
                     JPanel panel_dropclasspresent_student = new JPanel();
                     panel_container_student.add(panel_dropclasspresent_student, "退课管理");
                     panel_dropclasspresent_student.setLayout(null);
@@ -504,16 +530,16 @@ public class StudentPanel {
 
                     Vector<Object> dropclass_title = new Vector<>();
                     dropclass_title.add("课程编号");
+                    dropclass_title.add("处理状况");
                     dropclass_title.add("课程名称");
                     dropclass_title.add("任课教师");
                     dropclass_title.add("课程类别");
                     dropclass_title.add("学分");
-                    dropclass_title.add("处理状况");
 
                     DropCourseService dropCourseService = new DropCourseService();
                     Vector<Vector<Object>> dropclass_data = dropCourseService.getDropCourseVector(dbConnector, student_login);
 
-                    DefaultTableModel dropclassTableModel = new DefaultTableModel(dropclass_data, dropclass_title){
+                    DefaultTableModel dropclassTableModel = new DefaultTableModel(dropclass_data, dropclass_title) {
                         public boolean isCellEditable(int row, int column) {
                             return false;
                         }
@@ -528,9 +554,125 @@ public class StudentPanel {
                     panel_container_student.validate();
                     panel_container_student.repaint();
                     System.out.println("4");
-                    panel_coursetablePage_student.setVisible(true);
+                    panel_dropclasspresent_student.setVisible(true);
 
                 } else if (e.getSource().equals(btnShowtable_student)) {
+                    //todo 生成课表
+                    JPanel panel_coursetablePage_student = new JPanel();
+                    panel_coursetablePage_student.setLayout(null);
+                    panel_container_student.add(panel_coursetablePage_student, "name_610722426758000");
+
+                    JLabel lblCourseTable = new JLabel(String.format("%s课表", student_login.getName()));
+                    lblCourseTable.setBounds(241, 39, 61, 16);
+                    panel_coursetablePage_student.add(lblCourseTable);
+
+                    JScrollPane scrollPane_CourseTable = new JScrollPane();
+                    scrollPane_CourseTable.setBounds(35, 85, 476, 321);
+                    panel_coursetablePage_student.add(scrollPane_CourseTable);
+
+                    String[][] courseTableData = {
+                            {"1", null, null, null, null, null, null, null},
+                            {"2", null, null, null, null, null, null, null},
+                            {"3", null, null, null, null, null, null, null},
+                            {"4", null, null, null, null, null, null, null},
+                            {"5", null, null, null, null, null, null, null},
+                            {"6", null, null, null, null, null, null, null},
+                            {"7", null, null, null, null, null, null, null},
+                            {"8", null, null, null, null, null, null, null},
+                            {"9", null, null, null, null, null, null, null},
+                            {"10", null, null, null, null, null, null, null},
+                            {"11", null, null, null, null, null, null, null},
+                            {"12", null, null, null, null, null, null, null},};
+                    String[] courseTableTitle = {" ", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
+                    JTable tableCoursePresent = new JTable(courseTableData, courseTableTitle);
+
+                    //设置表格的列不能拖动
+                    tableCoursePresent.getTableHeader().setReorderingAllowed(false);
+                    scrollPane_CourseTable.setColumnHeaderView(tableCoursePresent);
+                    tableCoursePresent.updateUI();
+                    scrollPane_CourseTable.setViewportView(tableCoursePresent);
+
+                    ChooseCourseService chooseCourseService = new ChooseCourseService();
+                    CourseService courseService = new CourseService();
+                    TeacherService teacherService = new TeacherService();
+                    ArrayList<ChooseCourse> chooseCourses = chooseCourseService.CheckBySid(dbConnector, student_login.getId());
+
+                    /* 生成课表😁 */
+                    for (ChooseCourse chooseCourse : chooseCourses) {
+                        String time = courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime();
+
+                        StringBuilder beginTime = new StringBuilder();
+                        beginTime.append(time.charAt(5));
+                        beginTime.append(time.charAt(6));
+                        int beginTime_int = new Integer(String.valueOf(beginTime));
+
+                        StringBuilder endTime = new StringBuilder();
+                        endTime.append(time.charAt(7));
+                        endTime.append(time.charAt(8));
+                        int endTime_int = new Integer(String.valueOf(endTime));
+
+                        StringBuilder beginWeek = new StringBuilder();
+                        beginWeek.append(time.charAt(0));
+                        beginWeek.append(time.charAt(1));
+                        int beginWeek_int = new Integer(String.valueOf(beginWeek));
+
+                        StringBuilder endWeek = new StringBuilder();
+                        endWeek.append(time.charAt(2));
+                        endWeek.append(time.charAt(3));
+                        int endWeek_int = new Integer(String.valueOf(endWeek));
+
+                        if (time.charAt(4) == 'A') {
+                            for (int i = beginTime_int - 1; i < endTime_int; i++) {
+                                courseTableData[i][1] = courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCname() + "\n"
+                                        + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCroom() + "\n"
+                                        + "第" + beginWeek_int + "周—" + "第" + endWeek_int + "周" + "\n"
+                                        + teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCteacherid()).get(0).getName();
+                            }
+                        } else if (time.charAt(4) == 'B') {
+                            for (int i = beginTime_int - 1; i < endTime_int; i++) {
+                                courseTableData[i][2] = courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCname() + "\n"
+                                        + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCroom() + "\n"
+                                        + "第" + beginWeek_int + "周—" + "第" + endWeek_int + "周" + "\n"
+                                        + teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCteacherid()).get(0).getName();
+                            }
+                        } else if (time.charAt(4) == 'C') {
+                            for (int i = beginTime_int - 1; i < endTime_int; i++) {
+                                courseTableData[i][3] = courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCname() + "\n"
+                                        + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCroom() + "\n"
+                                        + "第" + beginWeek_int + "周—" + "第" + endWeek_int + "周" + "\n"
+                                        + teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCteacherid()).get(0).getName();
+                            }
+                        } else if (time.charAt(4) == 'D') {
+                            for (int i = beginTime_int - 1; i < endTime_int; i++) {
+                                courseTableData[i][4] = courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCname() + "\n"
+                                        + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCroom() + "\n"
+                                        + "第" + beginWeek_int + "周—" + "第" + endWeek_int + "周" + "\n"
+                                        + teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCteacherid()).get(0).getName();
+                            }
+                        } else if (time.charAt(4) == 'E') {
+                            for (int i = beginTime_int - 1; i < endTime_int; i++) {
+                                courseTableData[i][5] = courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCname() + "\n"
+                                        + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCroom() + "\n"
+                                        + "第" + beginWeek_int + "周—" + "第" + endWeek_int + "周" + "\n"
+                                        + teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCteacherid()).get(0).getName();
+                            }
+                        } else if (time.charAt(4) == 'F') {
+                            for (int i = beginTime_int - 1; i < endTime_int; i++) {
+                                courseTableData[i][6] = courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCname() + "\n"
+                                        + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCroom() + "\n"
+                                        + "第" + beginWeek_int + "周—" + "第" + endWeek_int + "周" + "\n"
+                                        + teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCteacherid()).get(0).getName();
+                            }
+                        } else if (time.charAt(4) == 'G') {
+                            for (int i = beginTime_int - 1; i < endTime_int; i++) {
+                                courseTableData[i][7] = courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCname() + "\n"
+                                        + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCroom() + "\n"
+                                        + "第" + beginWeek_int + "周—" + "第" + endWeek_int + "周" + "\n"
+                                        + teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCteacherid()).get(0).getName();
+                            }
+                        }
+                    }
+
                     panel_container_student.removeAll();
                     panel_container_student.add(panel_coursetablePage_student);
                     panel_container_student.validate();
@@ -539,6 +681,181 @@ public class StudentPanel {
                     panel_coursetablePage_student.setVisible(true);
 
                 } else if (e.getSource().equals(btnChangeInfo_student)) {
+                    JPanel panel_changeinfoPage_student = new JPanel();
+                    panel_container_student.add(panel_changeinfoPage_student, "name_610724537767700");
+                    panel_changeinfoPage_student.setLayout(null);
+
+                    JLabel lblChangeInfoTitle = new JLabel("更改个人信息");
+                    lblChangeInfoTitle.setFont(new Font("Lucida Grande", Font.BOLD, 18));
+                    lblChangeInfoTitle.setBounds(224, 19, 116, 33);
+                    panel_changeinfoPage_student.add(lblChangeInfoTitle);
+
+                    JLabel lblSid = new JLabel("学号:");
+                    lblSid.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblSid.setBounds(39, 102, 61, 16);
+                    panel_changeinfoPage_student.add(lblSid);
+
+                    JLabel lblSidPresent = new JLabel(String.valueOf(student_login.getId()));
+                    lblSidPresent.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    lblSidPresent.setBounds(128, 102, 89, 16);
+                    panel_changeinfoPage_student.add(lblSidPresent);
+
+                    JLabel lblSname = new JLabel("姓名:");
+                    lblSname.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblSname.setBounds(39, 154, 61, 16);
+                    panel_changeinfoPage_student.add(lblSname);
+
+                    JTextField textField_Sname = new JTextField();
+                    textField_Sname.setText(String.valueOf(student_login.getName()));
+                    textField_Sname.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    textField_Sname.setBounds(124, 149, 130, 26);
+                    panel_changeinfoPage_student.add(textField_Sname);
+                    textField_Sname.setColumns(10);
+
+                    JLabel lblPwd = new JLabel("登陆密码:");
+                    lblPwd.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblPwd.setBounds(39, 206, 76, 16);
+                    panel_changeinfoPage_student.add(lblPwd);
+
+                    JTextField textField_Spwd = new JTextField();
+                    textField_Spwd.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    textField_Spwd.setBounds(124, 201, 130, 26);
+                    panel_changeinfoPage_student.add(textField_Spwd);
+                    textField_Spwd.setColumns(10);
+
+                    JLabel lblScontact = new JLabel("联系方式:");
+                    lblScontact.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblScontact.setBounds(39, 258, 76, 16);
+                    panel_changeinfoPage_student.add(lblScontact);
+
+                    JTextField textField_Scontact = new JTextField();
+                    textField_Scontact.setText(String.valueOf(student_login.getContact()));
+                    textField_Scontact.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    textField_Scontact.setBounds(124, 253, 130, 26);
+                    panel_changeinfoPage_student.add(textField_Scontact);
+                    textField_Scontact.setColumns(10);
+
+                    JLabel lblSgender = new JLabel("性别:");
+                    lblSgender.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblSgender.setBounds(39, 310, 61, 16);
+                    panel_changeinfoPage_student.add(lblSgender);
+
+                    String[] genders = new String[]{"男", "女", "其他"};
+                    JComboBox comboBox_Sgender = new JComboBox(genders);
+                    comboBox_Sgender.setSelectedItem(student_login.getGender());
+                    comboBox_Sgender.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    comboBox_Sgender.setBounds(124, 310, 76, 20);
+                    panel_changeinfoPage_student.add(comboBox_Sgender);
+
+                    JLabel lblScollege = new JLabel("学院:");
+                    lblScollege.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblScollege.setBounds(342, 102, 61, 16);
+                    panel_changeinfoPage_student.add(lblScollege);
+
+                    JLabel lblScollegepresent = new JLabel(student_login.getScollege());
+                    lblScollegepresent.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    lblScollegepresent.setBounds(428, 102, 120, 16);
+                    panel_changeinfoPage_student.add(lblScollegepresent);
+
+                    JLabel lblMajor = new JLabel("专业:");
+                    lblMajor.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblMajor.setBounds(342, 154, 61, 16);
+                    panel_changeinfoPage_student.add(lblMajor);
+
+                    JLabel lblSmajorPresent = new JLabel(student_login.getSmajor());
+                    lblSmajorPresent.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    lblSmajorPresent.setBounds(428, 154, 120, 16);
+                    panel_changeinfoPage_student.add(lblSmajorPresent);
+
+                    JLabel lblSclass = new JLabel("班级:");
+                    lblSclass.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblSclass.setBounds(342, 206, 61, 16);
+                    panel_changeinfoPage_student.add(lblSclass);
+
+                    JLabel lblSclassPresent = new JLabel(String.valueOf(student_login.getSclass()));
+                    lblSclassPresent.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    lblSclassPresent.setBounds(428, 206, 76, 16);
+                    panel_changeinfoPage_student.add(lblSclassPresent);
+
+                    JLabel lblSFirstyear = new JLabel("入学年份:");
+                    lblSFirstyear.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblSFirstyear.setBounds(340, 258, 76, 16);
+                    panel_changeinfoPage_student.add(lblSFirstyear);
+
+                    JLabel lblFirstYearpresent = new JLabel(String.valueOf(student_login.getSfirstyear()));
+                    lblFirstYearpresent.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    lblFirstYearpresent.setBounds(428, 258, 76, 16);
+                    panel_changeinfoPage_student.add(lblFirstYearpresent);
+
+                    JButton btnSubmit = new JButton("提交修改");
+                    btnSubmit.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    btnSubmit.setBounds(400, 379, 117, 29);
+                    panel_changeinfoPage_student.add(btnSubmit);
+
+                    JLabel lblFalse_name = new JLabel("用户名不符合格式！");
+                    lblFalse_name.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblFalse_name.setBounds(130, 179, 140, 16);
+                    lblFalse_name.setForeground(Color.red);
+                    panel_changeinfoPage_student.add(lblFalse_name);
+
+                    JLabel lblFalse_contact = new JLabel("联系方式不符合格式！");
+                    lblFalse_contact.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblFalse_contact.setBounds(130, 283, 140, 16);
+                    lblFalse_contact.setForeground(Color.red);
+                    panel_changeinfoPage_student.add(lblFalse_contact);
+
+                    lblFalse_name.setVisible(false);
+                    lblFalse_contact.setVisible(false);
+
+                    ActionListener actionListener_changeinfo = new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            StudentService studentService = new StudentService();
+
+                            int sid = student_login.getId();
+
+                            String sname;
+                            if (textField_Sname.getText().length() == 0 || textField_Sname.getText().length() == 1) {
+                                System.out.println("姓名不符合格式要求");
+                                sname = student_login.getName();
+                                lblFalse_name.setVisible(true);
+                            } else {
+                                sname = textField_Sname.getText();
+                            }
+
+                            String spwd;
+                            if (textField_Spwd.getText().equals("")) {
+                                spwd = student_login.getPw();
+                            } else {
+                                spwd = SHA256.SHA256(textField_Spwd.getText());
+                            }
+
+                            String scontact;
+                            if (textField_Scontact.getText().length() != 11) {
+                                System.out.println("联系方式不符合格式要求");
+                                scontact = student_login.getContact();
+                                lblFalse_contact.setVisible(true);
+                            } else {
+                                scontact = textField_Scontact.getText();
+                            }
+
+                            String sgender = (String) comboBox_Sgender.getSelectedItem();
+                            String scollege = student_login.getScollege();
+                            String smajor = student_login.getSmajor();
+                            int sclass = student_login.getSclass();
+                            int sfirstyear = student_login.getSfirstyear();
+
+                            Student student1 = new Student(sname, sid, spwd, sgender, scontact, sfirstyear, sclass, smajor, scollege);
+                            studentService.Update(dbConnector, student1);
+
+                            lblHello_student_present.setText(String.format("%s,你好！", studentService.CheckById(dbConnector, student1.getId()).get(0).getName()));
+                            lblGender_present_student.setText(studentService.CheckById(dbConnector, student1.getId()).get(0).getGender());
+                            lblContact_present_student.setText(studentService.CheckById(dbConnector, student1.getId()).get(0).getContact());
+                        }
+                    };
+
+                    btnSubmit.addActionListener(actionListener_changeinfo);
+
                     panel_container_student.removeAll();
                     panel_container_student.add(panel_changeinfoPage_student);
                     panel_container_student.validate();
@@ -547,6 +864,14 @@ public class StudentPanel {
                     panel_changeinfoPage_student.setVisible(true);
 
                 } else if (e.getSource().equals(btnAbout_student)) {
+                    JPanel panel_about_student = new JPanel();
+                    panel_container_student.add(panel_about_student, "about");
+                    panel_about_student.setLayout(null);
+
+                    JLabel lbl_spa = new JLabel("曹尼玛");
+                    lbl_spa.setBounds(110, 85, 61, 16);
+                    panel_about_student.add(lbl_spa);
+
                     panel_container_student.removeAll();
                     panel_container_student.add(panel_about_student);
                     panel_container_student.validate();
@@ -554,9 +879,7 @@ public class StudentPanel {
                     System.out.println("7");
                     panel_about_student.setVisible(true);
 
-                }
-
-                else if (e.getSource().equals(btnExit_student)) {
+                } else if (e.getSource().equals(btnExit_student)) {
                     contentPane.removeAll();
                     LoginPanel loginPanel = new LoginPanel();
                     contentPane.add(loginPanel.getPanel());

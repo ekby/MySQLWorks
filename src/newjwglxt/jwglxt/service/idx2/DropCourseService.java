@@ -43,21 +43,28 @@ public class DropCourseService implements Service_idx2<DropCourse> {
         return DropCourseDao.SelectByCid(dbConnector.getConnection(), cid);
     }
 
-    public Vector<Vector<Object>> getDropCourseVector(DbConnector dbConnector, Student student){
+    public Vector<Vector<Object>> getDropCourseVector(DbConnector dbConnector, Student student) {
+        //判断:0未判断；1退课审核通过；-1退课审核未通过
         DropCourseDaoImpl dropCourseDao = new DropCourseDaoImpl();
         ArrayList<DropCourse> dropCourses = dropCourseDao.Select(dbConnector.getConnection(), student.getId());
         Vector<Vector<Object>> dropCourseCol = new Vector<>();
         CourseService courseService = new CourseService();
         TeacherService teacherService = new TeacherService();
 
-        for(DropCourse dropCourse : dropCourses){
+        for (DropCourse dropCourse : dropCourses) {
             Vector<Object> dropCourseRow = new Vector<>();
             dropCourseRow.add(dropCourse.getDccid());
+            if (dropCourse.getDchandle() == 0) {
+                dropCourseRow.add("待处理");
+            } else if (dropCourse.getDchandle() == -1) {
+                dropCourseRow.add("已驳回");
+            } else {
+                dropCourseRow.add("成功");
+            }
             dropCourseRow.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCname());
             dropCourseRow.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCteacherid()).get(0).getName());
             dropCourseRow.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCkclb());
             dropCourseRow.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCcredit());
-            dropCourseRow.add(dropCourse.getDchandle());
             dropCourseCol.add(dropCourseRow);
         }
 

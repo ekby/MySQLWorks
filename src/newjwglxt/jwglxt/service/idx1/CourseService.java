@@ -149,4 +149,11 @@ public class CourseService implements Service_idx1<Course> {
         }
         return courseCol;
     }
+
+    // 获取所有课程
+    public ArrayList<Course> selectAllCourses (DbConnector dbConnector) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+
+        return courseDao.Select(dbConnector.getConnection());
+    }
 }
