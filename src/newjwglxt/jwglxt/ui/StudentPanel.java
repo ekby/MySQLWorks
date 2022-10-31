@@ -1,6 +1,7 @@
 package newjwglxt.jwglxt.ui;
 
 import newjwglxt.jwglxt.entity.ChooseCourse;
+import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.entity.DropCourse;
 import newjwglxt.jwglxt.entity.Student;
 import newjwglxt.jwglxt.service.idx1.CourseService;
@@ -285,14 +286,14 @@ public class StudentPanel {
 
                     JLabel lbl_ccsSuccess = new JLabel("选课成功！");
                     lbl_ccsSuccess.setFont(new Font("Lucida Grande", Font.BOLD, 16));
-                    lbl_ccsSuccess.setBounds(238, 208, 82, 27);
+                    lbl_ccsSuccess.setBounds(238, 225, 82, 27);
                     panel_coursePage_student.add(lbl_ccsSuccess);
                     lbl_ccsSuccess.setForeground(Color.green);
                     lbl_ccsSuccess.setVisible(false);
 
                     JLabel lbl_ccsFalse = new JLabel("选课失败！");
                     lbl_ccsFalse.setFont(new Font("Lucida Grande", Font.BOLD, 16));
-                    lbl_ccsFalse.setBounds(238, 208, 82, 27);
+                    lbl_ccsFalse.setBounds(238, 225, 82, 27);
                     panel_coursePage_student.add(lbl_ccsFalse);
                     lbl_ccsFalse.setForeground(Color.red);
                     lbl_ccsFalse.setVisible(false);
@@ -329,12 +330,12 @@ public class StudentPanel {
                             System.out.println("第" + flag + "行");
                             //object用来放选中课的信息
 
-                            int seleted_cid = (Integer) table_avaiblecourse.getValueAt(flag, 1);
+                            int selected_cid = (Integer) table_avaiblecourse.getValueAt(flag, 1);
 
                             //todo 选课判断时间和地点是否重复，如果重复就不让加
-                            System.out.println(chooseCourseService.judgeRight(dbConnector, student_login.getId()));
-                            if (chooseCourseService.judgeRight(dbConnector, student_login.getId())) {
-                                chooseCourseService.Add(dbConnector, new ChooseCourse(0, student_login.getId(), seleted_cid, 0, 0));
+                            System.out.println(chooseCourseService.judgeCourse(dbConnector, student_login.getId(), selected_cid));
+                            if (chooseCourseService.judgeCourse(dbConnector, student_login.getId(), selected_cid)) {
+                                chooseCourseService.Add(dbConnector, new ChooseCourse(0, student_login.getId(), selected_cid, 0, 0));
 
                                 Vector<Vector<Object>> new_data_availableCourse = courseService.getCourseVector_exceptSelectedCourses(dbConnector, student_login);
                                 Vector<Vector<Object>> new_data_nominatedCourse = chooseCourseService.getCourseVector(dbConnector, student_login);
@@ -356,8 +357,12 @@ public class StudentPanel {
                                 };
                                 table_nominatedCourse.setModel(new_model_nominatedCourse);
                                 table_nominatedCourse.updateUI();
+                                lbl_ccsSuccess.setVisible(true);
+                                lbl_ccsFalse.setVisible(false);
+
                             } else {
                                 lbl_ccsFalse.setVisible(true);
+                                lbl_ccsSuccess.setVisible(false);
                             }
                         }
 
