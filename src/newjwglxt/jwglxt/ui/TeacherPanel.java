@@ -18,6 +18,9 @@ import java.awt.event.ItemListener;
 import java.util.Vector;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
+import static newjwglxt.jwglxt.util.ComboboxStyle.setComboboxStyle;
+import static newjwglxt.jwglxt.util.QuickButton.primaryBorderButton;
+import static newjwglxt.jwglxt.util.TableStyle.setTableStyle;
 
 public class TeacherPanel {
     protected JPanel teacher;
@@ -38,27 +41,27 @@ public class TeacherPanel {
         panel_category_teacher.setBounds(10, 10, 150, 451);
         teacher.add(panel_category_teacher);
 
-        JButton btnHomePage_teacher = new JButton("主页");
+        JButton btnHomePage_teacher = primaryBorderButton("主页");
         btnHomePage_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomePage_teacher.setBounds(10, 10, 130, 35);
         panel_category_teacher.add(btnHomePage_teacher);
 
-        JButton btnCoursemanage_teacher = new JButton("我的课程");
+        JButton btnCoursemanage_teacher = primaryBorderButton("我的课程");
         btnCoursemanage_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnCoursemanage_teacher.setBounds(10, 55, 130, 35);
         panel_category_teacher.add(btnCoursemanage_teacher);
 
-        JButton btnScoreManage_teacher = new JButton("成绩管理");
+        JButton btnScoreManage_teacher = primaryBorderButton("成绩管理");
         btnScoreManage_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnScoreManage_teacher.setBounds(10, 100, 130, 35);
         panel_category_teacher.add(btnScoreManage_teacher);
 
-        JButton btnEditInfo_teacher = new JButton("个人信息修改");
+        JButton btnEditInfo_teacher = primaryBorderButton("个人信息修改");
         btnEditInfo_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnEditInfo_teacher.setBounds(10, 145, 130, 35);
         panel_category_teacher.add(btnEditInfo_teacher);
 
-        JButton btnAbout_1 = new JButton("关于");
+        JButton btnAbout_1 = primaryBorderButton("关于");
         btnAbout_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnAbout_1.setBounds(10, 406, 130, 35);
         panel_category_teacher.add(btnAbout_1);
@@ -74,7 +77,7 @@ public class TeacherPanel {
         panel_container_teacher.add(panel_homePage_teacher, "name_226288810767900");
         panel_homePage_teacher.setLayout(null);
 
-        JButton btnExit_teacher = new JButton("更换账号");
+        JButton btnExit_teacher = primaryBorderButton("更换账号");
         btnExit_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnExit_teacher.setBounds(443, 56, 100, 33);
         panel_homePage_teacher.add(btnExit_teacher);
@@ -189,6 +192,7 @@ public class TeacherPanel {
         panel_Coursemanage_teacher.add(scrollPane_3);
 
         JTable table_mycourse = new JTable();
+        setTableStyle(table_mycourse);
         scrollPane_3.setViewportView(table_mycourse);
 
         // teacher右侧内容区 -> 成绩管理
@@ -204,11 +208,12 @@ public class TeacherPanel {
         panel_chengjiguanli_teacher.add(lbl_xuanzekecheng_teacher);
 
         JComboBox comboBox_chengjiguanli = new JComboBox();
+        setComboboxStyle(comboBox_chengjiguanli);
         comboBox_chengjiguanli.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_chengjiguanli.setBounds(84, 60, 145, 26);
         panel_chengjiguanli_teacher.add(comboBox_chengjiguanli);
 
-        JButton btn_queren_teacher = new JButton("确认");
+        JButton btn_queren_teacher = primaryBorderButton("确认");
         btn_queren_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btn_queren_teacher.setBounds(443, 408, 100, 33);
         panel_chengjiguanli_teacher.add(btn_queren_teacher);
@@ -232,6 +237,7 @@ public class TeacherPanel {
         panel_chengjiguanli_teacher.add(scrollPane_4);
 
         JTable table_4 = new JTable();
+        setTableStyle(table_4);
         scrollPane_4.setViewportView(table_4);
 
         final int[] selectedCourseID = new int[1];
@@ -339,7 +345,7 @@ public class TeacherPanel {
         panel_editInfo_teacher.add(textField_5111);
         textField_5111.setColumns(10);
 
-        JButton btneditInfo_confirm = new JButton("确认");
+        JButton btneditInfo_confirm = primaryBorderButton("确认");
         btneditInfo_confirm.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btneditInfo_confirm.setBounds(443, 412, 100, 33);
         panel_editInfo_teacher.add(btneditInfo_confirm);

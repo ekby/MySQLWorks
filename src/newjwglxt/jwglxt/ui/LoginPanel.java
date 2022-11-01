@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
+import static newjwglxt.jwglxt.util.QuickButton.greenButton;
 import static newjwglxt.jwglxt.util.SHA256.SHA256;
 
 public class LoginPanel {
@@ -48,7 +49,7 @@ public class LoginPanel {
         JPanel LoginPanel_mid = new JPanel();
         LoginPanel_mid.setLayout(null);
         LoginPanel_mid.setBackground(SystemColor.menu);
-        LoginPanel_mid.setBounds(0, 112, 198, 219);
+        LoginPanel_mid.setBounds(0, 100, 198, 233);
         LoginPanel.add(LoginPanel_mid);
 
         JLabel Label_login_account = new JLabel("账号");
@@ -68,34 +69,33 @@ public class LoginPanel {
         LoginPanel_mid.add(Label_login_password);
 
         JPasswordField passwordField_login_password = new JPasswordField();
-        passwordField_login_password.setBounds(10, 140, 178, 24);
+        passwordField_login_password.setBounds(10, 150, 178, 24);
         LoginPanel_mid.add(passwordField_login_password);
 
-        JButton btnLogin = new JButton("登录");
-        btnLogin.setForeground(Color.WHITE);
-        btnLogin.setFont(new Font("微软雅黑", Font.BOLD, 13));
-        btnLogin.setBackground(new Color(50, 205, 50));
-        btnLogin.setBounds(10, 180, 178, 24);
+        JButton btnLogin = greenButton("登录");
+        btnLogin.setFont(new Font("微软雅黑", Font.BOLD, 14));
+        btnLogin.setBounds(10, 195, 178, 24);
         LoginPanel_mid.add(btnLogin);
 
         JLabel Label_jwglxt_title = new JLabel("教务管理系统");
-        Label_jwglxt_title.setPreferredSize(new Dimension(54, 40));
         Label_jwglxt_title.setOpaque(true);
         Label_jwglxt_title.setHorizontalAlignment(SwingConstants.CENTER);
-        Label_jwglxt_title.setFont(new Font("微软雅黑", Font.BOLD, 16));
+        Label_jwglxt_title.setFont(new Font("微软雅黑", Font.BOLD, 18));
         Label_jwglxt_title.setBackground(Color.WHITE);
         Label_jwglxt_title.setBounds(0, 0, 198, 40);
         LoginPanel_mid.add(Label_jwglxt_title);
 
         JLabel login_reminder = new JLabel("登陆失败，没输用户名或密码");
-        login_reminder.setBounds(20, 320, 198, 42);
+        login_reminder.setBounds(12, 330, 198, 42);
+        login_reminder.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         LoginPanel.add(login_reminder);
         login_reminder.setForeground(Color.red);
         login_reminder.setVisible(false);
 
-        JLabel login_reminder_pw = new JLabel("登陆失败，用户名或密码非对");
-        login_reminder_pw.setBounds(20, 320, 198, 42);
+        JLabel login_reminder_pw = new JLabel("登陆失败，用户名或密码错误");
+        login_reminder_pw.setBounds(12, 330, 198, 42);
         LoginPanel.add(login_reminder_pw);
+        login_reminder_pw.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         login_reminder_pw.setForeground(Color.red);
         login_reminder_pw.setVisible(false);
 
@@ -104,7 +104,7 @@ public class LoginPanel {
         // getConnection()被移到了监听器的位置
 //        Connection connection = db.getConnection();
 
-        //TODO:只输入用户名未输入密码报错
+        // 只输入用户名未输入密码报错
         ActionListener actionListenerLogin = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

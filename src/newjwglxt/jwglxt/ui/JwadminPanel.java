@@ -7,6 +7,7 @@ import newjwglxt.jwglxt.service.idx1.StudentService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx2.DropCourseService;
 import newjwglxt.jwglxt.util.DbConnector;
+import newjwglxt.jwglxt.util.QuickButton;
 import newjwglxt.jwglxt.util.SHA256;
 import newjwglxt.jwglxt.util.ToPinYin;
 
@@ -25,6 +26,8 @@ import java.util.Random;
 import java.util.Vector;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
+import static newjwglxt.jwglxt.util.ComboboxStyle.setComboboxStyle;
+import static newjwglxt.jwglxt.util.QuickButton.primaryBorderButton;
 
 public class JwadminPanel {
     protected JPanel jwadmin;
@@ -37,7 +40,7 @@ public class JwadminPanel {
         jwadmin = new JPanel();
         jwadmin.setLayout(null);
         jwadmin.setOpaque(false);
-        MainWindow.contentPane.add(jwadmin, "name_611224359007700");
+        MainWindow.contentPane.add(jwadmin);
 
         // jwadmin左侧边栏
         JPanel panel_category_jwadmin = new JPanel();
@@ -45,32 +48,32 @@ public class JwadminPanel {
         panel_category_jwadmin.setBounds(10, 10, 150, 455);
         jwadmin.add(panel_category_jwadmin);
 
-        JButton btnHomPage_jwadmin = new JButton("主页");
+        JButton btnHomPage_jwadmin = primaryBorderButton("主页");
         btnHomPage_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin.setBounds(10, 10, 130, 35);
         panel_category_jwadmin.add(btnHomPage_jwadmin);
 
-        JButton btnCoursemanae_jwadmin = new JButton("课程管理");
+        JButton btnCoursemanae_jwadmin = primaryBorderButton("课程管理");
         btnCoursemanae_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnCoursemanae_jwadmin.setBounds(10, 55, 130, 35);
         panel_category_jwadmin.add(btnCoursemanae_jwadmin);
 
-        JButton btnApproval = new JButton("人员管理");
+        JButton btnApproval = primaryBorderButton("人员管理");
         btnApproval.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnApproval.setBounds(10, 100, 130, 35);
         panel_category_jwadmin.add(btnApproval);
 
-        JButton btnUnknown8 = new JButton("退课审批");
+        JButton btnUnknown8 = primaryBorderButton("退课审批");
         btnUnknown8.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnUnknown8.setBounds(10, 145, 130, 35);
         panel_category_jwadmin.add(btnUnknown8);
 
-        JButton btn_edit_info = new JButton("编辑个人信息");
+        JButton btn_edit_info = primaryBorderButton("编辑个人信息");
         btn_edit_info.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btn_edit_info.setBounds(10, 190, 130, 35);
         panel_category_jwadmin.add(btn_edit_info);
 
-        JButton btnAbout_2 = new JButton("关于");
+        JButton btnAbout_2 = primaryBorderButton("关于");
         btnAbout_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnAbout_2.setBounds(10, 410, 130, 35);
         panel_category_jwadmin.add(btnAbout_2);
@@ -86,7 +89,7 @@ public class JwadminPanel {
         panel_homePage_jwadmin.setLayout(null);
         panel_container_jwadmin.add(panel_homePage_jwadmin, "name_829339301915200");
 
-        JButton btnExit_jwadmin = new JButton("更换账号");
+        JButton btnExit_jwadmin = primaryBorderButton("更换账号");
         btnExit_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnExit_jwadmin.setBounds(443, 56, 100, 33);
         panel_homePage_jwadmin.add(btnExit_jwadmin);
@@ -152,17 +155,17 @@ public class JwadminPanel {
         panel_container_jwadmin.add(panel_coursePage_jwadmin, "name_829297613509800");
         panel_coursePage_jwadmin.setLayout(null);
 
-        JButton btnAllCourse = new JButton("所有课程");
+        JButton btnAllCourse = primaryBorderButton("所有课程");
         btnAllCourse.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnAllCourse.setBounds(10, 55, 100, 33);
         panel_coursePage_jwadmin.add(btnAllCourse);
 
-        JButton btnCreateCoursea = new JButton("编辑课程");
+        JButton btnCreateCoursea = primaryBorderButton("编辑课程");
         btnCreateCoursea.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnCreateCoursea.setBounds(333, 55, 100, 33);
         panel_coursePage_jwadmin.add(btnCreateCoursea);
 
-        JButton btnCreateCourse = new JButton("新建课程");
+        JButton btnCreateCourse = primaryBorderButton("新建课程");
         btnCreateCourse.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnCreateCourse.setBounds(443, 55, 100, 33);
         panel_coursePage_jwadmin.add(btnCreateCourse);
@@ -209,6 +212,8 @@ public class JwadminPanel {
         title_kechengguanli_jwadmin.add("最大人数");
 
         JTable table_chengjiguanli = new JTable();
+        table_chengjiguanli.getTableHeader().setFont(new Font("微软雅黑", Font.PLAIN, 11));
+        table_chengjiguanli.setFont(new Font("微软雅黑", Font.PLAIN, 11));
         scrollPane_AllCourse.setViewportView(table_chengjiguanli);
 
         // jwadmin右侧内容区 -> 课程管理 -> 编辑课程
@@ -217,6 +222,7 @@ public class JwadminPanel {
         panel_bianjikecheng.setLayout(null);
 
         JTextField textField_bianhao = new JTextField();
+        textField_bianhao.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_bianhao.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_bianhao.setBounds(89, 25, 72, 26);
         panel_bianjikecheng.add(textField_bianhao);
@@ -274,13 +280,16 @@ public class JwadminPanel {
         panel_bianjikecheng.add(lblCourseId_1_1a);
 
         JTextField textFielda = new JTextField();
+        textFielda.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textFielda.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textFielda.setBounds(89, 61, 140, 26);
         panel_bianjikecheng.add(textFielda);
         textFielda.setColumns(10);
 
         String[] departmentLista = new String[]{"经济与管理学院", "文法学部", "信息学部", "艺术设计学院", "理学部"};
+
         JComboBox comboBoxa = new JComboBox(departmentLista);
+        setComboboxStyle(comboBoxa);
         comboBoxa.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBoxa.setBounds(89, 97, 165, 26);
         comboBoxa.setSelectedIndex(0);
@@ -288,42 +297,48 @@ public class JwadminPanel {
 
         String[] kclbLista = new String[]{"学科基础必修课", "公共基础必修课", "专业选修课"};
         JComboBox comboBox_1a = new JComboBox(kclbLista);
+        setComboboxStyle(comboBox_1a);
         comboBox_1a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_1a.setBounds(89, 133, 165, 26);
         panel_bianjikecheng.add(comboBox_1a);
 
         // 教师编号
         JTextField textField_1a = new JTextField();
+        textField_1a.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_1a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_1a.setColumns(10);
         textField_1a.setBounds(89, 169, 93, 26);
         panel_bianjikecheng.add(textField_1a);
 
         JTextField tta = new JTextField();
+        tta.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         tta.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         tta.setBounds(89, 205, 165, 26);
         tta.setColumns(10);
         panel_bianjikecheng.add(tta);
 
         JTextField textField_2a = new JTextField();
+        textField_2a.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_2a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_2a.setColumns(10);
         textField_2a.setBounds(89, 241, 93, 26);
         panel_bianjikecheng.add(textField_2a);
 
         JTextField textField_3a = new JTextField();
+        textField_3a.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_3a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_3a.setColumns(10);
         textField_3a.setBounds(333, 61, 93, 26);
         panel_bianjikecheng.add(textField_3a);
 
         JTextField ttta = new JTextField();
+        ttta.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         ttta.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_3a.setColumns(10);
         ttta.setBounds(358, 205, 165, 26);
         panel_bianjikecheng.add(ttta);
 
-        JButton btnCreateCourse_1a = new JButton("确认");
+        JButton btnCreateCourse_1a = primaryBorderButton("确认");
         btnCreateCourse_1a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnCreateCourse_1a.setBounds(433, 314, 100, 33);
         panel_bianjikecheng.add(btnCreateCourse_1a);
@@ -547,6 +562,7 @@ public class JwadminPanel {
         panel_xinjiankecheng_jwadmin.add(lblCourseId_1_1);
 
         JTextField textField = new JTextField();
+        textField.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField.setBounds(89, 46, 145, 26);
         panel_xinjiankecheng_jwadmin.add(textField);
@@ -554,6 +570,7 @@ public class JwadminPanel {
 
         String[] departmentList = new String[]{"经济与管理学院", "文法学部", "信息学部", "艺术设计学院", "理学部"};
         JComboBox comboBox = new JComboBox(departmentList);
+        setComboboxStyle(comboBox);
         comboBox.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox.setBounds(89, 82, 165, 26);
         comboBox.setSelectedIndex(0);
@@ -561,12 +578,14 @@ public class JwadminPanel {
 
         String[] kclbList = new String[]{"学科基础必修课", "公共基础必修课", "专业选修课"};
         JComboBox comboBox_1 = new JComboBox(kclbList);
+        setComboboxStyle(comboBox_1);
         comboBox_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_1.setBounds(89, 118, 165, 26);
         panel_xinjiankecheng_jwadmin.add(comboBox_1);
 
         // 教师编号
         JTextField textField_1 = new JTextField();
+        textField_1.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_1.setColumns(10);
         textField_1.setBounds(89, 154, 93, 26);
@@ -624,30 +643,34 @@ public class JwadminPanel {
 
 
         JTextField tt = new JTextField();
+        tt.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         tt.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         tt.setBounds(89, 190, 165, 26);
         tt.setColumns(10);
         panel_xinjiankecheng_jwadmin.add(tt);
 
         JTextField textField_2 = new JTextField();
+        textField_2.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_2.setColumns(10);
         textField_2.setBounds(89, 226, 93, 26);
         panel_xinjiankecheng_jwadmin.add(textField_2);
 
         JTextField textField_3 = new JTextField();
+        textField_3.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_3.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_3.setColumns(10);
         textField_3.setBounds(333, 46, 93, 26);
         panel_xinjiankecheng_jwadmin.add(textField_3);
 
         JTextField ttt = new JTextField();
+        ttt.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         ttt.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_3.setColumns(10);
         ttt.setBounds(358, 190, 165, 26);
         panel_xinjiankecheng_jwadmin.add(ttt);
 
-        JButton btnCreateCourse_1 = new JButton("确认");
+        JButton btnCreateCourse_1 = primaryBorderButton("确认");
         btnCreateCourse_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnCreateCourse_1.setBounds(433, 314, 100, 33);
         panel_xinjiankecheng_jwadmin.add(btnCreateCourse_1);
@@ -657,22 +680,22 @@ public class JwadminPanel {
         panel_container_jwadmin.add(panel_renyuanmanage_jwadmin);
         panel_renyuanmanage_jwadmin.setLayout(null);
 
-        JButton btnHomPage_jwadmin_1 = new JButton("教师列表");
+        JButton btnHomPage_jwadmin_1 = primaryBorderButton("教师列表");
         btnHomPage_jwadmin_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_1.setBounds(10, 56, 100, 33);
         panel_renyuanmanage_jwadmin.add(btnHomPage_jwadmin_1);
 
-        JButton btnHomPage_jwadmin_2 = new JButton("学生列表");
+        JButton btnHomPage_jwadmin_2 = primaryBorderButton("学生列表");
         btnHomPage_jwadmin_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2.setBounds(120, 56, 100, 33);
         panel_renyuanmanage_jwadmin.add(btnHomPage_jwadmin_2);
 
-        JButton btnHomPage_jwadmin_2_11 = new JButton("编辑教师/学生");
+        JButton btnHomPage_jwadmin_2_11 = primaryBorderButton("编辑教师/学生");
         btnHomPage_jwadmin_2_11.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_11.setBounds(273, 56, 130, 33);
         panel_renyuanmanage_jwadmin.add(btnHomPage_jwadmin_2_11);
 
-        JButton btnHomPage_jwadmin_2_1 = new JButton("添加教师/学生");
+        JButton btnHomPage_jwadmin_2_1 = primaryBorderButton("添加教师/学生");
         btnHomPage_jwadmin_2_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_1.setBounds(413, 56, 130, 33);
         panel_renyuanmanage_jwadmin.add(btnHomPage_jwadmin_2_1);
@@ -687,6 +710,8 @@ public class JwadminPanel {
         panel_renyuanmanage.add(scrollPane_jiaoshiliebiao);
 
         JTable table_jiaoshiliebiao = new JTable();
+        table_jiaoshiliebiao.getTableHeader().setFont(new Font("微软雅黑", Font.PLAIN, 11));
+        table_jiaoshiliebiao.setFont(new Font("微软雅黑", Font.PLAIN, 11));
         scrollPane_jiaoshiliebiao.setViewportView(table_jiaoshiliebiao);
 
         Vector<String> title_jiaoshiliebiao_jwadmin = new Vector<>();
@@ -712,6 +737,8 @@ public class JwadminPanel {
         title_xueshengliebiao_jwadmin.add("联系方式");
 
         JTable table_xueshengliebiao = new JTable();
+        table_xueshengliebiao.getTableHeader().setFont(new Font("微软雅黑", Font.PLAIN, 11));
+        table_xueshengliebiao.setFont(new Font("微软雅黑", Font.PLAIN, 11));
         scrollPane_xueshengliebiao.setViewportView(table_xueshengliebiao);
 
         // jwadmin右侧内容区 -> 人员管理 -> 修改教职工/学生
@@ -752,6 +779,7 @@ public class JwadminPanel {
         panel_31.add(lblNewLabel10);
 
         JTextField textField_510 = new JTextField();
+        textField_510.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_510.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_510.setBounds(237, 13, 73, 26);
         panel_31.add(textField_510);
@@ -794,33 +822,39 @@ public class JwadminPanel {
         panel_31.add(lblNewLabel_51);
 
         JTextField textField_51 = new JTextField();
+        textField_51.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_51.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_51.setBounds(237, 49, 146, 26);
         panel_31.add(textField_51);
         textField_51.setColumns(10);
 
         JComboBox comboBox_21 = new JComboBox(new String[]{"男", "女"});
+        setComboboxStyle(comboBox_21);
         comboBox_21.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_21.setBounds(237, 85, 68, 26);
         panel_31.add(comboBox_21);
 
         JTextField textField_61 = new JTextField();
+        textField_61.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_61.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_61.setColumns(10);
         textField_61.setBounds(237, 121, 146, 26);
         panel_31.add(textField_61);
 
         JComboBox comboBox_2_11 = new JComboBox(new String[]{"讲师", "副教授", "教授", "院士"});
+        setComboboxStyle(comboBox_2_11);
         comboBox_2_11.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_11.setBounds(237, 157, 146, 26);
         panel_31.add(comboBox_2_11);
 
         JComboBox comboBox_2_21 = new JComboBox(new String[]{"经济与管理学院", "文法学部", "信息学部", "艺术设计学院"});
+        setComboboxStyle(comboBox_2_21);
         comboBox_2_21.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_21.setBounds(237, 193, 146, 26);
         panel_31.add(comboBox_2_21);
 
         JTextField textField_71 = new JTextField();
+        textField_71.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_71.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_71.setColumns(10);
         textField_71.setBounds(237, 229, 146, 26);
@@ -912,7 +946,7 @@ public class JwadminPanel {
         };
         textField_510.getDocument().addDocumentListener(documentListener1);
 
-        JButton btnHomPage_jwadmin_2_21 = new JButton("确认");
+        JButton btnHomPage_jwadmin_2_21 = primaryBorderButton("确认");
         btnHomPage_jwadmin_2_21.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_21.setBounds(433, 278, 100, 33);
         panel_31.add(btnHomPage_jwadmin_2_21);
@@ -958,6 +992,7 @@ public class JwadminPanel {
         panel_4a.add(lblNewLabel_6aq);
 
         JTextField textField_8aq = new JTextField();
+        textField_8aq.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_8aq.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_8aq.setColumns(10);
         textField_8aq.setBounds(237, 5, 73, 26);
@@ -970,12 +1005,14 @@ public class JwadminPanel {
         panel_4a.add(lblNewLabel_6a);
 
         JTextField textField_8a = new JTextField();
+        textField_8a.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_8a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_8a.setColumns(10);
         textField_8a.setBounds(237, 41, 146, 26);
         panel_4a.add(textField_8a);
 
         JComboBox comboBox_2_3a = new JComboBox(new String[]{"男", "女"});
+        setComboboxStyle(comboBox_2_3a);
         comboBox_2_3a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_3a.setBounds(237, 77, 68, 26);
         panel_4a.add(comboBox_2_3a);
@@ -1011,24 +1048,28 @@ public class JwadminPanel {
         panel_4a.add(lblNewLabel_6_5a);
 
         JTextField textField_9a = new JTextField();
+        textField_9a.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_9a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_9a.setColumns(10);
         textField_9a.setBounds(237, 113, 146, 26);
         panel_4a.add(textField_9a);
 
         JTextField textField_11a = new JTextField();
+        textField_11a.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_11a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_11a.setColumns(10);
         textField_11a.setBounds(237, 185, 146, 26);
         panel_4a.add(textField_11a);
 
         JTextField textField_12a = new JTextField();
+        textField_12a.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_12a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_12a.setColumns(10);
         textField_12a.setBounds(237, 257, 146, 26);
         panel_4a.add(textField_12a);
 
         JTextField textField_121a = new JTextField();
+        textField_121a.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_121a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_121a.setColumns(10);
         textField_121a.setBounds(237, 149, 146, 26);
@@ -1041,6 +1082,7 @@ public class JwadminPanel {
         panel_4a.add(lblNewLabel_6_4_1a);
 
         JComboBox comboBox_2_3_1_1a = new JComboBox(new String[]{"经济与管理学院", "文法学部", "信息学部", "理学部", "艺术设计学院"});
+        setComboboxStyle(comboBox_2_3_1_1a);
         comboBox_2_3_1_1a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_3_1_1a.setBounds(237, 221, 146, 26);
         panel_4a.add(comboBox_2_3_1_1a);
@@ -1131,7 +1173,7 @@ public class JwadminPanel {
         textField_8aq.getDocument().addDocumentListener(documentListener2);
 
 
-        JButton btnHomPage_jwadmin_2_21a = new JButton("确认");
+        JButton btnHomPage_jwadmin_2_21a = primaryBorderButton("确认");
         btnHomPage_jwadmin_2_21a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_21a.setBounds(433, 278, 100, 33);
         panel_4a.add(btnHomPage_jwadmin_2_21a);
@@ -1237,39 +1279,46 @@ public class JwadminPanel {
         panel_3.add(lblNewLabel_5);
 
         JTextField textField_5 = new JTextField();
+        textField_5.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_5.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_5.setBounds(237, 26, 146, 26);
         panel_3.add(textField_5);
         textField_5.setColumns(10);
 
         JComboBox comboBox_2 = new JComboBox(new String[]{"男", "女"});
+        setComboboxStyle(comboBox_2);
         comboBox_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2.setBounds(237, 62, 68, 26);
         panel_3.add(comboBox_2);
 
         JTextField textField_6 = new JTextField();
+        textField_6.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_6.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_6.setColumns(10);
         textField_6.setBounds(237, 98, 146, 26);
         panel_3.add(textField_6);
 
         JComboBox comboBox_2_1 = new JComboBox(new String[]{"讲师", "副教授", "教授", "院士"});
+        setComboboxStyle(comboBox_2_1);
         comboBox_2_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_1.setBounds(237, 134, 146, 26);
         panel_3.add(comboBox_2_1);
 
         JComboBox comboBox_2_2 = new JComboBox(new String[]{"经济与管理学院", "文法学部", "信息学部", "艺术设计学院"});
+
+        setComboboxStyle(comboBox_2_2);
         comboBox_2_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_2.setBounds(237, 170, 146, 26);
         panel_3.add(comboBox_2_2);
 
         JTextField textField_7 = new JTextField();
+        textField_7.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_7.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_7.setColumns(10);
         textField_7.setBounds(237, 206, 146, 26);
         panel_3.add(textField_7);
 
-        JButton btnHomPage_jwadmin_2_2 = new JButton("确认");
+        JButton btnHomPage_jwadmin_2_2 = primaryBorderButton("确认");
         btnHomPage_jwadmin_2_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_2.setBounds(433, 278, 100, 33);
         panel_3.add(btnHomPage_jwadmin_2_2);
@@ -1320,12 +1369,14 @@ public class JwadminPanel {
         panel_4.add(lblNewLabel_6);
 
         JTextField textField_8 = new JTextField();
+        textField_8.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_8.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_8.setColumns(10);
         textField_8.setBounds(237, 20, 146, 26);
         panel_4.add(textField_8);
 
         JComboBox comboBox_2_3 = new JComboBox(new String[]{"男", "女"});
+        setComboboxStyle(comboBox_2_3);
         comboBox_2_3.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_3.setBounds(237, 56, 68, 26);
         panel_4.add(comboBox_2_3);
@@ -1361,24 +1412,28 @@ public class JwadminPanel {
         panel_4.add(lblNewLabel_6_5);
 
         JTextField textField_9 = new JTextField();
+        textField_9.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_9.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_9.setColumns(10);
         textField_9.setBounds(237, 92, 146, 26);
         panel_4.add(textField_9);
 
         JTextField textField_11 = new JTextField();
+        textField_11.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_11.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_11.setColumns(10);
         textField_11.setBounds(237, 164, 146, 26);
         panel_4.add(textField_11);
 
         JTextField textField_12 = new JTextField();
+        textField_12.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_12.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_12.setColumns(10);
         textField_12.setBounds(237, 236, 146, 26);
         panel_4.add(textField_12);
 
         JTextField textField_121 = new JTextField();
+        textField_121.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_121.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_121.setColumns(10);
         textField_121.setBounds(237, 128, 146, 26);
@@ -1391,11 +1446,13 @@ public class JwadminPanel {
         panel_4.add(lblNewLabel_6_4_1);
 
         JComboBox comboBox_2_3_1_1 = new JComboBox(new String[]{"经济与管理学院", "文法学部", "信息学部", "理学部", "艺术设计学院"});
+
+        setComboboxStyle(comboBox_2_3_1_1);
         comboBox_2_3_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_3_1_1.setBounds(237, 200, 146, 26);
         panel_4.add(comboBox_2_3_1_1);
 
-        JButton btnHomPage_jwadmin_2_2_1 = new JButton("确认");
+        JButton btnHomPage_jwadmin_2_2_1 = primaryBorderButton("确认");
         btnHomPage_jwadmin_2_2_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_2_1.setBounds(433, 278, 100, 33);
         panel_4.add(btnHomPage_jwadmin_2_2_1);
@@ -1474,6 +1531,8 @@ public class JwadminPanel {
         panel_tuikeApproval.add(scrollPane_2);
 
         JTable table_2 = new JTable();
+        table_2.getTableHeader().setFont(new Font("微软雅黑", Font.PLAIN, 11));
+        table_2.setFont(new Font("微软雅黑", Font.PLAIN, 11));
         scrollPane_2.setViewportView(table_2);
         Vector<String> title_tuikeshenpi_jwadmin = new Vector<>();
         title_tuikeshenpi_jwadmin.add("工单编号");
@@ -1483,7 +1542,7 @@ public class JwadminPanel {
         title_tuikeshenpi_jwadmin.add("课程名称");
 
 
-        JButton btnAbout_2_4 = new JButton("同意");
+        JButton btnAbout_2_4 = primaryBorderButton("同意");
         btnAbout_2_4.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnAbout_2_4.setBounds(443, 412, 100, 33);
         panel_tuikeApproval.add(btnAbout_2_4);
@@ -1502,7 +1561,7 @@ public class JwadminPanel {
             }
         });
 
-        JButton btnAbout_2_5 = new JButton("驳回");
+        JButton btnAbout_2_5 = primaryBorderButton("驳回");
         btnAbout_2_5.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnAbout_2_5.setBounds(335, 412, 100, 33);
         panel_tuikeApproval.add(btnAbout_2_5);
@@ -1623,6 +1682,7 @@ public class JwadminPanel {
 
         // 姓名
         JTextField textField_513 = new JTextField(jwadmin_login.getName());
+        textField_513.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_513.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_513.setBounds(237, 171, 146, 26);
         panel_editInfo_jwadmin.add(textField_513);
@@ -1630,6 +1690,8 @@ public class JwadminPanel {
 
         // 性别
         JComboBox comboBox_213 = new JComboBox(new String[]{"男", "女"});
+
+        setComboboxStyle(comboBox_213);
         comboBox_213.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         if (jwadmin_login.getGender().equals("女")) comboBox_213.setSelectedIndex(1);
         comboBox_213.setBounds(237, 243, 68, 26);
@@ -1644,12 +1706,13 @@ public class JwadminPanel {
 
         // 联系方式
         JTextField textField_5111 = new JTextField(jwadmin_login.getContact());
+        textField_5111.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_5111.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_5111.setBounds(237, 279, 146, 26);
         panel_editInfo_jwadmin.add(textField_5111);
         textField_5111.setColumns(10);
 
-        JButton btneditInfo_jwadmin = new JButton("确认");
+        JButton btneditInfo_jwadmin = primaryBorderButton("确认");
         btneditInfo_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btneditInfo_jwadmin.setBounds(443, 412, 100, 33);
         panel_editInfo_jwadmin.add(btneditInfo_jwadmin);
