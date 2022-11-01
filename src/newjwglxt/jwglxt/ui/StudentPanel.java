@@ -1,7 +1,6 @@
 package newjwglxt.jwglxt.ui;
 
 import newjwglxt.jwglxt.entity.ChooseCourse;
-import newjwglxt.jwglxt.entity.Course;
 import newjwglxt.jwglxt.entity.DropCourse;
 import newjwglxt.jwglxt.entity.Student;
 import newjwglxt.jwglxt.service.idx1.CourseService;
@@ -26,6 +25,8 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
+import static newjwglxt.jwglxt.util.ComboboxStyle.setComboboxStyle;
+import static newjwglxt.jwglxt.util.QuickButton.primaryBorderButton;
 
 public class StudentPanel {
     protected JPanel student;
@@ -66,37 +67,37 @@ public class StudentPanel {
         student.add(panel_category_student);
         panel_category_student.setLayout(null);
 
-        JButton btnHomePage_student = new JButton("主页");
+        JButton btnHomePage_student = primaryBorderButton("主页");
         btnHomePage_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomePage_student.setBounds(10, 10, 130, 35);
         panel_category_student.add(btnHomePage_student);
 
-        JButton btnMyCourse_student = new JButton("我的课程");
+        JButton btnMyCourse_student = primaryBorderButton("我的课程");
         btnMyCourse_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnMyCourse_student.setBounds(10, 55, 130, 35);
         panel_category_student.add(btnMyCourse_student);
 
-        JButton btn_dropcoursepresent = new JButton("退选课程管理");
+        JButton btn_dropcoursepresent = primaryBorderButton("退选课程管理");
         btn_dropcoursepresent.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btn_dropcoursepresent.setBounds(10, 100, 130, 35);
         panel_category_student.add(btn_dropcoursepresent);
 
-        JButton btnGrade_student = new JButton("查询成绩");
+        JButton btnGrade_student = primaryBorderButton("查询成绩");
         btnGrade_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnGrade_student.setBounds(10, 145, 130, 35);
         panel_category_student.add(btnGrade_student);
 
-        JButton btnShowtable_student = new JButton("课表查询");
+        JButton btnShowtable_student = primaryBorderButton("课表查询");
         btnShowtable_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnShowtable_student.setBounds(10, 190, 130, 35);
         panel_category_student.add(btnShowtable_student);
 
-        JButton btnChangeInfo_student = new JButton("个人信息修改");
+        JButton btnChangeInfo_student = primaryBorderButton("个人信息修改");
         btnChangeInfo_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnChangeInfo_student.setBounds(10, 235, 130, 35);
         panel_category_student.add(btnChangeInfo_student);
 
-        JButton btnAbout_student = new JButton("关于");
+        JButton btnAbout_student = primaryBorderButton("关于");
         btnAbout_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnAbout_student.setBounds(10, 406, 130, 35);
         panel_category_student.add(btnAbout_student);
@@ -113,7 +114,7 @@ public class StudentPanel {
         panel_container_student.add(panel_homePage_student, "主页");
         panel_homePage_student.setLayout(null);
 
-        JButton btnExit_student = new JButton("更换账号");
+        JButton btnExit_student = primaryBorderButton("更换账号");
         btnExit_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnExit_student.setBounds(443, 56, 100, 33);
         panel_homePage_student.add(btnExit_student);
@@ -277,7 +278,7 @@ public class StudentPanel {
                     table_avaiblecourse.getTableHeader().setReorderingAllowed(false);
                     scrollPane_avaiblecourse.setViewportView(table_avaiblecourse);
 
-                    JButton btnchoose_course = new JButton("选课");
+                    JButton btnchoose_course = primaryBorderButton("选课");
                     btnchoose_course.setBounds(439, 231, 100, 29);
                     panel_coursePage_student.add(btnchoose_course);
 
@@ -392,7 +393,7 @@ public class StudentPanel {
                     lbl_nominatedCourse.setBounds(10, 225, 77, 34);
                     panel_coursePage_student.add(lbl_nominatedCourse);
 
-                    JButton btn_dropcourse = new JButton("退选");
+                    JButton btn_dropcourse = primaryBorderButton("退选");
                     btn_dropcourse.setBounds(439, 412, 100, 29);
                     panel_coursePage_student.add(btn_dropcourse);
 
@@ -415,6 +416,7 @@ public class StudentPanel {
                         public void mouseClicked(MouseEvent e) {
 
                             int flag = table_nominatedCourse.getSelectedRow();
+                            System.out.println(flag);
                             if (flag != -1 && data_nominatedCourse.size() != 0) {
                                 System.out.println("退课操作完成，待管理员审批！");
                                 lbl_dcsSuccess.setVisible(true);
@@ -425,6 +427,7 @@ public class StudentPanel {
                                 DropCourseService dropCourseService = new DropCourseService();
                                 table_nominatedCourse.updateUI();
                                 int dccid = (Integer) table_nominatedCourse.getValueAt(flag, 1);
+                                System.out.println(dccid);
                                 int dcsid = student_login.getId();
                                 DropCourse dropCourse = new DropCourse(0, dcsid, dccid, 0);
                                 System.out.println(dropCourse);
@@ -758,6 +761,7 @@ public class StudentPanel {
 
                     String[] genders = new String[]{"男", "女", "其他"};
                     JComboBox comboBox_Sgender = new JComboBox(genders);
+                    setComboboxStyle(comboBox_Sgender);
                     comboBox_Sgender.setSelectedItem(student_login.getGender());
                     comboBox_Sgender.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
                     comboBox_Sgender.setBounds(124, 310, 76, 20);
@@ -803,7 +807,7 @@ public class StudentPanel {
                     lblFirstYearpresent.setBounds(428, 258, 76, 16);
                     panel_changeinfoPage_student.add(lblFirstYearpresent);
 
-                    JButton btnSubmit = new JButton("提交修改");
+                    JButton btnSubmit = primaryBorderButton("提交修改");
                     btnSubmit.setFont(new Font("Lucida Grande", Font.BOLD, 13));
                     btnSubmit.setBounds(400, 379, 117, 29);
                     panel_changeinfoPage_student.add(btnSubmit);

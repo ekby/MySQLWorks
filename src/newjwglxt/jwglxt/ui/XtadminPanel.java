@@ -21,6 +21,9 @@ import java.util.Random;
 import java.util.Vector;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
+import static newjwglxt.jwglxt.util.ComboboxStyle.setComboboxStyle;
+import static newjwglxt.jwglxt.util.QuickButton.primaryBorderButton;
+import static newjwglxt.jwglxt.util.TableStyle.setTableStyle;
 
 public class XtadminPanel {
     protected JPanel xtadmin;
@@ -41,22 +44,22 @@ public class XtadminPanel {
         panel_category_xtadmin.setBounds(10, 10, 150, 451);
         xtadmin.add(panel_category_xtadmin);
 
-        JButton btnHomePage_xtadmin = new JButton("主页");
+        JButton btnHomePage_xtadmin = primaryBorderButton("主页");
         btnHomePage_xtadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomePage_xtadmin.setBounds(10, 10, 130, 35);
         panel_category_xtadmin.add(btnHomePage_xtadmin);
 
-        JButton btnUserManagement_xtadmin = new JButton("用户管理");
+        JButton btnUserManagement_xtadmin = primaryBorderButton("用户管理");
         btnUserManagement_xtadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnUserManagement_xtadmin.setBounds(10, 55, 130, 35);
         panel_category_xtadmin.add(btnUserManagement_xtadmin);
 
-        JButton btnEditInfo_xtadmin = new JButton("个人信息修改");
+        JButton btnEditInfo_xtadmin = primaryBorderButton("个人信息修改");
         btnEditInfo_xtadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnEditInfo_xtadmin.setBounds(10, 100, 130, 35);
         panel_category_xtadmin.add(btnEditInfo_xtadmin);
 
-        JButton btnAbout_xtadmin = new JButton("关于");
+        JButton btnAbout_xtadmin = primaryBorderButton("关于");
         btnAbout_xtadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnAbout_xtadmin.setBounds(10, 406, 130, 35);
         panel_category_xtadmin.add(btnAbout_xtadmin);
@@ -72,7 +75,7 @@ public class XtadminPanel {
         panel_homepage_xtadmin.setLayout(null);
         panel_container_xtadmin.add(panel_homepage_xtadmin, "name_223808958587400");
 
-        JButton btnExit_xtadmin = new JButton("更换账号");
+        JButton btnExit_xtadmin = primaryBorderButton("更换账号");
         btnExit_xtadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnExit_xtadmin.setBounds(443, 56, 100, 33);
         panel_homepage_xtadmin.add(btnExit_xtadmin);
@@ -196,6 +199,7 @@ public class XtadminPanel {
 
         // 性别
         JComboBox comboBox_213 = new JComboBox(new String[]{"男", "女"});
+        setComboboxStyle(comboBox_213);
         comboBox_213.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_213.setSelectedItem(xtadmin_login.getGender());
         comboBox_213.setBounds(237, 243, 68, 26);
@@ -215,7 +219,7 @@ public class XtadminPanel {
         panel_editInfo_xtadmin.add(textField_5111);
         textField_5111.setColumns(10);
 
-        JButton btneditInfo_jwadmin = new JButton("确认");
+        JButton btneditInfo_jwadmin = primaryBorderButton("确认");
         btneditInfo_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btneditInfo_jwadmin.setBounds(443, 412, 100, 33);
         panel_editInfo_xtadmin.add(btneditInfo_jwadmin);
@@ -304,23 +308,23 @@ public class XtadminPanel {
         panel_1.setLayout(null);
         panel_userManage_sub_xtadmin.add(panel_1);
 
-        JButton btn_studentList_xtadmin = new JButton("学生列表");
+        JButton btn_studentList_xtadmin = primaryBorderButton("学生列表");
         btn_studentList_xtadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btn_studentList_xtadmin.setBounds(10, 10, 100, 33);
         panel_1.add(btn_studentList_xtadmin);
 
-        JButton btn_teacherList_xtadmin = new JButton("教师列表");
+        JButton btn_teacherList_xtadmin = primaryBorderButton("教师列表");
         btn_teacherList_xtadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btn_teacherList_xtadmin.setBounds(119, 10, 100, 33);
         panel_1.add(btn_teacherList_xtadmin);
 
 
-        JButton btn_jwadminList_xtadmin = new JButton("教务列表");
+        JButton btn_jwadminList_xtadmin = primaryBorderButton("教务列表");
         btn_jwadminList_xtadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btn_jwadminList_xtadmin.setBounds(229, 10, 100, 33);
         panel_1.add(btn_jwadminList_xtadmin);
 
-        JButton btn_jwadminList_xtadmin_1 = new JButton("添加用户");
+        JButton btn_jwadminList_xtadmin_1 = primaryBorderButton("添加用户");
         btn_jwadminList_xtadmin_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btn_jwadminList_xtadmin_1.setBounds(443, 10, 100, 33);
         panel_1.add(btn_jwadminList_xtadmin_1);
@@ -349,6 +353,7 @@ public class XtadminPanel {
         Vector<Vector<Object>> dd = studentService.getAllStudentVector(dbConnector);
 
         JTable table_5 = new JTable();
+        setTableStyle(table_5);
         table_5.setModel(new DefaultTableModel(dd, title_xueshengliebiao_jwadmin) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -390,6 +395,7 @@ public class XtadminPanel {
 
         JTable table_6 = new JTable();
         table_6.getTableHeader().setReorderingAllowed(false);
+        setTableStyle(table_6);
         scrollPane_6.setViewportView(table_6);
 
         btn_teacherList_xtadmin.addActionListener(new ActionListener() {
@@ -428,6 +434,7 @@ public class XtadminPanel {
 
         JTable table_7 = new JTable();
         table_7.getTableHeader().setReorderingAllowed(false);
+        setTableStyle(table_7);
         scrollPane_7.setViewportView(table_7);
         btn_jwadminList_xtadmin.addActionListener(new ActionListener() {
             @Override
@@ -538,11 +545,12 @@ public class XtadminPanel {
         panel_tianjiajiaowuguanliyuan_xtadmin.add(textField_13);
 
         JComboBox comboBox_4 = new JComboBox(new String[]{"男", "女"});
+        setComboboxStyle(comboBox_4);
         comboBox_4.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_4.setBounds(243, 136, 68, 23);
         panel_tianjiajiaowuguanliyuan_xtadmin.add(comboBox_4);
 
-        JButton btnNewButton = new JButton("返回");
+        JButton btnNewButton = primaryBorderButton("返回");
         btnNewButton.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnNewButton.setBounds(0, 317, 100, 33);
         panel_tianjiajiaowuguanliyuan_xtadmin.add(btnNewButton);
@@ -568,7 +576,7 @@ public class XtadminPanel {
             }
         });
 
-        JButton btnNewButton_1 = new JButton("确认");
+        JButton btnNewButton_1 = primaryBorderButton("确认");
         btnNewButton_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnNewButton_1.setBounds(433, 317, 100, 33);
         panel_tianjiajiaowuguanliyuan_xtadmin.add(btnNewButton_1);
@@ -627,6 +635,7 @@ public class XtadminPanel {
         panel_tianjiaxuesheng_xtadmin.add(textField_14);
 
         JComboBox comboBox_2_3_2 = new JComboBox(new String[]{"男", "女"});
+        setComboboxStyle(comboBox_2_3_2);
         comboBox_2_3_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_3_2.setBounds(237, 64, 68, 26);
         panel_tianjiaxuesheng_xtadmin.add(comboBox_2_3_2);
@@ -692,11 +701,12 @@ public class XtadminPanel {
         panel_tianjiaxuesheng_xtadmin.add(lblNewLabel_6_4_1_1);
 
         JComboBox comboBox_2_3_1_1_1 = new JComboBox(new String[]{"经济与管理学院", "文法学部", "信息学部", "理学部", "艺术设计学院"});
+        setComboboxStyle(comboBox_2_3_1_1_1);
         comboBox_2_3_1_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_3_1_1_1.setBounds(237, 208, 146, 26);
         panel_tianjiaxuesheng_xtadmin.add(comboBox_2_3_1_1_1);
 
-        JButton btnHomPage_jwadmin_2_2_1_1 = new JButton("确认");
+        JButton btnHomPage_jwadmin_2_2_1_1 = primaryBorderButton("确认");
         btnHomPage_jwadmin_2_2_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_2_1_1.setBounds(433, 317, 100, 33);
         panel_tianjiaxuesheng_xtadmin.add(btnHomPage_jwadmin_2_2_1_1);
@@ -733,7 +743,7 @@ public class XtadminPanel {
             }
         });
 
-        JButton btnHomPage_jwadmin_2_2_1_1_1 = new JButton("返回");
+        JButton btnHomPage_jwadmin_2_2_1_1_1 = primaryBorderButton("返回");
         btnHomPage_jwadmin_2_2_1_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_2_1_1_1.setBounds(0, 317, 100, 33);
         panel_tianjiaxuesheng_xtadmin.add(btnHomPage_jwadmin_2_2_1_1_1);
@@ -818,6 +828,7 @@ public class XtadminPanel {
         panel_tianjiajiaoshi_xtadmin.add(textField_18);
 
         JComboBox comboBox_2_4 = new JComboBox(new String[]{"男", "女"});
+        setComboboxStyle(comboBox_2_4);
         comboBox_2_4.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_4.setBounds(239, 86, 68, 26);
         panel_tianjiajiaoshi_xtadmin.add(comboBox_2_4);
@@ -829,11 +840,14 @@ public class XtadminPanel {
         panel_tianjiajiaoshi_xtadmin.add(textField_19);
 
         JComboBox comboBox_2_1_1 = new JComboBox(new String[]{"讲师", "副教授", "教授", "院士"});
+        setComboboxStyle(comboBox_2_1_1);
         comboBox_2_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_1_1.setBounds(239, 158, 146, 26);
         panel_tianjiajiaoshi_xtadmin.add(comboBox_2_1_1);
 
         JComboBox comboBox_2_2_1 = new JComboBox(new String[]{"经济与管理学院", "文法学部", "信息学部", "理学部", "艺术设计学院"});
+
+        setComboboxStyle(comboBox_2_2_1);
         comboBox_2_2_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         comboBox_2_2_1.setBounds(239, 194, 146, 26);
         panel_tianjiajiaoshi_xtadmin.add(comboBox_2_2_1);
@@ -844,7 +858,7 @@ public class XtadminPanel {
         textField_20.setBounds(239, 230, 146, 26);
         panel_tianjiajiaoshi_xtadmin.add(textField_20);
 
-        JButton btnHomPage_jwadmin_2_2_2 = new JButton("确认");
+        JButton btnHomPage_jwadmin_2_2_2 = primaryBorderButton("确认");
         btnHomPage_jwadmin_2_2_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_2_2.setBounds(433, 317, 100, 33);
         panel_tianjiajiaoshi_xtadmin.add(btnHomPage_jwadmin_2_2_2);
@@ -880,7 +894,7 @@ public class XtadminPanel {
             }
         });
 
-        JButton btnHomPage_jwadmin_2_2_1_1_2 = new JButton("返回");
+        JButton btnHomPage_jwadmin_2_2_1_1_2 = primaryBorderButton("返回");
         btnHomPage_jwadmin_2_2_1_1_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_2_1_1_2.setBounds(0, 317, 100, 33);
         panel_tianjiajiaoshi_xtadmin.add(btnHomPage_jwadmin_2_2_1_1_2);
