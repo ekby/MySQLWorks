@@ -209,6 +209,7 @@ public class JwadminPanel {
         title_kechengguanli_jwadmin.add("最大人数");
 
         JTable table_chengjiguanli = new JTable();
+        table_chengjiguanli.getTableHeader().setReorderingAllowed(false);
         scrollPane_AllCourse.setViewportView(table_chengjiguanli);
 
         // jwadmin右侧内容区 -> 课程管理 -> 编辑课程
@@ -687,6 +688,7 @@ public class JwadminPanel {
         panel_renyuanmanage.add(scrollPane_jiaoshiliebiao);
 
         JTable table_jiaoshiliebiao = new JTable();
+        table_jiaoshiliebiao.getTableHeader().setReorderingAllowed(false);
         scrollPane_jiaoshiliebiao.setViewportView(table_jiaoshiliebiao);
 
         Vector<String> title_jiaoshiliebiao_jwadmin = new Vector<>();
@@ -712,6 +714,7 @@ public class JwadminPanel {
         title_xueshengliebiao_jwadmin.add("联系方式");
 
         JTable table_xueshengliebiao = new JTable();
+        table_xueshengliebiao.getTableHeader().setReorderingAllowed(false);
         scrollPane_xueshengliebiao.setViewportView(table_xueshengliebiao);
 
         // jwadmin右侧内容区 -> 人员管理 -> 修改教职工/学生
@@ -1474,6 +1477,7 @@ public class JwadminPanel {
         panel_tuikeApproval.add(scrollPane_2);
 
         JTable table_2 = new JTable();
+        table_2.getTableHeader().setReorderingAllowed(false);
         scrollPane_2.setViewportView(table_2);
         Vector<String> title_tuikeshenpi_jwadmin = new Vector<>();
         title_tuikeshenpi_jwadmin.add("工单编号");

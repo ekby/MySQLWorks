@@ -1,5 +1,6 @@
 package newjwglxt.jwglxt.dao.idx2;
 
+import newjwglxt.jwglxt.entity.ChooseCourse;
 import newjwglxt.jwglxt.entity.DropCourse;
 import newjwglxt.jwglxt.entity.Student;
 
@@ -204,6 +205,33 @@ public class DropCourseDaoImpl implements Dao_idx2<DropCourse> {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse WHERE dcid=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setInt(1, dcid);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new DropCourse(resultSet.getInt("dcid"), resultSet.getInt("dcsid"), resultSet.getInt("dccid"),
+                        resultSet.getInt("dchandle")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
+    public ArrayList<DropCourse> SelectBySidAndCid(Connection connection, int sid, int cid) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<DropCourse> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM dropcourse WHERE dcsid=? AND dccid=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setInt(1, sid);
+            preparedStatement.setInt(2, cid);
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
             databaseMetaData = connection.getMetaData();

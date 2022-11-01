@@ -355,6 +355,7 @@ public class XtadminPanel {
                 return false;
             }
         });
+        table_5.getTableHeader().setReorderingAllowed(false);
         scrollPane_5.setViewportView(table_5);
 
         btn_studentList_xtadmin.addActionListener(new ActionListener() {
@@ -388,6 +389,7 @@ public class XtadminPanel {
         title_jiaoshiliebiao_jwadmin.add("联系方式");
 
         JTable table_6 = new JTable();
+        table_6.getTableHeader().setReorderingAllowed(false);
         scrollPane_6.setViewportView(table_6);
 
         btn_teacherList_xtadmin.addActionListener(new ActionListener() {
@@ -425,6 +427,7 @@ public class XtadminPanel {
         title_jwadmin.add("联系方式");
 
         JTable table_7 = new JTable();
+        table_7.getTableHeader().setReorderingAllowed(false);
         scrollPane_7.setViewportView(table_7);
         btn_jwadminList_xtadmin.addActionListener(new ActionListener() {
             @Override

@@ -2,7 +2,9 @@ package newjwglxt.jwglxt.service.idx2;
 
 import newjwglxt.jwglxt.dao.idx1.CourseDaoImpl;
 import newjwglxt.jwglxt.dao.idx1.StudentDaoImpl;
+import newjwglxt.jwglxt.dao.idx2.ChooseCourseDaoImpl;
 import newjwglxt.jwglxt.dao.idx2.DropCourseDaoImpl;
+import newjwglxt.jwglxt.entity.ChooseCourse;
 import newjwglxt.jwglxt.entity.DropCourse;
 import newjwglxt.jwglxt.entity.Student;
 import newjwglxt.jwglxt.service.idx1.CourseService;
@@ -41,6 +43,11 @@ public class DropCourseService implements Service_idx2<DropCourse> {
     public ArrayList<DropCourse> CheckByCid(DbConnector dbConnector, int cid) {
         DropCourseDaoImpl DropCourseDao = new DropCourseDaoImpl();
         return DropCourseDao.SelectByCid(dbConnector.getConnection(), cid);
+    }
+
+    public ArrayList<DropCourse> CheckBySidAndCid(DbConnector dbConnector, int sid, int cid) {
+        DropCourseDaoImpl dropCourseDao = new DropCourseDaoImpl();
+        return dropCourseDao.SelectBySidAndCid(dbConnector.getConnection(), sid, cid);
     }
 
     public Vector<Vector<Object>> getDropCourseVector(DbConnector dbConnector, Student student) {

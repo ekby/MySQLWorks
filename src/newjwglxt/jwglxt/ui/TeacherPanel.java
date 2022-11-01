@@ -233,6 +233,7 @@ public class TeacherPanel {
 
         JTable table_4 = new JTable();
         scrollPane_4.setViewportView(table_4);
+        table_4.getTableHeader().setReorderingAllowed(false);
 
         final int[] selectedCourseID = new int[1];
 
@@ -416,6 +417,7 @@ public class TeacherPanel {
                         }
                     };
                     table_mycourse.setModel(new_model_mycourse_teacher);
+                    table_mycourse.getTableHeader().setReorderingAllowed(false);
                     table_mycourse.updateUI();
 
                     panel_container_teacher.removeAll();

@@ -1,11 +1,9 @@
 package newjwglxt.jwglxt.service.idx1;
 
 import newjwglxt.jwglxt.dao.idx1.CourseDaoImpl;
-import newjwglxt.jwglxt.entity.ChooseCourse;
-import newjwglxt.jwglxt.entity.Course;
-import newjwglxt.jwglxt.entity.Student;
-import newjwglxt.jwglxt.entity.Teacher;
+import newjwglxt.jwglxt.entity.*;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
+import newjwglxt.jwglxt.service.idx2.DropCourseService;
 import newjwglxt.jwglxt.util.DbConnector;
 
 import java.util.ArrayList;
@@ -59,22 +57,40 @@ public class CourseService implements Service_idx1<Course> {
         CourseDaoImpl courseDao = new CourseDaoImpl();
         TeacherService teacherService = new TeacherService();
         ArrayList<Course> allCourses = courseDao.Select(dbConnector.getConnection());
+
+        //全部课程的id
         ArrayList<Integer> allCourses_cid = new ArrayList<>();
         for (Course course : allCourses) {
             allCourses_cid.add(course.getCid());
         }
 
         ChooseCourseService chooseCourseService = new ChooseCourseService();
+        DropCourseService dropCourseService = new DropCourseService();
+
         ArrayList<ChooseCourse> chosenCourses = chooseCourseService.CheckBySid(dbConnector, student.getId());
+
+        //所有所选课程的id
         ArrayList<Integer> chosenCourses_cid = new ArrayList<>();
         for (ChooseCourse chooseCourse : chosenCourses) {
             chosenCourses_cid.add(chooseCourse.getCccid());
         }
 
+        ArrayList<DropCourse> dropCourses = dropCourseService.CheckBySid(dbConnector, student.getId());
 
+        //所有退课的id
+        ArrayList<Integer> droppedCourses_cid = new ArrayList<>();
+        for (DropCourse dropCourse : dropCourses) {
+            droppedCourses_cid.add(dropCourse.getDccid());
+        }
+
+        //所有可选课程的id
         ArrayList<Integer> courses_cid = new ArrayList<>();
         for (int x : allCourses_cid) {
-            if (!chosenCourses_cid.contains(x)) {
+            //选课表和退课表都没有
+            if (!chosenCourses_cid.contains(x) && !droppedCourses_cid.contains(x)) {
+                courses_cid.add(x);
+            } else if (!chosenCourses_cid.contains(x) && dropCourseService.CheckBySidAndCid(dbConnector, student.getId(), x).get(0).getDchandle() == 1) {
+                //选课表没有，退课表必须是批准
                 courses_cid.add(x);
             }
         }
@@ -166,7 +182,7 @@ public class CourseService implements Service_idx1<Course> {
     }
 
     // 获取所有课程
-    public ArrayList<Course> selectAllCourses (DbConnector dbConnector) {
+    public ArrayList<Course> selectAllCourses(DbConnector dbConnector) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
 
         return courseDao.Select(dbConnector.getConnection());

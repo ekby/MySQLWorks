@@ -3,6 +3,7 @@ package newjwglxt.jwglxt.service.idx2;
 import newjwglxt.jwglxt.dao.idx2.ChooseCourseDaoImpl;
 import newjwglxt.jwglxt.entity.ChooseCourse;
 import newjwglxt.jwglxt.entity.Course;
+import newjwglxt.jwglxt.entity.DropCourse;
 import newjwglxt.jwglxt.entity.Student;
 import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx1.StudentService;
@@ -46,13 +47,30 @@ public class ChooseCourseService implements Service_idx2<ChooseCourse> {
 
     // 为studentPanel的查询自己已选课程功能返回数据库中该学生已选的课程信息
     public Vector<Vector<Object>> getCourseVector(DbConnector dbConnector, Student student) {
-        ChooseCourseDaoImpl chooseCourseDao = new ChooseCourseDaoImpl();
-
+        ChooseCourseService chooseCourseService = new ChooseCourseService();
         TeacherService teacherService = new TeacherService();
         CourseService courseService = new CourseService();
+        DropCourseService dropCourseService = new DropCourseService();
 
-        ArrayList<ChooseCourse> chooseCourses = chooseCourseDao.Select(dbConnector.getConnection(), student.getId());
+        ArrayList<ChooseCourse> chooseCourses = chooseCourseService.CheckBySid(dbConnector, student.getId());
+        ArrayList<DropCourse> dropCourses = dropCourseService.CheckBySid(dbConnector, student.getId());
         Vector<Vector<Object>> courseCol = new Vector<>();
+
+        for (DropCourse dropCourse : dropCourses) {
+            //退课被驳回
+            if (dropCourse.getDchandle() == -1) {
+                Vector<Object> courseRowDefeatDrop = new Vector<>();
+                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCname());
+                courseRowDefeatDrop.add(dropCourse.getDccid());
+                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCtime());
+                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCroom());
+                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCcredit());
+                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCkclb());
+                courseRowDefeatDrop.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCteacherid()).get(0).getName());
+                courseCol.add(courseRowDefeatDrop);
+            }
+        }
+
         for (ChooseCourse chooseCourse : chooseCourses) {
             Vector<Object> courseRow = new Vector<>();
             courseRow.add(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCname());
@@ -187,9 +205,6 @@ public class ChooseCourseService implements Service_idx2<ChooseCourse> {
             course2DayList[course2BeginTime] = 1;
             course2BeginTime++;
         }
-        System.out.println(Arrays.toString(course1DayList));
-        System.out.println("00000000000000000000000000000000000000000000000000000000000000000000000000000");
-        System.out.println(Arrays.toString(course2DayList));
 
         int j;
         for (j = 0; j < 12; j++) {
@@ -221,51 +236,3 @@ public class ChooseCourseService implements Service_idx2<ChooseCourse> {
         return true;
     }
 }
-
-
-//    public boolean judgeRight(DbConnector dbConnector, int sid, int course_id) {
-//        CourseService courseService = new CourseService();
-//        ChooseCourseService chooseCourseService = new ChooseCourseService();
-//        ArrayList<ChooseCourse> chooseCourses = chooseCourseService.CheckBySid(dbConnector, sid);
-//        Course course = courseService.CheckById(dbConnector, course_id).get(0);
-//        // 判断时间是否冲突
-//
-//        for (ChooseCourse chooseCourse : chooseCourses) {
-//            //所有课的开始周、结束周；所选课的开始周、结束周
-//            int courseBeginWeek = new Integer(String.valueOf(course.getCtime().charAt(0)) + course.getCtime().charAt(1));
-//            int courseEndWeek = new Integer(String.valueOf(course.getCtime().charAt(2)) + course.getCtime().charAt(3));
-//            int chooseCourseBeginWeek = new Integer(String.valueOf(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(0))
-//                    + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(1));
-//            int chooseCourseEndWeek = new Integer(String.valueOf(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(2))
-//                    + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(3));
-//
-//            //所有课的日期、开始时间、结束时间；所选课的日期、开始时间、结束时间
-//            char courseWeekday = course.getCtime().charAt(4);
-//            char chooseCourseWeekday = courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(4);
-//            int courseBeginTime = new Integer(String.valueOf(course.getCtime().charAt(5)) + course.getCtime().charAt(6));
-//            int courseEndTime = new Integer(String.valueOf(course.getCtime().charAt(7)) + course.getCtime().charAt(8));
-//            int chooseCourseBeginTime = new Integer(String.valueOf(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(5))
-//                    + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(6));
-//            int chooseCourseEndTime = new Integer(String.valueOf(courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(7))
-//                    + courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0).getCtime().charAt(8));
-//
-//            // 外层if先判断教学周有没有重复，没重复的直接可以；有重复的进行内层if判断星期和节数有没有冲突，如果有冲突滚蛋，没有留着。
-//            if (chooseCourseEndWeek > courseBeginWeek || chooseCourseBeginWeek < courseEndWeek) {
-//                //教学周不冲突
-//                return true;
-//            } else {
-//                //教学周有冲突,进行内部判断,先看星期是否一样
-//                if (courseWeekday != chooseCourseWeekday) {
-//                    //星期不一样，可以
-//                    return true;
-//                } else {
-//                        /*星期一样，再判断具体上课时间是否重复
-//                        所选课在之前，所选课在之后,可以;周冲突、星期几冲突、节冲突，不可以*/
-//                    return chooseCourseEndTime > courseBeginTime || chooseCourseBeginTime < courseEndTime;
-//                }
-//            }
-//        }
-//
-//        return false;
-//    }
-//}

@@ -274,6 +274,7 @@ public class StudentPanel {
                     };
 
                     JTable table_avaiblecourse = new JTable(model_availecourse);
+                    table_avaiblecourse.getTableHeader().setReorderingAllowed(false);
                     scrollPane_avaiblecourse.setViewportView(table_avaiblecourse);
 
                     JButton btnchoose_course = new JButton("选课");
@@ -312,6 +313,7 @@ public class StudentPanel {
                     Vector<Vector<Object>> data_nominatedCourse = chooseCourseService.getCourseVector(dbConnector, student_login);
 
                     JTable table_nominatedCourse = new JTable();
+
                     DefaultTableModel model_nominatedCourse = new DefaultTableModel(data_nominatedCourse, title_nominatedCourse) {
                         //设置table内容不能改，但能被选中行
                         public boolean isCellEditable(int row, int column) {
@@ -320,6 +322,7 @@ public class StudentPanel {
                     };
 
                     table_nominatedCourse.setModel(model_nominatedCourse);
+                    table_nominatedCourse.getTableHeader().setReorderingAllowed(false);
                     scrollPane_nominatedCourse.setViewportView(table_nominatedCourse);
 
                     // 选课按钮
@@ -417,15 +420,7 @@ public class StudentPanel {
                                 lbl_dcsSuccess.setVisible(true);
                                 lbl_dcsFalse.setVisible(false);
 
-                                //选课表中所选对应课程信息消失
-                                // todo bug
-                                chooseCourseService.Delete(dbConnector, chooseCourseService.CheckByCid(dbConnector, (int) table_nominatedCourse.getValueAt(flag, 1)).get(0));
-                                Vector<Vector<Object>> new_data_nominatedCourse = chooseCourseService.getCourseVector(dbConnector, student_login);
-                                DefaultTableModel new_model_nominatedCourse = new DefaultTableModel(new_data_nominatedCourse, title_nominatedCourse);
-                                table_nominatedCourse.setModel(new_model_nominatedCourse);
-                                table_nominatedCourse.updateUI();
-                                System.out.println("在选课表删除内容");
-
+                                //todo bug 此处顺序很重要，防止退课完flag所指对象发生变化
                                 //在退课表中增加相关记录
                                 DropCourseService dropCourseService = new DropCourseService();
                                 table_nominatedCourse.updateUI();
@@ -435,6 +430,16 @@ public class StudentPanel {
                                 System.out.println(dropCourse);
                                 dropCourseService.Add(dbConnector, dropCourse);
                                 System.out.println("在退课表添加内容");
+
+                                //选课表中所选对应课程信息消失
+                                chooseCourseService.Delete(dbConnector, chooseCourseService.CheckByCid(dbConnector, (int) table_nominatedCourse.getValueAt(flag, 1)).get(0));
+                                Vector<Vector<Object>> new_data_nominatedCourse = chooseCourseService.getCourseVector(dbConnector, student_login);
+                                DefaultTableModel new_model_nominatedCourse = new DefaultTableModel(new_data_nominatedCourse, title_nominatedCourse);
+                                table_nominatedCourse.setModel(new_model_nominatedCourse);
+                                table_nominatedCourse.updateUI();
+                                System.out.println("在选课表删除内容");
+
+
 
                             } else {
                                 System.out.println("Can't drop.");
@@ -506,6 +511,7 @@ public class StudentPanel {
                     };
 
                     table_selectGrade.setModel(showcourse);
+                    table_selectGrade.getTableHeader().setReorderingAllowed(false);
                     table_selectGrade.updateUI();
                     scrollPane_selectGrade.setViewportView(table_selectGrade);
 
@@ -551,6 +557,7 @@ public class StudentPanel {
                     };
 
                     table_dropclass.setModel(dropclassTableModel);
+                    table_dropclass.getTableHeader().setReorderingAllowed(false);
                     table_dropclass.updateUI();
                     scrollPane_dropclass.setViewportView(table_dropclass);
 
@@ -589,7 +596,11 @@ public class StudentPanel {
                             {"11", null, null, null, null, null, null, null},
                             {"12", null, null, null, null, null, null, null},};
                     String[] courseTableTitle = {" ", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
-                    JTable tableCoursePresent = new JTable(courseTableData, courseTableTitle);
+                    JTable tableCoursePresent = new JTable(courseTableData, courseTableTitle) {
+                        public boolean isCellEditable(int row, int column) {
+                            return false;
+                        }
+                    };
 
                     //设置表格的列不能拖动
                     tableCoursePresent.getTableHeader().setReorderingAllowed(false);
