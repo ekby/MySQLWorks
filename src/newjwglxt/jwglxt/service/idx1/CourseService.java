@@ -52,6 +52,11 @@ public class CourseService implements Service_idx1<Course> {
         return courseDao.SelectByNameRough(dbConnector.getConnection(), name);
     }
 
+    public ArrayList<Course> CheckTeacherCourses (DbConnector dbConnector, int tid) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        return courseDao.SelectByTeacherID(dbConnector.getConnection(), tid);
+    }
+
     // 为studentPanel的可选课程功能返回该学生除去已选的课程之外的课程的信息
     public Vector<Vector<Object>> getCourseVector_exceptSelectedCourses(DbConnector dbConnector, Student student) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
