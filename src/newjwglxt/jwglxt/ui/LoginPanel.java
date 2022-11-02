@@ -9,6 +9,7 @@ import newjwglxt.jwglxt.service.idx1.StudentService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx1.XtadminService;
 import newjwglxt.jwglxt.util.DbConnector;
+import newjwglxt.jwglxt.util.QuickButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,17 +60,19 @@ public class LoginPanel {
 
         JTextField textField_login_account = new JTextField();
         textField_login_account.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_login_account.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_login_account.setColumns(10);
         textField_login_account.setBounds(10, 75, 178, 24);
         LoginPanel_mid.add(textField_login_account);
 
         JLabel Label_login_password = new JLabel("密码");
         Label_login_password.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        Label_login_password.setBounds(10, 118, 54, 15);
+        Label_login_password.setBounds(10, 123, 54, 15);
         LoginPanel_mid.add(Label_login_password);
 
         JPasswordField passwordField_login_password = new JPasswordField();
-        passwordField_login_password.setBounds(10, 150, 178, 24);
+        passwordField_login_password.setBorder(new QuickButton.RoundBorder(Color.black, 0));
+        passwordField_login_password.setBounds(10, 145, 178, 24);
         LoginPanel_mid.add(passwordField_login_password);
 
         JButton btnLogin = greenButton("登录");

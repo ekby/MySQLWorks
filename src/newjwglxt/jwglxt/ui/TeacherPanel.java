@@ -6,6 +6,7 @@ import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
 import newjwglxt.jwglxt.util.DbConnector;
+import newjwglxt.jwglxt.util.QuickButton;
 import newjwglxt.jwglxt.util.SHA256;
 
 import javax.swing.*;
@@ -243,6 +244,7 @@ public class TeacherPanel {
 
         final int[] selectedCourseID = new int[1];
 
+
         // teacher右侧内容区 -> 修改个人信息
         JPanel panel_editInfo_teacher = new JPanel();
         panel_container_teacher.add(panel_editInfo_teacher);
@@ -316,6 +318,7 @@ public class TeacherPanel {
 
         // 密码
         JPasswordField textField_511 = new JPasswordField();
+        textField_511.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_511.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_511.setBounds(237, 162, 146, 26);
         panel_editInfo_teacher.add(textField_511);
@@ -437,6 +440,9 @@ public class TeacherPanel {
                     // 成绩管理
                     Vector<String> vector_myCourse_name = courseService.getMyCourseNameVector_teacher(dbConnector, teacher_login);
                     comboBox_chengjiguanli.setModel(new DefaultComboBoxModel(vector_myCourse_name));
+                    if (!vector_myCourse_name.isEmpty())
+                        selectedCourseID[0] = getID((String) comboBox_chengjiguanli.getSelectedItem());
+
                     Vector<String> title_xueshengfenshu = new Vector<>();
                     title_xueshengfenshu.add("学号");
                     title_xueshengfenshu.add("姓名");
@@ -465,6 +471,7 @@ public class TeacherPanel {
                         int sid = (int) table_4.getValueAt(i, 0);
                         int score = Integer.parseInt(table_4.getValueAt(i, 2).toString());
                         ChooseCourseService chooseCourseService = new ChooseCourseService();
+                        System.out.println(selectedCourseID[0]);
                         ChooseCourse ccObject = chooseCourseService.CheckBySidAndCid(dbConnector, sid, selectedCourseID[0]).get(0);
                         ccObject.setCcscore(score);
                         ccObject.setCcgpa(getGPA(score));

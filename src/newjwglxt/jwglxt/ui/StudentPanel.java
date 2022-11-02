@@ -9,6 +9,7 @@ import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
 import newjwglxt.jwglxt.service.idx2.DropCourseService;
 import newjwglxt.jwglxt.util.DbConnector;
+import newjwglxt.jwglxt.util.QuickButton;
 import newjwglxt.jwglxt.util.SHA256;
 
 import javax.swing.*;
@@ -736,7 +737,8 @@ public class StudentPanel {
                     lblPwd.setBounds(39, 206, 76, 16);
                     panel_changeinfoPage_student.add(lblPwd);
 
-                    JTextField textField_Spwd = new JTextField();
+                    JPasswordField textField_Spwd = new JPasswordField();
+                    textField_Spwd.setBorder(new QuickButton.RoundBorder(Color.black, 0));
                     textField_Spwd.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
                     textField_Spwd.setBounds(124, 201, 130, 26);
                     panel_changeinfoPage_student.add(textField_Spwd);

@@ -9,6 +9,7 @@ import newjwglxt.jwglxt.service.idx1.StudentService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx1.XtadminService;
 import newjwglxt.jwglxt.util.DbConnector;
+import newjwglxt.jwglxt.util.QuickButton;
 import newjwglxt.jwglxt.util.SHA256;
 import newjwglxt.jwglxt.util.ToPinYin;
 
@@ -207,6 +208,7 @@ public class XtadminPanel {
 
         // 密码
         JPasswordField textField_511 = new JPasswordField();
+        textField_511.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_511.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_511.setBounds(237, 207, 146, 26);
         panel_editInfo_xtadmin.add(textField_511);
