@@ -1,6 +1,5 @@
 package newjwglxt.jwglxt.service.idx2;
 
-import cn.hutool.db.Db;
 import newjwglxt.jwglxt.dao.idx2.ChooseCourseDaoImpl;
 import newjwglxt.jwglxt.entity.ChooseCourse;
 import newjwglxt.jwglxt.entity.Course;
@@ -12,7 +11,6 @@ import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.util.DbConnector;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Vector;
 
 public class ChooseCourseService implements Service_idx2<ChooseCourse> {
@@ -237,7 +235,6 @@ public class ChooseCourseService implements Service_idx2<ChooseCourse> {
         return true;
     }
 
-    //todo here has bug
     public boolean judgeCourseForTeacher (DbConnector dbConnector, Course courseWaitJudge) {
         CourseService courseService = new CourseService();
 
