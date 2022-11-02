@@ -66,6 +66,21 @@ public class StudentService implements Service_idx1<Student>, LoginService<Stude
         return studentDao.SelectByNameRough(dbConnector.getConnection(), name);
     }
 
+    public ArrayList<Student> CheckByClass(DbConnector dbConnector, int sclass) {
+        StudentDaoImpl studentDao = new StudentDaoImpl();
+        return studentDao.SelectByClass(dbConnector.getConnection(), sclass);
+    }
+
+    public ArrayList<Student> CheckByMajor(DbConnector dbConnector, String major) {
+        StudentDaoImpl studentDao = new StudentDaoImpl();
+        return studentDao.SelectByMajor(dbConnector.getConnection(), major);
+    }
+
+    public ArrayList<Student> CheckByDepartment(DbConnector dbConnector, String department) {
+        StudentDaoImpl studentDao = new StudentDaoImpl();
+        return studentDao.SelectByDepartment(dbConnector.getConnection(), department);
+    }
+
     public Vector<Vector<Object>> getAllStudentVector(DbConnector dbConnector) {
         StudentDaoImpl studentDao = new StudentDaoImpl();
         ArrayList<Student> allStudents = studentDao.Select(dbConnector.getConnection());

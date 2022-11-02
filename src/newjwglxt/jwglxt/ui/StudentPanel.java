@@ -11,6 +11,8 @@ import newjwglxt.jwglxt.service.idx2.DropCourseService;
 import newjwglxt.jwglxt.util.DbConnector;
 import newjwglxt.jwglxt.util.QuickButton;
 import newjwglxt.jwglxt.util.SHA256;
+import newjwglxt.jwglxt.util.Judge;
+
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +29,8 @@ import java.util.Vector;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
 import static newjwglxt.jwglxt.util.ComboboxStyle.setComboboxStyle;
+import static newjwglxt.jwglxt.util.Judge.isName;
+import static newjwglxt.jwglxt.util.Judge.isPhoneNum;
 import static newjwglxt.jwglxt.util.QuickButton.primaryBorderButton;
 
 public class StudentPanel {
@@ -763,7 +767,7 @@ public class StudentPanel {
                     lblSgender.setBounds(39, 310, 61, 16);
                     panel_changeinfoPage_student.add(lblSgender);
 
-                    String[] genders = new String[]{"男", "女", "其他"};
+                    String[] genders = new String[]{"男", "女"};
                     JComboBox comboBox_Sgender = new JComboBox(genders);
                     setComboboxStyle(comboBox_Sgender);
                     comboBox_Sgender.setSelectedItem(student_login.getGender());
@@ -839,7 +843,7 @@ public class StudentPanel {
                             int sid = student_login.getId();
 
                             String sname;
-                            if (textField_Sname.getText().length() == 0 || textField_Sname.getText().length() == 1) {
+                            if (!isName(textField_Sname.getText())) {
                                 System.out.println("姓名不符合格式要求");
                                 sname = student_login.getName();
                                 lblFalse_name.setVisible(true);
@@ -855,7 +859,7 @@ public class StudentPanel {
                             }
 
                             String scontact;
-                            if (textField_Scontact.getText().length() != 11) {
+                            if (!isPhoneNum(textField_Scontact.getText())) {
                                 System.out.println("联系方式不符合格式要求");
                                 scontact = student_login.getContact();
                                 lblFalse_contact.setVisible(true);

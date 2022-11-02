@@ -40,6 +40,20 @@ public class Judge {
         return isNum(s) && s.trim().length() == 4;
     }
 
+    public static boolean stringHasExceptLetter(String s) {
+        char[] c = new char[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            c[i] = s.charAt(i);
+            if (!((c[i] >= 65 && c[i] <= 90) || (c[i] >= 97 && c[i] <= 122))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean isName(String s) {
+        return (s.matches("[\u4E00-\u9FA5]+") || !stringHasExceptLetter(s)) && s.length() != 0 && s.length() != 1;
+    }
+
     public static boolean isTime(String s) {
         if (s.length() != 11)
             return false;
@@ -69,6 +83,6 @@ public class Judge {
     }
 
     public static void main(String[] args) {
-        System.out.println(isTime("01201011299"));
+        System.out.println(isName("夏润成"));
     }
 }

@@ -242,4 +242,60 @@ public class CourseDaoImpl implements Dao_idx1<Course> {
         return arrayList;
 
     }
+
+    public ArrayList<Course> SelectedByDepartment(Connection connection, String department) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<Course> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM course WHERE cdepartment=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setString(1, department);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new Course(resultSet.getInt("cid"), resultSet.getString("cname"), resultSet.getString("cdepartment"),
+                        resultSet.getDouble("ccredit"), resultSet.getString("ckclb"), resultSet.getInt("cteacherid"),
+                        resultSet.getString("croom"), resultSet.getString("ctime"), resultSet.getInt("csigned_num"), resultSet.getInt("cmax_num")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+
+    }
+
+    public ArrayList<Course> SelectedByKclb (Connection connection, String kclb) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<Course> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM course WHERE ckclb=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setString(1, kclb);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new Course(resultSet.getInt("cid"), resultSet.getString("cname"), resultSet.getString("cdepartment"),
+                        resultSet.getDouble("ccredit"), resultSet.getString("ckclb"), resultSet.getInt("cteacherid"),
+                        resultSet.getString("croom"), resultSet.getString("ctime"), resultSet.getInt("csigned_num"), resultSet.getInt("cmax_num")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+
+    }
 }

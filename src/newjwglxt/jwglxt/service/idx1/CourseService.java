@@ -1,5 +1,6 @@
 package newjwglxt.jwglxt.service.idx1;
 
+import cn.hutool.db.Db;
 import newjwglxt.jwglxt.dao.idx1.CourseDaoImpl;
 import newjwglxt.jwglxt.entity.*;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
@@ -57,6 +58,21 @@ public class CourseService implements Service_idx1<Course> {
         return courseDao.SelectByTeacherID(dbConnector.getConnection(), tid);
     }
 
+    public ArrayList<Course> CheckByDepartment (DbConnector dbConnector, String department) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        return courseDao.SelectedByDepartment(dbConnector.getConnection(), department);
+    }
+
+    public ArrayList<Course> CheckByKclb (DbConnector dbConnector, String kclb) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        return courseDao.SelectedByKclb(dbConnector.getConnection(), kclb);
+    }
+
+    public ArrayList<Course> CheckByTeacherName (DbConnector dbConnector, String tname) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        TeacherService teacherService = new TeacherService();
+        return courseDao.SelectByTeacherID(dbConnector.getConnection(), teacherService.CheckByName(dbConnector, tname).get(0).getId());
+    }
     // 为studentPanel的可选课程功能返回该学生除去已选的课程之外的课程的信息
     public Vector<Vector<Object>> getCourseVector_exceptSelectedCourses(DbConnector dbConnector, Student student) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
