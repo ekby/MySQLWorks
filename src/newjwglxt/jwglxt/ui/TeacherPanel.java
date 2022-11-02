@@ -12,7 +12,6 @@ import newjwglxt.jwglxt.util.SHA256;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -20,6 +19,8 @@ import java.util.Vector;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
 import static newjwglxt.jwglxt.util.ComboboxStyle.setComboboxStyle;
+import static newjwglxt.jwglxt.util.Judge.isNum;
+import static newjwglxt.jwglxt.util.Judge.isPhoneNum;
 import static newjwglxt.jwglxt.util.QuickButton.primaryBorderButton;
 import static newjwglxt.jwglxt.util.TableStyle.setTableStyle;
 
@@ -214,6 +215,14 @@ public class TeacherPanel {
         comboBox_chengjiguanli.setBounds(84, 60, 145, 26);
         panel_chengjiguanli_teacher.add(comboBox_chengjiguanli);
 
+        JLabel lbl_xuanzekecheng_teachear = new JLabel("请检查输入!");
+        lbl_xuanzekecheng_teachear.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbl_xuanzekecheng_teachear.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbl_xuanzekecheng_teachear.setForeground(Color.red);
+        lbl_xuanzekecheng_teachear.setBounds(333, 408, 100, 33);
+        panel_chengjiguanli_teacher.add(lbl_xuanzekecheng_teachear);
+        lbl_xuanzekecheng_teachear.setVisible(false);
+
         JButton btn_queren_teacher = primaryBorderButton("确认");
         btn_queren_teacher.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btn_queren_teacher.setBounds(443, 408, 100, 33);
@@ -349,13 +358,23 @@ public class TeacherPanel {
         panel_editInfo_teacher.add(textField_5111);
         textField_5111.setColumns(10);
 
+        JLabel textField_6123v = new JLabel("请检查输入!");
+        textField_6123v.setForeground(Color.red);
+        textField_6123v.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        textField_6123v.setBounds(333, 412, 100, 33);
+        panel_editInfo_teacher.add(textField_6123v);
+        textField_6123v.setVisible(false);
+
         JButton btneditInfo_confirm = primaryBorderButton("确认");
         btneditInfo_confirm.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btneditInfo_confirm.setBounds(443, 412, 100, 33);
         panel_editInfo_teacher.add(btneditInfo_confirm);
-        btneditInfo_confirm.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        btneditInfo_confirm.addActionListener(e -> {
+            String new_cont = textField_5111.getText();
+            if (!isPhoneNum(new_cont)) {
+                textField_6123v.setVisible(true);
+            } else {
+                textField_6123v.setVisible(false);
                 TeacherService teacherService = new TeacherService();
                 String new_pw;
                 if (textField_511.getText().equals(""))
@@ -392,109 +411,117 @@ public class TeacherPanel {
         lbl_edit_teacher.setBounds(10, 10, 100, 22);
         panel_title_edit_teacher.add(lbl_edit_teacher);
 
-        ActionListener actionlistenerTeacher = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource().equals(btnHomePage_teacher)) {
-                    panel_container_teacher.removeAll();
-                    panel_container_teacher.add(panel_homePage_teacher);
-                    panel_container_teacher.validate();
-                    panel_container_teacher.repaint();
-                    System.out.println("1");
-                    panel_homePage_teacher.setVisible(true);
+        ActionListener actionlistenerTeacher = e -> {
+            if (e.getSource().equals(btnHomePage_teacher)) {
+                panel_container_teacher.removeAll();
+                panel_container_teacher.add(panel_homePage_teacher);
+                panel_container_teacher.validate();
+                panel_container_teacher.repaint();
+                System.out.println("1");
+                panel_homePage_teacher.setVisible(true);
 
-                } else if (e.getSource().equals(btnCoursemanage_teacher)) {
-                    // 我的成绩
-                    Vector<String> title_coursemanage_teacher = new Vector<>();
-                    title_coursemanage_teacher.add("课程编号");
-                    title_coursemanage_teacher.add("课程名称");
-                    title_coursemanage_teacher.add("开课部门");
-                    title_coursemanage_teacher.add("学分");
-                    title_coursemanage_teacher.add("课程类别");
-                    title_coursemanage_teacher.add("教室");
-                    title_coursemanage_teacher.add("时间");
-                    title_coursemanage_teacher.add("报名人数");
-                    title_coursemanage_teacher.add("最大人数");
+            } else if (e.getSource().equals(btnCoursemanage_teacher)) {
+                // 我的成绩
+                Vector<String> title_coursemanage_teacher = new Vector<>();
+                title_coursemanage_teacher.add("课程编号");
+                title_coursemanage_teacher.add("课程名称");
+                title_coursemanage_teacher.add("开课部门");
+                title_coursemanage_teacher.add("学分");
+                title_coursemanage_teacher.add("课程类别");
+                title_coursemanage_teacher.add("教室");
+                title_coursemanage_teacher.add("时间");
+                title_coursemanage_teacher.add("报名人数");
+                title_coursemanage_teacher.add("最大人数");
 
-                    CourseService courseService = new CourseService();
-                    Vector<Vector<Object>> data_coursemanage_teacher = courseService.getMyCourseVector_teacher(dbConnector, teacher_login);
-                    DefaultTableModel new_model_mycourse_teacher = new DefaultTableModel(data_coursemanage_teacher, title_coursemanage_teacher) {
-                        //设置table内容不能改，但能被选中行
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
-                        }
-                    };
-                    table_mycourse.setModel(new_model_mycourse_teacher);
-                    table_mycourse.getTableHeader().setReorderingAllowed(false);
-                    table_mycourse.updateUI();
-
-                    panel_container_teacher.removeAll();
-                    panel_container_teacher.add(panel_Coursemanage_teacher);
-                    panel_container_teacher.validate();
-                    panel_container_teacher.repaint();
-                    System.out.println("2");
-                    panel_Coursemanage_teacher.setVisible(true);
-
-                } else if (e.getSource().equals(btnScoreManage_teacher)) {
-                    // 成绩管理
-                    Vector<String> vector_myCourse_name = courseService.getMyCourseNameVector_teacher(dbConnector, teacher_login);
-                    comboBox_chengjiguanli.setModel(new DefaultComboBoxModel(vector_myCourse_name));
-                    if (!vector_myCourse_name.isEmpty())
-                        selectedCourseID[0] = getID((String) comboBox_chengjiguanli.getSelectedItem());
-
-                    Vector<String> title_xueshengfenshu = new Vector<>();
-                    title_xueshengfenshu.add("学号");
-                    title_xueshengfenshu.add("姓名");
-                    title_xueshengfenshu.add("成绩");
-                    if (vector_myCourse_name.isEmpty()) {
-                        table_4.setModel(new DefaultTableModel(new Vector<String>() {
-                        }, title_xueshengfenshu));
-                    } else {
-                        int firstID = getID(vector_myCourse_name.firstElement());
-                        ChooseCourseService chooseCourseService = new ChooseCourseService();
-                        Vector<Vector<Object>> data = chooseCourseService.getXueshengchengjibiaoVector(dbConnector, firstID);
-                        table_4.setModel(new DefaultTableModel(data, title_xueshengfenshu));
-                        table_4.updateUI();
+                CourseService courseService1 = new CourseService();
+                Vector<Vector<Object>> data_coursemanage_teacher = courseService1.getMyCourseVector_teacher(dbConnector, teacher_login);
+                DefaultTableModel new_model_mycourse_teacher = new DefaultTableModel(data_coursemanage_teacher, title_coursemanage_teacher) {
+                    //设置table内容不能改，但能被选中行
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
                     }
+                };
+                table_mycourse.setModel(new_model_mycourse_teacher);
+                table_mycourse.getTableHeader().setReorderingAllowed(false);
+                table_mycourse.updateUI();
 
-                    panel_container_teacher.removeAll();
-                    panel_container_teacher.add(panel_chengjiguanli_teacher);
-                    panel_container_teacher.validate();
-                    panel_container_teacher.repaint();
-                    System.out.println("3");
-                    panel_chengjiguanli_teacher.setVisible(true);
-                } else if (e.getSource().equals(btn_queren_teacher)) {
-                    System.out.println("确认");
-                    int total_row = table_4.getRowCount();
-                    for (int i = 0; i < total_row; i++) {
-                        int sid = (int) table_4.getValueAt(i, 0);
-                        int score = Integer.parseInt(table_4.getValueAt(i, 2).toString());
+                panel_container_teacher.removeAll();
+                panel_container_teacher.add(panel_Coursemanage_teacher);
+                panel_container_teacher.validate();
+                panel_container_teacher.repaint();
+                System.out.println("2");
+                panel_Coursemanage_teacher.setVisible(true);
+
+            } else if (e.getSource().equals(btnScoreManage_teacher)) {
+                // 成绩管理
+                lbl_xuanzekecheng_teachear.setVisible(false);
+                Vector<String> vector_myCourse_name = courseService.getMyCourseNameVector_teacher(dbConnector, teacher_login);
+                comboBox_chengjiguanli.setModel(new DefaultComboBoxModel(vector_myCourse_name));
+                if (!vector_myCourse_name.isEmpty())
+                    selectedCourseID[0] = getID((String) comboBox_chengjiguanli.getSelectedItem());
+
+                Vector<String> title_xueshengfenshu = new Vector<>();
+                title_xueshengfenshu.add("学号");
+                title_xueshengfenshu.add("姓名");
+                title_xueshengfenshu.add("成绩");
+                if (vector_myCourse_name.isEmpty()) {
+                    table_4.setModel(new DefaultTableModel(new Vector<String>() {
+                    }, title_xueshengfenshu));
+                } else {
+                    int firstID = getID(vector_myCourse_name.firstElement());
+                    ChooseCourseService chooseCourseService = new ChooseCourseService();
+                    Vector<Vector<Object>> data = chooseCourseService.getXueshengchengjibiaoVector(dbConnector, firstID);
+                    table_4.setModel(new DefaultTableModel(data, title_xueshengfenshu));
+                    table_4.updateUI();
+                }
+
+                panel_container_teacher.removeAll();
+                panel_container_teacher.add(panel_chengjiguanli_teacher);
+                panel_container_teacher.validate();
+                panel_container_teacher.repaint();
+                System.out.println("3");
+                panel_chengjiguanli_teacher.setVisible(true);
+            } else if (e.getSource().equals(btn_queren_teacher)) {
+                System.out.println("确认");
+                int total_row = table_4.getRowCount();
+                for (int i = 0; i < total_row; i++) {
+                    int sid = (int) table_4.getValueAt(i, 0);
+                    String score = table_4.getValueAt(i, 2).toString();
+                    System.out.println(score);
+                    if (!isNum(score) || score.equals("")) {
+                        System.out.println("0");
+                        lbl_xuanzekecheng_teachear.setVisible(true);
+                        break;
+                    } else {
+                        System.out.println("1");
+                        lbl_xuanzekecheng_teachear.setVisible(false);
                         ChooseCourseService chooseCourseService = new ChooseCourseService();
                         System.out.println(selectedCourseID[0]);
                         ChooseCourse ccObject = chooseCourseService.CheckBySidAndCid(dbConnector, sid, selectedCourseID[0]).get(0);
-                        ccObject.setCcscore(score);
-                        ccObject.setCcgpa(getGPA(score));
+                        ccObject.setCcscore(Integer.parseInt(score));
+                        ccObject.setCcgpa(getGPA(Integer.parseInt(score)));
                         chooseCourseService.Update(dbConnector, ccObject);
-                        System.out.printf("---------> sid=%d, cid=%d, score=%d, gpa=%d%n", sid, selectedCourseID[0], score, getGPA(score));
+                        System.out.printf("---------> sid=%d, cid=%d, score=%s, gpa=%d%n", sid, selectedCourseID[0], score, getGPA(Integer.parseInt(score)));
                     }
-                } else if (e.getSource().equals(btnExit_teacher)) {
-                    contentPane.removeAll();
-                    LoginPanel loginPanel = new LoginPanel();
-                    contentPane.add(loginPanel.getPanel());
-                    contentPane.validate();
-                    contentPane.repaint();
-                    loginPanel.getPanel().setVisible(true);
-
-                    dbConnector.closeConnection();
-                } else if (e.getSource().equals(btnEditInfo_teacher)) {
-                    panel_container_teacher.removeAll();
-                    panel_container_teacher.add(panel_editInfo_teacher);
-                    panel_container_teacher.validate();
-                    panel_container_teacher.repaint();
-                    System.out.println("pe");
-                    panel_chengjiguanli_teacher.setVisible(true);
                 }
+            } else if (e.getSource().equals(btnExit_teacher)) {
+                contentPane.removeAll();
+                LoginPanel loginPanel = new LoginPanel();
+                contentPane.add(loginPanel.getPanel());
+                contentPane.validate();
+                contentPane.repaint();
+                loginPanel.getPanel().setVisible(true);
+
+                dbConnector.closeConnection();
+            } else if (e.getSource().equals(btnEditInfo_teacher)) {
+                textField_6123v.setVisible(false);
+                panel_container_teacher.removeAll();
+                panel_container_teacher.add(panel_editInfo_teacher);
+                panel_container_teacher.validate();
+                panel_container_teacher.repaint();
+                System.out.println("pe");
+                panel_chengjiguanli_teacher.setVisible(true);
             }
         };
         btnHomePage_teacher.addActionListener(actionlistenerTeacher);
