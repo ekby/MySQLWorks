@@ -302,6 +302,7 @@ public class StudentPanel {
                     lbl_ccsFalse.setVisible(false);
 
                     // student右侧内容区 -> 我的课程 -> 已选课程
+                    //todo 名称、时间、类别的select
                     Vector<String> title_nominatedCourse = new Vector<>();
                     title_nominatedCourse.add("课程名称");
                     title_nominatedCourse.add("课程编号");
@@ -364,6 +365,7 @@ public class StudentPanel {
                                 table_nominatedCourse.updateUI();
                                 lbl_ccsSuccess.setVisible(true);
                                 lbl_ccsFalse.setVisible(false);
+                                panel_coursePage_student.updateUI();
 
                             } else {
                                 lbl_ccsFalse.setVisible(true);

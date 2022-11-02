@@ -1,5 +1,6 @@
 package newjwglxt.jwglxt.service.idx2;
 
+import cn.hutool.db.Db;
 import newjwglxt.jwglxt.dao.idx2.ChooseCourseDaoImpl;
 import newjwglxt.jwglxt.entity.ChooseCourse;
 import newjwglxt.jwglxt.entity.Course;
@@ -230,6 +231,23 @@ public class ChooseCourseService implements Service_idx2<ChooseCourse> {
         for (ChooseCourse chooseCourse : chooseCourses) {
             Course course2 = courseService.CheckById(dbConnector, chooseCourse.getCccid()).get(0);
             if (!judgeTime(dbConnector, course1.getCid(), course2.getCid())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //todo here has bug
+    public boolean judgeCourseForTeacher (DbConnector dbConnector, Course courseWaitJudge) {
+        CourseService courseService = new CourseService();
+
+        ArrayList<Course> coursesForTeacher = courseService.CheckTeacherCourses(dbConnector,courseWaitJudge.getCteacherid());
+
+        for (Course courseForTeacher : coursesForTeacher) {
+            if (courseForTeacher.equals(courseWaitJudge)){
+                continue;}
+
+            if (!judgeTime(dbConnector, courseForTeacher.getCid(), courseWaitJudge.getCid())) {
                 return false;
             }
         }

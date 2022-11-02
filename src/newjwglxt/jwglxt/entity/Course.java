@@ -1,5 +1,7 @@
 package newjwglxt.jwglxt.entity;
 
+import java.util.Objects;
+
 public class Course {
     private int cid;
     private String cname;
@@ -103,6 +105,19 @@ public class Course {
 
     public void setCmax_num(int cmax_num) {
         this.cmax_num = cmax_num;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return cid == course.cid && Double.compare(course.ccredit, ccredit) == 0 && cteacherid == course.cteacherid && csigned_num == course.csigned_num && cmax_num == course.cmax_num && Objects.equals(cname, course.cname) && Objects.equals(cdepartment, course.cdepartment) && Objects.equals(ckclb, course.ckclb) && Objects.equals(croom, course.croom) && Objects.equals(ctime, course.ctime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cid, cname, cdepartment, ccredit, ckclb, cteacherid, croom, ctime, csigned_num, cmax_num);
     }
 
     @Override

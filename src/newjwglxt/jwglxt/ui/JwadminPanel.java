@@ -5,6 +5,7 @@ import newjwglxt.jwglxt.service.idx1.CourseService;
 import newjwglxt.jwglxt.service.idx1.JwadminService;
 import newjwglxt.jwglxt.service.idx1.StudentService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
+import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
 import newjwglxt.jwglxt.service.idx2.DropCourseService;
 import newjwglxt.jwglxt.util.DbConnector;
 import newjwglxt.jwglxt.util.QuickButton;
@@ -18,6 +19,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
@@ -737,6 +743,7 @@ public class JwadminPanel {
         textField_3.setBounds(333, 46, 93, 26);
         panel_xinjiankecheng_jwadmin.add(textField_3);
 
+        //教师上课时间
         JTextField ttt = new JTextField();
         ttt.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         ttt.setFont(new Font("微软雅黑", Font.PLAIN, 13));
@@ -2279,21 +2286,34 @@ public class JwadminPanel {
                     String croom = tt.getText();
                     String ctime = ttt.getText();
                     int cmax_num = Integer.parseInt(textField_2.getText());
-                    System.out.println(Arrays.toString(selected_value_of_comboboxes));
                     CourseService courseService = new CourseService();
-                    courseService.Add(dbConnector, new Course(cid, cname, depart, cxuefen, kclb, tid, croom, ctime, 0, cmax_num));
-                    // 确认后复位
-                    textField.setText("");
-                    textField_3.setText("");
-                    textField_1.setText("");
-                    tt.setText("");
-                    ttt.setText("");
-                    textField_2.setText("");
-                    comboBox.setSelectedIndex(0);
-                    comboBox_1.setSelectedIndex(0);
-                    selected_value_of_comboboxes[0] = "经济与管理学院";
-                    selected_value_of_comboboxes[1] = "学科基础必修课";
-                    lblCourseId_1_1.setText("");
+                    Course courseWaitJudge = new Course(cid, cname, depart, cxuefen, kclb, tid, croom, ctime, 0, cmax_num);
+
+                    //判断时间是否冲突
+                    ChooseCourseService chooseCourseService = new ChooseCourseService();
+                    courseService.Add(dbConnector, courseWaitJudge);
+
+                    //todo judge结果永远为false
+                    System.out.println(chooseCourseService.judgeCourseForTeacher(dbConnector, courseWaitJudge));
+
+                    if (chooseCourseService.judgeCourseForTeacher(dbConnector, courseWaitJudge)) {
+                        // 确认后复位
+                        textField.setText("");
+                        textField_3.setText("");
+                        textField_1.setText("");
+                        tt.setText("");
+                        ttt.setText("");
+                        textField_2.setText("");
+                        comboBox.setSelectedIndex(0);
+                        comboBox_1.setSelectedIndex(0);
+                        selected_value_of_comboboxes[0] = "经济与管理学院";
+                        selected_value_of_comboboxes[1] = "学科基础必修课";
+                        lblCourseId_1_1.setText("");
+                    } else {
+                        ttt.setText("");
+                        courseService.Delete(dbConnector, courseWaitJudge);
+                    }
+
                 }
             } else if (e.getSource().equals(btnAbout_2)) {
                 panel_container_jwadmin.removeAll();
