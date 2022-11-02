@@ -23,6 +23,7 @@ import java.util.Vector;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
 import static newjwglxt.jwglxt.util.ComboboxStyle.setComboboxStyle;
+import static newjwglxt.jwglxt.util.Judge.*;
 import static newjwglxt.jwglxt.util.QuickButton.primaryBorderButton;
 import static newjwglxt.jwglxt.util.TableStyle.setTableStyle;
 
@@ -193,6 +194,7 @@ public class XtadminPanel {
 
         // 姓名
         JTextField textField_513 = new JTextField(xtadmin_login.getName());
+        textField_513.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_513.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_513.setBounds(237, 171, 146, 26);
         panel_editInfo_xtadmin.add(textField_513);
@@ -216,26 +218,39 @@ public class XtadminPanel {
 
         // 联系方式
         JTextField textField_5111 = new JTextField(xtadmin_login.getContact());
+        textField_5111.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_5111.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_5111.setBounds(237, 279, 146, 26);
         panel_editInfo_xtadmin.add(textField_5111);
         textField_5111.setColumns(10);
 
+        JLabel lbleditInfo_genderm = new JLabel("请检查输入!");
+        lbleditInfo_genderm.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbleditInfo_genderm.setForeground(Color.red);
+        lbleditInfo_genderm.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lbleditInfo_genderm.setBounds(333, 412, 100, 33);
+        panel_editInfo_xtadmin.add(lbleditInfo_genderm);
+        lbleditInfo_genderm.setVisible(false);
+
         JButton btneditInfo_jwadmin = primaryBorderButton("确认");
         btneditInfo_jwadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btneditInfo_jwadmin.setBounds(443, 412, 100, 33);
         panel_editInfo_xtadmin.add(btneditInfo_jwadmin);
-        btneditInfo_jwadmin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("in");
-                XtadminService xtadminService = new XtadminService();
-                String new_name = textField_513.getText();
-                String new_pw;
-                String new_gender = (String) comboBox_213.getSelectedItem();
-                String new_contact = textField_5111.getText();
-                if (textField_511.getText().equals("")) new_pw = xtadmin_login.getPw();
-                else new_pw = SHA256.SHA256(textField_511.getText());
+        btneditInfo_jwadmin.addActionListener(e -> {
+            System.out.println("in");
+            XtadminService xtadminService = new XtadminService();
+            String new_name = textField_513.getText();
+            String new_pw;
+            String new_gender = (String) comboBox_213.getSelectedItem();
+            String new_contact = textField_5111.getText();
+
+            if (new_name.equals("") || isNum(new_name) || new_contact.equals("") || !isPhoneNum(new_contact)) {
+                lbleditInfo_genderm.setVisible(true);
+            } else {
+                lbleditInfo_genderm.setVisible(false);
+                if (textField_511.getText().equals("")) {
+                    new_pw = xtadmin_login.getPw();
+                } else new_pw = SHA256.SHA256(textField_511.getText());
                 Xtadmin xtadmin = new Xtadmin(new_name, xtadmin_login.getId(), new_pw, new_gender, new_contact);
                 // 更新数据库
                 xtadminService.Update(dbConnector, xtadmin);
@@ -502,19 +517,9 @@ public class XtadminPanel {
         panel_tianjiayonghu_sub_xtadmin.setLayout(new CardLayout(0, 0));
 
         JPanel panel_tianjiajiaowuguanliyuan_xtadmin = new JPanel();
-        panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiajiaowuguanliyuan_xtadmin, "name_415818239970300");
+        panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiajiaowuguanliyuan_xtadmin);
         panel_tianjiajiaowuguanliyuan_xtadmin.setLayout(null);
 
-        rdbtnNewRadioButton_1_1_1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panel_tianjiayonghu_sub_xtadmin.removeAll();
-                panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiajiaowuguanliyuan_xtadmin);
-                panel_tianjiayonghu_sub_xtadmin.validate();
-                panel_tianjiayonghu_sub_xtadmin.repaint();
-                panel_tianjiajiaowuguanliyuan_xtadmin.setVisible(true);
-            }
-        });
 
         JLabel lblNewLabel_7 = new JLabel("姓名：");
         lblNewLabel_7.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -535,12 +540,14 @@ public class XtadminPanel {
         panel_tianjiajiaowuguanliyuan_xtadmin.add(lblNewLabel_7_2);
 
         JTextField textField_10 = new JTextField();
+        textField_10.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_10.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_10.setBounds(243, 98, 146, 26);
         panel_tianjiajiaowuguanliyuan_xtadmin.add(textField_10);
         textField_10.setColumns(10);
 
         JTextField textField_13 = new JTextField();
+        textField_13.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_13.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_13.setColumns(10);
         textField_13.setBounds(243, 170, 146, 26);
@@ -556,73 +563,77 @@ public class XtadminPanel {
         btnNewButton.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnNewButton.setBounds(0, 317, 100, 33);
         panel_tianjiajiaowuguanliyuan_xtadmin.add(btnNewButton);
-        btnNewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lbl_tianjia_xtadmin_1_jiaozhigongliebiao.setVisible(false);
-                lbl_tianjia_xtadmin_1_xueshengliebiao.setVisible(false);
-                lbl_tianjia_xtadmin_1_jiaowuliebiao.setVisible(true);
-                lbl_tianjia_xtadmin_1_jiaowuliebiao1.setVisible(false);
+        btnNewButton.addActionListener(e -> {
+            lbl_tianjia_xtadmin_1_jiaozhigongliebiao.setVisible(false);
+            lbl_tianjia_xtadmin_1_xueshengliebiao.setVisible(false);
+            lbl_tianjia_xtadmin_1_jiaowuliebiao.setVisible(true);
+            lbl_tianjia_xtadmin_1_jiaowuliebiao1.setVisible(false);
 
-                panel_listContainer.removeAll();
-                panel_listContainer.add(scrollPane_7);
-                panel_listContainer.validate();
-                panel_listContainer.repaint();
-                scrollPane_7.setVisible(true);
+            panel_listContainer.removeAll();
+            panel_listContainer.add(scrollPane_7);
+            panel_listContainer.validate();
+            panel_listContainer.repaint();
+            scrollPane_7.setVisible(true);
 
-                panel_userManage_sub_xtadmin.removeAll();
-                panel_userManage_sub_xtadmin.add(panel_1);
-                panel_userManage_sub_xtadmin.validate();
-                panel_userManage_sub_xtadmin.repaint();
-                panel_tianjia_1.setVisible(true);
-            }
+            panel_userManage_sub_xtadmin.removeAll();
+            panel_userManage_sub_xtadmin.add(panel_1);
+            panel_userManage_sub_xtadmin.validate();
+            panel_userManage_sub_xtadmin.repaint();
+            panel_tianjia_1.setVisible(true);
+        });
+
+        JLabel lblNewLabel_7_2g = new JLabel("请检查输入!");
+        lblNewLabel_7_2g.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_7_2g.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_7_2g.setVisible(false);
+        lblNewLabel_7_2g.setForeground(Color.red);
+        lblNewLabel_7_2g.setBounds(323, 317, 100, 33);
+        panel_tianjiajiaowuguanliyuan_xtadmin.add(lblNewLabel_7_2g);
+
+        rdbtnNewRadioButton_1_1_1.addActionListener(e -> {
+            lblNewLabel_7_2g.setVisible(false);
+            panel_tianjiayonghu_sub_xtadmin.removeAll();
+            panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiajiaowuguanliyuan_xtadmin);
+            panel_tianjiayonghu_sub_xtadmin.validate();
+            panel_tianjiayonghu_sub_xtadmin.repaint();
+            panel_tianjiajiaowuguanliyuan_xtadmin.setVisible(true);
         });
 
         JButton btnNewButton_1 = primaryBorderButton("确认");
         btnNewButton_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnNewButton_1.setBounds(433, 317, 100, 33);
         panel_tianjiajiaowuguanliyuan_xtadmin.add(btnNewButton_1);
-        btnNewButton_1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String new_name = textField_10.getText();
-                String new_gender = (String) comboBox_4.getSelectedItem();
-                String new_contact = textField_13.getText();
-                if (new_name.equals("") || new_contact.equals("")) {
-                    System.out.println("有空值");
-                } else {
-                    String new_pw = SHA256.SHA256(ToPinYin.toPinyin(new_name));
-                    Random random = new Random();
-                    JwadminService jwadminService = new JwadminService();
-                    int new_id;
-                    do {
-                        new_id = 10000 + random.nextInt(10000);
-                    } while (jwadminService.ifIdExist(dbConnector, new_id));
-                    Jwadmin jwadmin = new Jwadmin(new_name, new_id, new_pw, new_gender, new_contact);
-                    jwadminService.Add(dbConnector, jwadmin);
+        btnNewButton_1.addActionListener(e -> {
+            String new_name = textField_10.getText();
+            String new_gender = (String) comboBox_4.getSelectedItem();
+            String new_contact = textField_13.getText();
 
-                    textField_10.setText("");
-                    comboBox_4.setSelectedIndex(0);
-                    textField_13.setText("");
-                }
+            if (new_name.equals("") || new_contact.equals("") || isNum(new_name) || !isPhoneNum(new_contact)) {
+                lblNewLabel_7_2g.setVisible(true);
+                System.out.println("有空值");
+            } else {
+                lblNewLabel_7_2g.setVisible(false);
+                String new_pw = SHA256.SHA256(ToPinYin.toPinyin(new_name));
+                Random random = new Random();
+                JwadminService jwadminService = new JwadminService();
+                int new_id;
+                do {
+                    new_id = 10000 + random.nextInt(10000);
+                } while (jwadminService.ifIdExist(dbConnector, new_id));
+                Jwadmin jwadmin = new Jwadmin(new_name, new_id, new_pw, new_gender, new_contact);
+                jwadminService.Add(dbConnector, jwadmin);
+
+                textField_10.setText("");
+                comboBox_4.setSelectedIndex(0);
+                textField_13.setText("");
             }
         });
 
         // xtadmin右侧内容区 -> 用户管理 -> 添加用户 -> 内容区 -> 添加学生
         JPanel panel_tianjiaxuesheng_xtadmin = new JPanel();
         panel_tianjiaxuesheng_xtadmin.setLayout(null);
-        panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiaxuesheng_xtadmin, "name_416787770067000");
+        panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiaxuesheng_xtadmin);
 
-        rdbtnNewRadioButton_1_1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panel_tianjiayonghu_sub_xtadmin.removeAll();
-                panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiaxuesheng_xtadmin);
-                panel_tianjiayonghu_sub_xtadmin.validate();
-                panel_tianjiayonghu_sub_xtadmin.repaint();
-                panel_tianjiaxuesheng_xtadmin.setVisible(true);
-            }
-        });
 
         JLabel lblNewLabel_6_6 = new JLabel("姓名：");
         lblNewLabel_6_6.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -631,6 +642,7 @@ public class XtadminPanel {
         panel_tianjiaxuesheng_xtadmin.add(lblNewLabel_6_6);
 
         JTextField textField_14 = new JTextField();
+        textField_14.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_14.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_14.setColumns(10);
         textField_14.setBounds(237, 28, 146, 26);
@@ -673,24 +685,28 @@ public class XtadminPanel {
         panel_tianjiaxuesheng_xtadmin.add(lblNewLabel_6_5_1);
 
         JTextField textField_15 = new JTextField();
+        textField_15.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_15.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_15.setColumns(10);
         textField_15.setBounds(237, 100, 146, 26);
         panel_tianjiaxuesheng_xtadmin.add(textField_15);
 
         JTextField textField_16 = new JTextField();
+        textField_16.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_16.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_16.setColumns(10);
         textField_16.setBounds(237, 172, 146, 26);
         panel_tianjiaxuesheng_xtadmin.add(textField_16);
 
         JTextField textField_17 = new JTextField();
+        textField_17.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_17.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_17.setColumns(10);
         textField_17.setBounds(237, 244, 146, 26);
         panel_tianjiaxuesheng_xtadmin.add(textField_17);
 
         JTextField textField_17a = new JTextField();
+        textField_17a.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_17a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_17a.setColumns(10);
         textField_17a.setBounds(237, 136, 146, 26);
@@ -708,40 +724,57 @@ public class XtadminPanel {
         comboBox_2_3_1_1_1.setBounds(237, 208, 146, 26);
         panel_tianjiaxuesheng_xtadmin.add(comboBox_2_3_1_1_1);
 
+        JLabel lblNewLabel_7_2gn = new JLabel("请检查输入!");
+        lblNewLabel_7_2gn.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_7_2gn.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_7_2gn.setVisible(false);
+        lblNewLabel_7_2gn.setForeground(Color.red);
+        lblNewLabel_7_2gn.setBounds(323, 317, 100, 33);
+        panel_tianjiaxuesheng_xtadmin.add(lblNewLabel_7_2gn);
+
+        rdbtnNewRadioButton_1_1.addActionListener(e -> {
+            lblNewLabel_7_2gn.setVisible(false);
+            panel_tianjiayonghu_sub_xtadmin.removeAll();
+            panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiaxuesheng_xtadmin);
+            panel_tianjiayonghu_sub_xtadmin.validate();
+            panel_tianjiayonghu_sub_xtadmin.repaint();
+            panel_tianjiaxuesheng_xtadmin.setVisible(true);
+        });
+
         JButton btnHomPage_jwadmin_2_2_1_1 = primaryBorderButton("确认");
         btnHomPage_jwadmin_2_2_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_2_1_1.setBounds(433, 317, 100, 33);
         panel_tianjiaxuesheng_xtadmin.add(btnHomPage_jwadmin_2_2_1_1);
-        btnHomPage_jwadmin_2_2_1_1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String new_name = textField_14.getText();
-                String new_gender = (String) comboBox_2_3_2.getSelectedItem();
-                String new_major = textField_17a.getText();
-                String new_class = textField_16.getText();
-                String new_coll = (String) comboBox_2_3_1_1_1.getSelectedItem();
-                String new_cont = textField_17.getText();
-                String new_firstyear = textField_15.getText();
-                if (new_name.equals("") || new_major.equals("") || new_class.equals("") || new_cont.equals("") || new_firstyear.equals("")) {
-                    System.out.println("有空值");
-                } else {
-                    StudentService studentService = new StudentService();
-                    int new_id;
-                    Random random = new Random();
-                    do {
-                        new_id = 30000 + random.nextInt(10000);
-                    } while (studentService.ifIdExist(dbConnector, new_id));
-                    String new_pw = SHA256.SHA256(ToPinYin.toPinyin(new_name));
-                    Student student = new Student(new_name, new_id, new_pw, new_gender, new_cont, Integer.parseInt(new_firstyear), Integer.parseInt(new_class), new_major, new_coll);
-                    studentService.Add(dbConnector, student);
-                    textField_14.setText("");
-                    comboBox_2_3_2.setSelectedIndex(0);
-                    textField_17a.setText("");
-                    textField_16.setText("");
-                    comboBox_2_3_1_1_1.setSelectedIndex(0);
-                    textField_17.setText("");
-                    textField_15.setText("");
-                }
+        btnHomPage_jwadmin_2_2_1_1.addActionListener(e -> {
+            String new_name = textField_14.getText();
+            String new_gender = (String) comboBox_2_3_2.getSelectedItem();
+            String new_major = textField_17a.getText();
+            String new_class = textField_16.getText();
+            String new_coll = (String) comboBox_2_3_1_1_1.getSelectedItem();
+            String new_cont = textField_17.getText();
+            String new_firstyear = textField_15.getText();
+
+            if (new_name.equals("") || new_major.equals("") || new_class.equals("") || new_cont.equals("") || new_firstyear.equals("") ||
+                    isNum(new_name) || isNum(new_major) || !isNum(new_class) || !isPhoneNum(new_cont) || !isYear(new_firstyear)) {
+                lblNewLabel_7_2gn.setVisible(true);
+            } else {
+                lblNewLabel_7_2gn.setVisible(false);
+                StudentService studentService1 = new StudentService();
+                int new_id;
+                Random random = new Random();
+                do {
+                    new_id = 30000 + random.nextInt(10000);
+                } while (studentService1.ifIdExist(dbConnector, new_id));
+                String new_pw = SHA256.SHA256(ToPinYin.toPinyin(new_name));
+                Student student = new Student(new_name, new_id, new_pw, new_gender, new_cont, Integer.parseInt(new_firstyear), Integer.parseInt(new_class), new_major, new_coll);
+                studentService1.Add(dbConnector, student);
+                textField_14.setText("");
+                comboBox_2_3_2.setSelectedIndex(0);
+                textField_17a.setText("");
+                textField_16.setText("");
+                comboBox_2_3_1_1_1.setSelectedIndex(0);
+                textField_17.setText("");
+                textField_15.setText("");
             }
         });
 
@@ -776,16 +809,6 @@ public class XtadminPanel {
         panel_tianjiajiaoshi_xtadmin.setLayout(null);
         panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiajiaoshi_xtadmin, "name_416938202048200");
 
-        rdbtnNewRadioButton_2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panel_tianjiayonghu_sub_xtadmin.removeAll();
-                panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiajiaoshi_xtadmin);
-                panel_tianjiayonghu_sub_xtadmin.validate();
-                panel_tianjiayonghu_sub_xtadmin.repaint();
-                panel_tianjiajiaoshi_xtadmin.setVisible(true);
-            }
-        });
 
         JLabel lblNewLabel_8 = new JLabel("姓名：");
         lblNewLabel_8.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -824,6 +847,7 @@ public class XtadminPanel {
         panel_tianjiajiaoshi_xtadmin.add(lblNewLabel_5_1);
 
         JTextField textField_18 = new JTextField();
+        textField_18.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_18.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_18.setColumns(10);
         textField_18.setBounds(239, 50, 146, 26);
@@ -836,6 +860,7 @@ public class XtadminPanel {
         panel_tianjiajiaoshi_xtadmin.add(comboBox_2_4);
 
         JTextField textField_19 = new JTextField();
+        textField_19.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_19.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_19.setColumns(10);
         textField_19.setBounds(239, 122, 146, 26);
@@ -855,10 +880,28 @@ public class XtadminPanel {
         panel_tianjiajiaoshi_xtadmin.add(comboBox_2_2_1);
 
         JTextField textField_20 = new JTextField();
+        textField_20.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textField_20.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         textField_20.setColumns(10);
         textField_20.setBounds(239, 230, 146, 26);
         panel_tianjiajiaoshi_xtadmin.add(textField_20);
+
+        JLabel lblNewLabel_7_2gng = new JLabel("请检查输入!");
+        lblNewLabel_7_2gng.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNewLabel_7_2gng.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblNewLabel_7_2gng.setVisible(false);
+        lblNewLabel_7_2gng.setForeground(Color.red);
+        lblNewLabel_7_2gng.setBounds(323, 317, 100, 33);
+        panel_tianjiajiaoshi_xtadmin.add(lblNewLabel_7_2gng);
+
+        rdbtnNewRadioButton_2.addActionListener(e -> {
+            lblNewLabel_7_2gng.setVisible(false);
+            panel_tianjiayonghu_sub_xtadmin.removeAll();
+            panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiajiaoshi_xtadmin);
+            panel_tianjiayonghu_sub_xtadmin.validate();
+            panel_tianjiayonghu_sub_xtadmin.repaint();
+            panel_tianjiajiaoshi_xtadmin.setVisible(true);
+        });
 
         JButton btnHomPage_jwadmin_2_2_2 = primaryBorderButton("确认");
         btnHomPage_jwadmin_2_2_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
@@ -873,9 +916,11 @@ public class XtadminPanel {
                 String new_title = (String) comboBox_2_1_1.getSelectedItem();
                 String new_coll = (String) comboBox_2_2_1.getSelectedItem();
                 String new_cont = textField_20.getText();
-                if (new_name.equals("") || new_firstyear.equals("") || new_cont.equals("")) {
-                    System.out.println("有空值");
+                if (new_name.equals("") || new_firstyear.equals("") || new_cont.equals("") ||
+                        isNum(new_name) || !isYear(new_firstyear) || !isPhoneNum(new_cont)) {
+                    lblNewLabel_7_2gng.setVisible(true);
                 } else {
+                    lblNewLabel_7_2gng.setVisible(false);
                     String new_pw = SHA256.SHA256(ToPinYin.toPinyin(new_name));
                     TeacherService teacherService = new TeacherService();
                     Random random = new Random();
@@ -923,89 +968,86 @@ public class XtadminPanel {
         });
 
 
-        ActionListener actionlistenerXtadmin = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource().equals(btnHomePage_xtadmin)) {
-                    // 主页
-                    lblHello_xtadmin.setText(xtadmin_login.getName());
-                    lblcontact_pre_jw.setText(xtadmin_login.getContact());
-                    lblGender_present_xtadmin.setText(xtadmin_login.getGender());
+        ActionListener actionlistenerXtadmin = e -> {
+            if (e.getSource().equals(btnHomePage_xtadmin)) {
+                // 主页
+                lblHello_xtadmin.setText(String.format("%s，你好！", xtadmin_login.getName()));
+                lblcontact_pre_jw.setText(xtadmin_login.getContact());
+                lblGender_present_xtadmin.setText(xtadmin_login.getGender());
 
-                    panel_container_xtadmin.removeAll();
-                    panel_container_xtadmin.add(panel_homepage_xtadmin);
-                    panel_container_xtadmin.validate();
-                    panel_container_xtadmin.repaint();
-                    panel_homepage_xtadmin.setVisible(true);
-                } else if (e.getSource().equals(btnUserManagement_xtadmin)) {
-                    // 用户管理
-                    lbl_tianjia_xtadmin_1_jiaozhigongliebiao.setVisible(false);
-                    lbl_tianjia_xtadmin_1_xueshengliebiao.setVisible(true);
-                    lbl_tianjia_xtadmin_1_jiaowuliebiao.setVisible(false);
-                    lbl_tianjia_xtadmin_1_jiaowuliebiao1.setVisible(false);
+                panel_container_xtadmin.removeAll();
+                panel_container_xtadmin.add(panel_homepage_xtadmin);
+                panel_container_xtadmin.validate();
+                panel_container_xtadmin.repaint();
+                panel_homepage_xtadmin.setVisible(true);
+            } else if (e.getSource().equals(btnUserManagement_xtadmin)) {
+                // 用户管理
+                lbl_tianjia_xtadmin_1_jiaozhigongliebiao.setVisible(false);
+                lbl_tianjia_xtadmin_1_xueshengliebiao.setVisible(true);
+                lbl_tianjia_xtadmin_1_jiaowuliebiao.setVisible(false);
+                lbl_tianjia_xtadmin_1_jiaowuliebiao1.setVisible(false);
 
-                    rdbtnNewRadioButton_2.setSelected(true);
-                    panel_userManage_sub_xtadmin.removeAll();
-                    panel_userManage_sub_xtadmin.add(panel_1);
-                    panel_userManage_sub_xtadmin.validate();
-                    panel_userManage_sub_xtadmin.repaint();
-                    panel_1.setVisible(true);
+                rdbtnNewRadioButton_2.setSelected(true);
+                panel_userManage_sub_xtadmin.removeAll();
+                panel_userManage_sub_xtadmin.add(panel_1);
+                panel_userManage_sub_xtadmin.validate();
+                panel_userManage_sub_xtadmin.repaint();
+                panel_1.setVisible(true);
 
-                    StudentService studentService = new StudentService();
-                    Vector<Vector<Object>> data = studentService.getAllStudentVector(dbConnector);
-                    table_5.setModel(new DefaultTableModel(data, title_xueshengliebiao_jwadmin) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
-                        }
-                    });
+                StudentService studentService12 = new StudentService();
+                Vector<Vector<Object>> data = studentService12.getAllStudentVector(dbConnector);
+                table_5.setModel(new DefaultTableModel(data, title_xueshengliebiao_jwadmin) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                });
 
-                    panel_listContainer.removeAll();
-                    panel_listContainer.add(scrollPane_5);
-                    panel_listContainer.validate();
-                    panel_listContainer.repaint();
-                    scrollPane_5.setVisible(true);
+                panel_listContainer.removeAll();
+                panel_listContainer.add(scrollPane_5);
+                panel_listContainer.validate();
+                panel_listContainer.repaint();
+                scrollPane_5.setVisible(true);
 
-                    panel_container_xtadmin.removeAll();
-                    panel_container_xtadmin.add(panel_userManege_xtadmin);
-                    panel_container_xtadmin.validate();
-                    panel_container_xtadmin.repaint();
-                    System.out.println("3");
-                    panel_userManege_xtadmin.setVisible(true);
-                } else if (e.getSource().equals(btn_jwadminList_xtadmin_1)) {
-                    // 添加用户
-                    lbl_tianjia_xtadmin_1_jiaozhigongliebiao.setVisible(false);
-                    lbl_tianjia_xtadmin_1_xueshengliebiao.setVisible(false);
-                    lbl_tianjia_xtadmin_1_jiaowuliebiao.setVisible(false);
-                    lbl_tianjia_xtadmin_1_jiaowuliebiao1.setVisible(true);
+                panel_container_xtadmin.removeAll();
+                panel_container_xtadmin.add(panel_userManege_xtadmin);
+                panel_container_xtadmin.validate();
+                panel_container_xtadmin.repaint();
+                System.out.println("3");
+                panel_userManege_xtadmin.setVisible(true);
+            } else if (e.getSource().equals(btn_jwadminList_xtadmin_1)) {
+                // 添加用户
+                lbl_tianjia_xtadmin_1_jiaozhigongliebiao.setVisible(false);
+                lbl_tianjia_xtadmin_1_xueshengliebiao.setVisible(false);
+                lbl_tianjia_xtadmin_1_jiaowuliebiao.setVisible(false);
+                lbl_tianjia_xtadmin_1_jiaowuliebiao1.setVisible(true);
 
-                    rdbtnNewRadioButton_2.setSelected(true);
-                    panel_tianjiayonghu_sub_xtadmin.removeAll();
-                    panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiajiaoshi_xtadmin);
+                rdbtnNewRadioButton_2.setSelected(true);
+                panel_tianjiayonghu_sub_xtadmin.removeAll();
+                panel_tianjiayonghu_sub_xtadmin.add(panel_tianjiajiaoshi_xtadmin);
 //                    panel_tianjiayonghu_sub_xtadmin.validate();
 //                    panel_tianjiayonghu_sub_xtadmin.repaint();
 //                    panel_tianjiajiaoshi_xtadmin.setVisible(true);
 
-                    panel_userManage_sub_xtadmin.removeAll();
-                    panel_userManage_sub_xtadmin.add(panel_tianjiayonghu_xtadmin);
-                    panel_userManage_sub_xtadmin.validate();
-                    panel_userManage_sub_xtadmin.repaint();
-                    panel_tianjiayonghu_xtadmin.setVisible(true);
-                } else if (e.getSource().equals(btnNewButton)) {
-                    // 返回
-                    panel_container_xtadmin.removeAll();
-                    panel_container_xtadmin.add(panel_userManege_xtadmin);
-                    panel_container_xtadmin.validate();
-                    panel_container_xtadmin.repaint();
-                    panel_userManege_xtadmin.setVisible(true);
-                } else if (e.getSource().equals(btnEditInfo_xtadmin)) {
-                    // 修改个人信息
-                    panel_container_xtadmin.removeAll();
-                    panel_container_xtadmin.add(panel_editInfo_xtadmin);
-                    panel_container_xtadmin.validate();
-                    panel_container_xtadmin.repaint();
-                    panel_editInfo_xtadmin.setVisible(true);
-                }
+                panel_userManage_sub_xtadmin.removeAll();
+                panel_userManage_sub_xtadmin.add(panel_tianjiayonghu_xtadmin);
+                panel_userManage_sub_xtadmin.validate();
+                panel_userManage_sub_xtadmin.repaint();
+                panel_tianjiayonghu_xtadmin.setVisible(true);
+            } else if (e.getSource().equals(btnNewButton)) {
+                // 返回
+                panel_container_xtadmin.removeAll();
+                panel_container_xtadmin.add(panel_userManege_xtadmin);
+                panel_container_xtadmin.validate();
+                panel_container_xtadmin.repaint();
+                panel_userManege_xtadmin.setVisible(true);
+            } else if (e.getSource().equals(btnEditInfo_xtadmin)) {
+                // 修改个人信息
+                panel_container_xtadmin.removeAll();
+                panel_container_xtadmin.add(panel_editInfo_xtadmin);
+                panel_container_xtadmin.validate();
+                panel_container_xtadmin.repaint();
+                panel_editInfo_xtadmin.setVisible(true);
             }
         };
         btnHomePage_xtadmin.addActionListener(actionlistenerXtadmin);
