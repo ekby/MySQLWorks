@@ -100,4 +100,62 @@ public class StudentService implements Service_idx1<Student>, LoginService<Stude
         }
     }
 
+    public Vector<Vector<Object>> CheckByIdRough_Vector(DbConnector dbConnector, int id) {
+        StudentDaoImpl studentDao = new StudentDaoImpl();
+        ArrayList<Student> allStudents = studentDao.SelectByIdRough(dbConnector.getConnection(), id);
+        Vector<Vector<Object>> studentCol = new Vector<>();
+        for (Student student : allStudents) {
+            Vector<Object> studentRow = new Vector<>();
+            studentRow.add(student.getId());
+            studentRow.add(student.getName());
+            studentRow.add(student.getGender());
+            studentRow.add(student.getSfirstyear());
+            studentRow.add(student.getSmajor());
+            studentRow.add(student.getSclass());
+            studentRow.add(student.getScollege());
+            studentRow.add(student.getContact());
+            studentCol.add(studentRow);
+        }
+        return studentCol;
+    }
+
+    public Vector<Vector<Object>> CheckByNameRough_Vector(DbConnector dbConnector, String name) {
+        StudentDaoImpl studentDao = new StudentDaoImpl();
+        ArrayList<Student> allStudents = studentDao.SelectByNameRough(dbConnector.getConnection(), name);
+        Vector<Vector<Object>> studentCol = new Vector<>();
+        for (Student student : allStudents) {
+            Vector<Object> studentRow = new Vector<>();
+            studentRow.add(student.getId());
+            studentRow.add(student.getName());
+            studentRow.add(student.getGender());
+            studentRow.add(student.getSfirstyear());
+            studentRow.add(student.getSmajor());
+            studentRow.add(student.getSclass());
+            studentRow.add(student.getScollege());
+            studentRow.add(student.getContact());
+            studentCol.add(studentRow);
+        }
+        return studentCol;
+    }
+
+    public Vector<Vector<Object>> CheckByFirstYearRough_Vector(DbConnector dbConnector, String fy) {
+        StudentDaoImpl studentDao = new StudentDaoImpl();
+        ArrayList<Student> allStudents = studentDao.SelectByFirstYearRough(dbConnector.getConnection(), fy);
+        Vector<Vector<Object>> studentCol = new Vector<>();
+        for (Student student : allStudents) {
+            Vector<Object> studentRow = new Vector<>();
+            studentRow.add(student.getId());
+            studentRow.add(student.getName());
+            studentRow.add(student.getGender());
+            studentRow.add(student.getSfirstyear());
+            studentRow.add(student.getSmajor());
+            studentRow.add(student.getSclass());
+            studentRow.add(student.getScollege());
+            studentRow.add(student.getContact());
+            studentCol.add(studentRow);
+        }
+        return studentCol;
+    }
+
+
 }

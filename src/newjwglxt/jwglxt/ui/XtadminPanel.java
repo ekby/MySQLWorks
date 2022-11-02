@@ -8,10 +8,7 @@ import newjwglxt.jwglxt.service.idx1.JwadminService;
 import newjwglxt.jwglxt.service.idx1.StudentService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx1.XtadminService;
-import newjwglxt.jwglxt.util.DbConnector;
-import newjwglxt.jwglxt.util.QuickButton;
-import newjwglxt.jwglxt.util.SHA256;
-import newjwglxt.jwglxt.util.ToPinYin;
+import newjwglxt.jwglxt.util.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -39,6 +36,7 @@ public class XtadminPanel {
         xtadmin.setLayout(null);
         xtadmin.setOpaque(false);
         MainWindow.contentPane.add(xtadmin, "name_611226331268200");
+
 
         // xtadmin左侧边栏
         JPanel panel_category_xtadmin = new JPanel();
@@ -71,6 +69,9 @@ public class XtadminPanel {
         panel_container_xtadmin.setBounds(170, 10, 553, 451);
         xtadmin.add(panel_container_xtadmin);
         panel_container_xtadmin.setLayout(new CardLayout(0, 0));
+
+        SelectFunc selectFunc = new SelectFunc("xtadmin", dbConnector, panel_category_xtadmin, 200, panel_container_xtadmin);
+
 
         // xtadmin右侧内容区 -> 主页
         JPanel panel_homepage_xtadmin = new JPanel();

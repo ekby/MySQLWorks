@@ -211,4 +211,86 @@ public class TeacherDaoImpl implements Dao_idx1<Teacher> {
         return arrayList;
     }
 
+    public ArrayList<Teacher> SelectByTitleRough(Connection connection, String title) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<Teacher> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher WHERE teacher.ttitle LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setString(1, "%" + title + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new Teacher(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("tfirstyear"),
+                        resultSet.getString("ttitle"), resultSet.getString("tcollege")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
+    public ArrayList<Teacher> SelectByCollegeRough(Connection connection, String college) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<Teacher> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher WHERE teacher.tcollege LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setString(1, "%" + college + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new Teacher(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("tfirstyear"),
+                        resultSet.getString("ttitle"), resultSet.getString("tcollege")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
+    public ArrayList<Teacher> SelectByFirstYearRough(Connection connection, String fy) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<Teacher> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher WHERE teacher.tfirstyear LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setString(1, "%" + fy + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new Teacher(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getString("pw"),
+                        resultSet.getString("gender"), resultSet.getString("contact"), resultSet.getInt("tfirstyear"),
+                        resultSet.getString("ttitle"), resultSet.getString("tcollege")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+    }
+
+
 }

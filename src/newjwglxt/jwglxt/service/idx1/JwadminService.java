@@ -126,5 +126,33 @@ public class JwadminService implements Service_idx1<Jwadmin>, LoginService<Jwadm
         return jwCol;
     }
 
+    public Vector<Vector<Object>> CheckByIdRough_Vector(DbConnector dbConnector, int id) {
+        JwadminDaoImpl jwadminDao = new JwadminDaoImpl();
+        ArrayList<Jwadmin> arrayList = jwadminDao.SelectByIdRough(dbConnector.getConnection(), id);
+        Vector<Vector<Object>> col = new Vector<>();
+        for (Jwadmin jwadmin : arrayList) {
+            Vector<Object> row = new Vector<>();
+            row.add(jwadmin.getId());
+            row.add(jwadmin.getName());
+            row.add(jwadmin.getGender());
+            row.add(jwadmin.getContact());
+            col.add(row);
+        }
+        return col;
+    }
 
+    public Vector<Vector<Object>> CheckByNameRough_Vector(DbConnector dbConnector, String name) {
+        JwadminDaoImpl jwadminDao = new JwadminDaoImpl();
+        ArrayList<Jwadmin> arrayList = jwadminDao.SelectByNameRough(dbConnector.getConnection(), name);
+        Vector<Vector<Object>> col = new Vector<>();
+        for (Jwadmin jwadmin : arrayList) {
+            Vector<Object> row = new Vector<>();
+            row.add(jwadmin.getId());
+            row.add(jwadmin.getName());
+            row.add(jwadmin.getGender());
+            row.add(jwadmin.getContact());
+            col.add(row);
+        }
+        return col;
+    }
 }

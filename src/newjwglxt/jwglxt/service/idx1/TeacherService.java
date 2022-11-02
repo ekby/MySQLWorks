@@ -99,4 +99,95 @@ public class TeacherService implements Service_idx1<Teacher>, LoginService<Teach
             return false;
         }
     }
+
+    public Vector<Vector<Object>> CheckByIdRough_Vector(DbConnector dbConnector, int id) {
+        TeacherDaoImpl teacherDao = new TeacherDaoImpl();
+        ArrayList<Teacher> arrayList = teacherDao.SelectByIdRough(dbConnector.getConnection(), id);
+        Vector<Vector<Object>> col = new Vector<>();
+        for (Teacher jwadmin : arrayList) {
+            Vector<Object> row = new Vector<>();
+            row.add(jwadmin.getId());
+            row.add(jwadmin.getName());
+            row.add(jwadmin.getGender());
+            row.add(jwadmin.getTfirstyear());
+            row.add(jwadmin.getTtitle());
+            row.add(jwadmin.getTcollege());
+            row.add(jwadmin.getContact());
+            col.add(row);
+        }
+        return col;
+    }
+
+    public Vector<Vector<Object>> CheckByNameRough_Vector(DbConnector dbConnector, String name) {
+        TeacherDaoImpl teacherDao = new TeacherDaoImpl();
+        ArrayList<Teacher> arrayList = teacherDao.SelectByNameRough(dbConnector.getConnection(), name);
+        Vector<Vector<Object>> col = new Vector<>();
+        for (Teacher jwadmin : arrayList) {
+            Vector<Object> row = new Vector<>();
+            row.add(jwadmin.getId());
+            row.add(jwadmin.getName());
+            row.add(jwadmin.getGender());
+            row.add(jwadmin.getTfirstyear());
+            row.add(jwadmin.getTtitle());
+            row.add(jwadmin.getTcollege());
+            row.add(jwadmin.getContact());
+            col.add(row);
+        }
+        return col;
+    }
+
+    public Vector<Vector<Object>> CheckByTitleRough_Vector(DbConnector dbConnector, String title) {
+        TeacherDaoImpl teacherDao = new TeacherDaoImpl();
+        ArrayList<Teacher> arrayList = teacherDao.SelectByTitleRough(dbConnector.getConnection(), title);
+        Vector<Vector<Object>> col = new Vector<>();
+        for (Teacher jwadmin : arrayList) {
+            Vector<Object> row = new Vector<>();
+            row.add(jwadmin.getId());
+            row.add(jwadmin.getName());
+            row.add(jwadmin.getGender());
+            row.add(jwadmin.getTfirstyear());
+            row.add(jwadmin.getTtitle());
+            row.add(jwadmin.getTcollege());
+            row.add(jwadmin.getContact());
+            col.add(row);
+        }
+        return col;
+    }
+
+    public Vector<Vector<Object>> CheckByCollegeRough_Vector(DbConnector dbConnector, String college) {
+        TeacherDaoImpl teacherDao = new TeacherDaoImpl();
+        ArrayList<Teacher> arrayList = teacherDao.SelectByCollegeRough(dbConnector.getConnection(), college);
+        Vector<Vector<Object>> col = new Vector<>();
+        for (Teacher jwadmin : arrayList) {
+            Vector<Object> row = new Vector<>();
+            row.add(jwadmin.getId());
+            row.add(jwadmin.getName());
+            row.add(jwadmin.getGender());
+            row.add(jwadmin.getTfirstyear());
+            row.add(jwadmin.getTtitle());
+            row.add(jwadmin.getTcollege());
+            row.add(jwadmin.getContact());
+            col.add(row);
+        }
+        return col;
+    }
+
+    public Vector<Vector<Object>> CheckByFirstYearRough_Vector(DbConnector dbConnector, String fy) {
+        TeacherDaoImpl teacherDao = new TeacherDaoImpl();
+        ArrayList<Teacher> arrayList = teacherDao.SelectByFirstYearRough(dbConnector.getConnection(), fy);
+        Vector<Vector<Object>> col = new Vector<>();
+        for (Teacher jwadmin : arrayList) {
+            Vector<Object> row = new Vector<>();
+            row.add(jwadmin.getId());
+            row.add(jwadmin.getName());
+            row.add(jwadmin.getGender());
+            row.add(jwadmin.getTfirstyear());
+            row.add(jwadmin.getTtitle());
+            row.add(jwadmin.getTcollege());
+            row.add(jwadmin.getContact());
+            col.add(row);
+        }
+        return col;
+    }
+
 }
