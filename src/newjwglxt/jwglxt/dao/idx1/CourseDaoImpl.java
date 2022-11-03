@@ -157,6 +157,8 @@ public class CourseDaoImpl implements Dao_idx1<Course> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("以下是dao");
+        System.out.println(arrayList);
         return arrayList;
     }
 
@@ -185,6 +187,8 @@ public class CourseDaoImpl implements Dao_idx1<Course> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("以下是dao");
+        System.out.println(arrayList);
         return arrayList;
     }
 
