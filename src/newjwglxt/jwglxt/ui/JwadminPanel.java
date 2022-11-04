@@ -1356,7 +1356,6 @@ public class JwadminPanel {
             }
         });
 
-
         // jwadmin右侧内容区 -> 人员管理 -> 添加教职工/学生
         JPanel panel_tianjia = new JPanel();
         panel_renyuanmanage.add(panel_tianjia);
