@@ -1738,28 +1738,28 @@ public class JwadminPanel {
         comboBox.addItemListener(itemListener_depart);
         comboBox_1.addItemListener(itemListener_kclb);
 
-        // jwadmin右侧内容区 -> 关于
-        JPanel panel_about_jwadmin = new JPanel();
-        panel_about_jwadmin.setLayout(null);
-        panel_container_jwadmin.add(panel_about_jwadmin);
-
-        // jwadmin右侧内容区 -> 关于 -> 标题区
-        JPanel panel_title_about_jwadmin = new JPanel();
-        panel_title_about_jwadmin.setLayout(null);
-        panel_title_about_jwadmin.setForeground(SystemColor.activeCaption);
-        panel_title_about_jwadmin.setBackground(SystemColor.scrollbar);
-        panel_title_about_jwadmin.setBounds(0, 0, 553, 46);
-        panel_about_jwadmin.add(panel_title_about_jwadmin);
-
-        JLabel lblabout = new JLabel("关于");
-        lblabout.setFont(new Font("微软雅黑", Font.BOLD, 16));
-        lblabout.setBounds(10, 10, 64, 22);
-        panel_title_about_jwadmin.add(lblabout);
-
-        JLabel lblabout_1 = new JLabel("教务管理系统 ");
-        lblabout_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
-        lblabout_1.setBounds(10, 56, 150, 22);
-        panel_about_jwadmin.add(lblabout_1);
+//        // jwadmin右侧内容区 -> 关于
+//        JPanel panel_about_jwadmin = new JPanel();
+//        panel_about_jwadmin.setLayout(null);
+//        panel_container_jwadmin.add(panel_about_jwadmin);
+//
+//        // jwadmin右侧内容区 -> 关于 -> 标题区
+//        JPanel panel_title_about_jwadmin = new JPanel();
+//        panel_title_about_jwadmin.setLayout(null);
+//        panel_title_about_jwadmin.setForeground(SystemColor.activeCaption);
+//        panel_title_about_jwadmin.setBackground(SystemColor.scrollbar);
+//        panel_title_about_jwadmin.setBounds(0, 0, 553, 46);
+//        panel_about_jwadmin.add(panel_title_about_jwadmin);
+//
+//        JLabel lblabout = new JLabel("关于");
+//        lblabout.setFont(new Font("微软雅黑", Font.BOLD, 16));
+//        lblabout.setBounds(10, 10, 64, 22);
+//        panel_title_about_jwadmin.add(lblabout);
+//
+//        JLabel lblabout_1 = new JLabel("教务管理系统 ");
+//        lblabout_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
+//        lblabout_1.setBounds(10, 56, 150, 22);
+//        panel_about_jwadmin.add(lblabout_1);
 
         // jwadmin右侧内容区 -> 修改个人信息
         JPanel panel_editInfo_jwadmin = new JPanel();
@@ -1982,6 +1982,7 @@ public class JwadminPanel {
                 panel_container_jwadmin.repaint();
                 panel_homePage_jwadmin.setVisible(true);
                 System.out.println("zhuye");
+                
             } else if (e.getSource().equals(btnCoursemanae_jwadmin)) {
                 // 课程管理
                 lbl_title_kechengguanli_jwadmin_1.setVisible(false);
@@ -2015,6 +2016,7 @@ public class JwadminPanel {
                 panel_container_jwadmin.repaint();
                 panel_coursePage_jwadmin.setVisible(true);
                 System.out.println("kechengguanli");
+                
             } else if (e.getSource().equals(btnApproval)) {
                 // 人员管理
                 lbl_title_renyuanguanli_jwadmin.setVisible(false);
@@ -2046,6 +2048,7 @@ public class JwadminPanel {
 
                 btnHomPage_jwadmin_2_11h.removeMouseListener(axuesheng);
                 btnHomPage_jwadmin_2_11h.addMouseListener(ajiaoshi);
+                
             } else if (e.getSource().equals(btnUnknown8)) {
                 // 退课审批
                 DropCourseService dropCourseService = new DropCourseService();
@@ -2315,18 +2318,84 @@ public class JwadminPanel {
                     }
 
                 }
+                
             } else if (e.getSource().equals(btnAbout_2)) {
+                JPanel panel_about_jwadmin = new JPanel();
+                panel_container_jwadmin.add(panel_about_jwadmin, "about");
+                panel_about_jwadmin.setLayout(null);
+
+                JPanel panel_title_about_jwadmin = new JPanel();
+                panel_title_about_jwadmin.setLayout(null);
+                panel_title_about_jwadmin.setForeground(SystemColor.activeCaption);
+                panel_title_about_jwadmin.setBackground(SystemColor.scrollbar);
+                panel_title_about_jwadmin.setBounds(0, 0, 553, 46);
+                panel_about_jwadmin.add(panel_title_about_jwadmin);
+
+                JLabel lbltitle_about = new JLabel("关于SPWD教务管理系统");
+                lbltitle_about.setFont(new Font("微软雅黑", Font.BOLD, 16));
+                lbltitle_about.setBounds(10, 10, 200, 22);
+                panel_title_about_jwadmin.add(lbltitle_about);
+
+                JLabel lbl_spa = new JLabel("SPWD教务管理系统");
+                lbl_spa.setFont(new Font("Lucida Grande", Font.BOLD, 16));
+                lbl_spa.setBounds(207, 149, 170, 28);
+                panel_about_jwadmin.add(lbl_spa);
+
+                JLabel lbl_spa_1 = new JLabel("Version 10.5.608");
+                lbl_spa_1.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
+                lbl_spa_1.setBounds(227, 174, 115, 28);
+                panel_about_jwadmin.add(lbl_spa_1);
+
+                JLabel lblNewLabel_3_1_1_1 = new JLabel("Developed by:");
+                lblNewLabel_3_1_1_1.setBounds(185, 234, 95, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1_1_1);
+
+                JLabel lblNewLabel_3_1_1_1_1 = new JLabel("Xia Runcheng");
+                lblNewLabel_3_1_1_1_1.setBounds(284, 234, 95, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1_1_1_1);
+
+                JLabel lblNewLabel_3_1_1_1_1_1 = new JLabel("Wang Handi");
+                lblNewLabel_3_1_1_1_1_1.setBounds(284, 254, 95, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1_1_1_1_1);
+
+                JLabel lblNewLabel_3_1_1_1_1_1_1 = new JLabel("Dong Liyao");
+                lblNewLabel_3_1_1_1_1_1_1.setBounds(284, 274, 95, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1_1_1_1_1_1);
+
+                JLabel lblNewLabel_321 = new JLabel("Copyright © 2022 SpecialWudi Inc. Practice makes PERFECT.");
+                lblNewLabel_321.setBounds(86, 406, 391, 16);
+                panel_about_jwadmin.add(lblNewLabel_321);
+
+                JLabel lblNewLabel_3_1 = new JLabel("BJUT-11-B105 版权所有");
+                lblNewLabel_3_1.setBounds(205, 383, 147, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1);
+
+                JLabel lblNewLabel_3_1_1 = new JLabel("客服电话：156XXXX9915");
+                lblNewLabel_3_1_1.setBounds(201, 362, 181, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1_1);
+
+                ImageIcon img = new ImageIcon("src/newjwglxt/jwglxt/logo.png");
+                Image image = img.getImage();
+                image = image.getScaledInstance(64, 64, Image.SCALE_AREA_AVERAGING);
+                img.setImage(image);
+
+                JLabel label = new JLabel(img);
+                label.setBounds(247, 73, 64, 64);
+                panel_about_jwadmin.add(label);
+                
                 panel_container_jwadmin.removeAll();
                 panel_container_jwadmin.add(panel_about_jwadmin);
                 panel_container_jwadmin.validate();
                 panel_container_jwadmin.repaint();
-                panel_container_jwadmin.setVisible(true);
+                panel_about_jwadmin.setVisible(true);
+                
             } else if (e.getSource().equals(btn_edit_info)) {
                 panel_container_jwadmin.removeAll();
                 panel_container_jwadmin.add(panel_editInfo_jwadmin);
                 panel_container_jwadmin.validate();
                 panel_container_jwadmin.repaint();
                 panel_container_jwadmin.setVisible(true);
+                
             } else if (e.getSource().equals(btnCreateCoursea)) {
                 // 课程管理 -> 编辑课程
                 lbl_title_kechengguanli_jwadmin_1v.setVisible(true);
