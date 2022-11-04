@@ -1,6 +1,5 @@
 package newjwglxt.jwglxt.service.idx1;
 
-import cn.hutool.db.Db;
 import newjwglxt.jwglxt.dao.idx1.CourseDaoImpl;
 import newjwglxt.jwglxt.entity.*;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
@@ -53,7 +52,7 @@ public class CourseService implements Service_idx1<Course> {
         return courseDao.SelectByNameRough(dbConnector.getConnection(), name);
     }
 
-    public ArrayList<Course> CheckTeacherCourses (DbConnector dbConnector, int tid) {
+    public ArrayList<Course> CheckTeacherCourses(DbConnector dbConnector, int tid) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
         return courseDao.SelectByTeacherID(dbConnector.getConnection(), tid);
     }
@@ -188,7 +187,7 @@ public class CourseService implements Service_idx1<Course> {
         return courseCol;
     }
 
-    public Vector<Vector<Object>> getSelectedByCnameVectorForStudent (DbConnector dbConnector, Student student, String cname) {
+    public Vector<Vector<Object>> getSelectedByCnameVectorForStudent(DbConnector dbConnector, Student student, String cname) {
         CourseService courseService = new CourseService();
         TeacherService teacherService = new TeacherService();
         ArrayList<Course> courses = courseService.CheckByNameRough(dbConnector, cname);
@@ -246,7 +245,7 @@ public class CourseService implements Service_idx1<Course> {
 
     }
 
-    public Vector<Vector<Object>> getSelectedByDepartmentVectorForStudent (DbConnector dbConnector, Student student, String department) {
+    public Vector<Vector<Object>> getSelectedByDepartmentVectorForStudent(DbConnector dbConnector, Student student, String department) {
         CourseService courseService = new CourseService();
         TeacherService teacherService = new TeacherService();
         ArrayList<Course> courses = courseService.CheckByDepartmentRough(dbConnector, department);
@@ -304,7 +303,7 @@ public class CourseService implements Service_idx1<Course> {
 
     }
 
-    public Vector<Vector<Object>> getSelectedByKclbVectorForStudent (DbConnector dbConnector, Student student, String kclb) {
+    public Vector<Vector<Object>> getSelectedByKclbVectorForStudent(DbConnector dbConnector, Student student, String kclb) {
         CourseService courseService = new CourseService();
         TeacherService teacherService = new TeacherService();
         ArrayList<Course> courses = courseService.CheckByKclbRough(dbConnector, kclb);
@@ -362,7 +361,7 @@ public class CourseService implements Service_idx1<Course> {
 
     }
 
-    public Vector<Vector<Object>> getSelectedByTeacherVectorForStudent (DbConnector dbConnector, Student student, String tname) {
+    public Vector<Vector<Object>> getSelectedByTeacherVectorForStudent(DbConnector dbConnector, Student student, String tname) {
         CourseService courseService = new CourseService();
         TeacherService teacherService = new TeacherService();
         ArrayList<Course> courses = courseService.CheckByTeacherNameRough(dbConnector, tname);
@@ -440,6 +439,108 @@ public class CourseService implements Service_idx1<Course> {
         CourseDaoImpl courseDao = new CourseDaoImpl();
 
         return courseDao.Select(dbConnector.getConnection());
+    }
+
+    public Vector<Vector<Object>> CheckByIdRough_Vector(DbConnector dbConnector, int tid) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        ArrayList<Course> myAllCourses = courseDao.SelectByIdRough(dbConnector.getConnection(), tid);
+        Vector<Vector<Object>> courseCol = new Vector<>();
+        for (Course course : myAllCourses) {
+            Vector<Object> courseRow = new Vector<>();
+            courseRow.add(course.getCid());
+            courseRow.add(course.getCname());
+            courseRow.add(course.getCdepartment());
+            courseRow.add(course.getCcredit());
+            courseRow.add(course.getCkclb());
+            courseRow.add(course.getCroom());
+            courseRow.add(course.getCtime());
+            courseRow.add(course.getCsigned_num());
+            courseRow.add(course.getCmax_num());
+            courseCol.add(courseRow);
+        }
+        return courseCol;
+    }
+
+    public Vector<Vector<Object>> CheckByNameRough_Vector(DbConnector dbConnector, String name) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        ArrayList<Course> myAllCourses = courseDao.SelectByNameRough(dbConnector.getConnection(), name);
+        Vector<Vector<Object>> courseCol = new Vector<>();
+        for (Course course : myAllCourses) {
+            Vector<Object> courseRow = new Vector<>();
+            courseRow.add(course.getCid());
+            courseRow.add(course.getCname());
+            courseRow.add(course.getCdepartment());
+            courseRow.add(course.getCcredit());
+            courseRow.add(course.getCkclb());
+            courseRow.add(course.getCroom());
+            courseRow.add(course.getCtime());
+            courseRow.add(course.getCsigned_num());
+            courseRow.add(course.getCmax_num());
+            courseCol.add(courseRow);
+        }
+        return courseCol;
+    }
+
+    public Vector<Vector<Object>> CheckByCollegeRough_Vector(DbConnector dbConnector, String co) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        ArrayList<Course> myAllCourses = courseDao.SelectedByDepartmentRough(dbConnector.getConnection(), co);
+        Vector<Vector<Object>> courseCol = new Vector<>();
+        for (Course course : myAllCourses) {
+            Vector<Object> courseRow = new Vector<>();
+            courseRow.add(course.getCid());
+            courseRow.add(course.getCname());
+            courseRow.add(course.getCdepartment());
+            courseRow.add(course.getCcredit());
+            courseRow.add(course.getCkclb());
+            courseRow.add(course.getCroom());
+            courseRow.add(course.getCtime());
+            courseRow.add(course.getCsigned_num());
+            courseRow.add(course.getCmax_num());
+            courseCol.add(courseRow);
+        }
+        return courseCol;
+    }
+
+    public Vector<Vector<Object>> CheckByKclb_Vector(DbConnector dbConnector, String k) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        ArrayList<Course> myAllCourses = courseDao.SelectedByKclbRough(dbConnector.getConnection(), k);
+        Vector<Vector<Object>> courseCol = new Vector<>();
+        for (Course course : myAllCourses) {
+            Vector<Object> courseRow = new Vector<>();
+            courseRow.add(course.getCid());
+            courseRow.add(course.getCname());
+            courseRow.add(course.getCdepartment());
+            courseRow.add(course.getCcredit());
+            courseRow.add(course.getCkclb());
+            courseRow.add(course.getCroom());
+            courseRow.add(course.getCtime());
+            courseRow.add(course.getCsigned_num());
+            courseRow.add(course.getCmax_num());
+            courseCol.add(courseRow);
+        }
+        return courseCol;
+    }
+
+    public Vector<Vector<Object>> CheckByTnameRough_Vector(DbConnector dbConnector, String tn) {
+        CourseDaoImpl courseDao = new CourseDaoImpl();
+        ArrayList<Course> myAllCourses = courseDao.SelectedByTNameRough(dbConnector.getConnection(), tn);
+        Vector<Vector<Object>> courseCol = new Vector<>();
+        //你好
+        for (Course course : myAllCourses) {
+            Vector<Object> courseRow = new Vector<>();
+            courseRow.add(course.getCid());
+            courseRow.add(course.getCname());
+            courseRow.add(course.getCdepartment());
+            courseRow.add(course.getCcredit());
+            courseRow.add(course.getCkclb());
+            courseRow.add(course.getTname());
+            courseRow.add(course.getCroom());
+            courseRow.add(course.getCtime());
+            courseRow.add(course.getCsigned_num());
+            courseRow.add(course.getCmax_num());
+            courseCol.add(courseRow);
+        }
+        return courseCol;
     }
 
 }

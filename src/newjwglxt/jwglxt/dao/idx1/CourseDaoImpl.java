@@ -303,4 +303,34 @@ public class CourseDaoImpl implements Dao_idx1<Course> {
         return arrayList;
 
     }
+
+    public ArrayList<Course> SelectedByTNameRough(Connection connection, String tn) {
+        DatabaseMetaData databaseMetaData;
+        ArrayList<Course> arrayList;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT cid, cname, cdepartment, ccredit, ckclb, t.name, croom, ctime, csigned_num, cmax_num FROM course c INNER JOIN teacher t on c.cteacherid = t.id WHERE t.name LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setString(1, "%" + tn + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            arrayList = new ArrayList<>();
+            databaseMetaData = connection.getMetaData();
+            if (resultSet.next())
+                System.out.println(String.format("%s: \n%s", databaseMetaData.getURL(), preparedStatement));
+            else
+                System.out.println(String.format("%s: Failed.", databaseMetaData.getURL()));
+            resultSet.beforeFirst();
+            while (resultSet.next()) {
+                arrayList.add(new Course(resultSet.getInt("cid"), resultSet.getString("cname"), resultSet.getString("cdepartment"),
+                        resultSet.getDouble("ccredit"), resultSet.getString("ckclb"), resultSet.getString("name"),
+                        resultSet.getString("croom"), resultSet.getString("ctime"), resultSet.getInt("csigned_num"), resultSet.getInt("cmax_num")));
+            }
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return arrayList;
+
+    }
+
+
 }

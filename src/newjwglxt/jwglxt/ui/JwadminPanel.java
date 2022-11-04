@@ -7,10 +7,7 @@ import newjwglxt.jwglxt.service.idx1.StudentService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
 import newjwglxt.jwglxt.service.idx2.DropCourseService;
-import newjwglxt.jwglxt.util.DbConnector;
-import newjwglxt.jwglxt.util.QuickButton;
-import newjwglxt.jwglxt.util.SHA256;
-import newjwglxt.jwglxt.util.ToPinYin;
+import newjwglxt.jwglxt.util.*;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -19,12 +16,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
 
@@ -75,7 +66,7 @@ public class JwadminPanel {
 
         JButton btn_edit_info = primaryBorderButton("编辑个人信息");
         btn_edit_info.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btn_edit_info.setBounds(10, 190, 130, 35);
+        btn_edit_info.setBounds(10, 235, 130, 35);
         panel_category_jwadmin.add(btn_edit_info);
 
         JButton btnAbout_2 = primaryBorderButton("关于");
@@ -402,6 +393,14 @@ public class JwadminPanel {
         panel_bianjikecheng.add(lblCourseId_1_1af);
         lblCourseId_1_1af.setVisible(false);
 
+        JLabel lblCourseId_1_1afm = new JLabel("课程时间冲突!");
+        lblCourseId_1_1afm.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblCourseId_1_1afm.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblCourseId_1_1afm.setForeground(Color.red);
+        lblCourseId_1_1afm.setBounds(358, 236, 165, 26);
+        panel_bianjikecheng.add(lblCourseId_1_1afm);
+        lblCourseId_1_1afm.setVisible(false);
+
         JButton btnCreateCourse_1a = primaryBorderButton("确认");
         btnCreateCourse_1a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnCreateCourse_1a.setBounds(433, 314, 100, 33);
@@ -418,7 +417,7 @@ public class JwadminPanel {
             int new_sign;
             String new_max = textField_2a.getText();
 
-            if (!isCID(new_id) || isNum(new_name) || !isCredit(new_credit) || !isTID(new_tid) || !isNum(new_max) || isNum(new_room)) {
+            if (!isCID(new_id) || isNum(new_name) || !isCredit(new_credit) || !isTID(new_tid) || !isNum(new_max) || isNum(new_room) || !isTime(new_time)) {
                 System.out.println("非法输入");
                 System.out.println(!isCID(new_id));
                 System.out.println(isNum(new_name));
@@ -437,24 +436,51 @@ public class JwadminPanel {
                     lblCourseId_1_1af.setVisible(true);
                 }
             } else {
+                // 教师id存在
                 lblCourseId_1_1af.setVisible(false);
                 CourseService courseService = new CourseService();
                 new_sign = courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0).getCsigned_num();
+
                 Course course = new Course(Integer.parseInt(new_id), new_name, new_dep, Double.parseDouble(new_credit), new_kclb, Integer.parseInt(new_tid), new_room, new_time, new_sign, Integer.parseInt(new_max));
-                courseService.Update(dbConnector, course);
+                String old_time = courseService.CheckById(dbConnector, course.getCid()).get(0).getCtime();
+                if (new_time.equals(old_time)) {
+                    // 如果时间没被更改，就不判断上课时间是否冲突
+                    lblCourseId_1_1afm.setVisible(false);
+                    courseService.Update(dbConnector, course);
 
-                textField_bianhao.setText("");
-                textFielda.setText("");
-                comboBoxa.setSelectedIndex(0);
-                textField_3a.setText("");
-                comboBox_1a.setSelectedIndex(0);
-                textField_1a.setText("");
-                tta.setText("");
-                ttta.setText("");
-                textField_2a.setText("");
-                lblCourseId_1_1a.setText("");
+                    textField_bianhao.setText("");
+                    textFielda.setText("");
+                    comboBoxa.setSelectedIndex(0);
+                    textField_3a.setText("");
+                    comboBox_1a.setSelectedIndex(0);
+                    textField_1a.setText("");
+                    tta.setText("");
+                    ttta.setText("");
+                    textField_2a.setText("");
+                    lblCourseId_1_1a.setText("");
+                } else {
+                    //todo 判断时间是否冲突
+//                    courseService.Delete();
+                    ChooseCourseService chooseCourseService = new ChooseCourseService();
+                    if (chooseCourseService.judgeCourseForTeacher(dbConnector, course)) {
+                        lblCourseId_1_1afm.setVisible(false);
+                        courseService.Update(dbConnector, course);
 
-
+                        // 确认后复位
+                        textField_bianhao.setText("");
+                        textFielda.setText("");
+                        comboBoxa.setSelectedIndex(0);
+                        textField_3a.setText("");
+                        comboBox_1a.setSelectedIndex(0);
+                        textField_1a.setText("");
+                        tta.setText("");
+                        ttta.setText("");
+                        textField_2a.setText("");
+                        lblCourseId_1_1a.setText("");
+                    } else {
+                        lblCourseId_1_1afm.setVisible(true);
+                    }
+                }
             }
         });
 
@@ -758,6 +784,14 @@ public class JwadminPanel {
         lblCourseId_1_1aft.setBounds(323, 314, 100, 33);
         panel_xinjiankecheng_jwadmin.add(lblCourseId_1_1aft);
         lblCourseId_1_1aft.setVisible(false);
+
+        JLabel lblCourseId_1_1aftg = new JLabel("课程时间冲突!");
+        lblCourseId_1_1aftg.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblCourseId_1_1aftg.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblCourseId_1_1aftg.setForeground(Color.red);
+        lblCourseId_1_1aftg.setBounds(358, 221, 165, 26);
+        panel_xinjiankecheng_jwadmin.add(lblCourseId_1_1aftg);
+        lblCourseId_1_1aftg.setVisible(false);
 
         JButton btnCreateCourse_1 = primaryBorderButton("确认");
         btnCreateCourse_1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
@@ -1968,6 +2002,8 @@ public class JwadminPanel {
             }
         };
 
+        // 查找
+        SelectFunc selectFunc = new SelectFunc("jwadmin", dbConnector, panel_category_jwadmin, 190, panel_container_jwadmin);
 
         ActionListener actionListener_jwamin = e -> {
             if (e.getSource().equals(btnHomPage_jwadmin)) {
@@ -2098,6 +2134,8 @@ public class JwadminPanel {
                 lbl_title_kechengguanli_jwadmin_1.setVisible(true);
                 lbl_title_kechengguanli_jwadmin.setVisible(false);
                 lbl_title_kechengguanli_jwadmin_1v.setVisible(false);
+
+                lblCourseId_1_1aftg.setVisible(false);
 
                 btndeleteC.setVisible(false);
 
@@ -2254,19 +2292,22 @@ public class JwadminPanel {
                 dbConnector.closeConnection();
             } else if (e.getSource().equals(btnCreateCourse_1)) {
                 // 确认新建课程
+                lblCourseId_1_1aftg.setVisible(false);
                 String new_name = textField.getText();
                 String new_credit = textField_3.getText();
                 String new_tid = textField_1.getText();
                 String new_max = textField_2.getText();
                 String new_room = tt.getText();
+                String new_time = ttt.getText();
 
-                if (isNum(new_name) || !isCredit(new_credit) || !isTID(new_tid) || !isNum(new_max) || isNum(new_room)) {
+                if (isNum(new_name) || !isCredit(new_credit) || !isTID(new_tid) || !isNum(new_max) || isNum(new_room) || !isTime(new_time)) {
                     System.out.println("非法输入");
                     System.out.println(isNum(new_name));
                     System.out.println(!isCredit(new_credit));
                     System.out.println(!isTID(new_tid));
                     System.out.println(!isNum(new_max));
                     System.out.println(isNum(new_room));
+                    System.out.println(!isTime(new_time));
                     lblCourseId_1_1aft.setVisible(true);
 
                     TeacherService teacherService = new TeacherService();
@@ -2289,6 +2330,7 @@ public class JwadminPanel {
                     String croom = tt.getText();
                     String ctime = ttt.getText();
                     int cmax_num = Integer.parseInt(textField_2.getText());
+
                     CourseService courseService = new CourseService();
                     Course courseWaitJudge = new Course(cid, cname, depart, cxuefen, kclb, tid, croom, ctime, 0, cmax_num);
 
@@ -2296,7 +2338,7 @@ public class JwadminPanel {
                     ChooseCourseService chooseCourseService = new ChooseCourseService();
                     courseService.Add(dbConnector, courseWaitJudge);
 
-                    //todo judge结果永远为false
+                    // judge结果永远为false
                     System.out.println(chooseCourseService.judgeCourseForTeacher(dbConnector, courseWaitJudge));
 
                     if (chooseCourseService.judgeCourseForTeacher(dbConnector, courseWaitJudge)) {
@@ -2313,10 +2355,10 @@ public class JwadminPanel {
                         selected_value_of_comboboxes[1] = "学科基础必修课";
                         lblCourseId_1_1.setText("");
                     } else {
-                        ttt.setText("");
+//                        ttt.setText("");
+                        lblCourseId_1_1aftg.setVisible(true);
                         courseService.Delete(dbConnector, courseWaitJudge);
                     }
-
                 }
                 
             } else if (e.getSource().equals(btnAbout_2)) {
@@ -2398,11 +2440,24 @@ public class JwadminPanel {
                 
             } else if (e.getSource().equals(btnCreateCoursea)) {
                 // 课程管理 -> 编辑课程
+                textField_bianhao.setText("");
+                textFielda.setText("");
+                comboBoxa.setSelectedIndex(0);
+                textField_3a.setText("");
+                comboBox_1a.setSelectedIndex(0);
+                textField_1a.setText("");
+                tta.setText("");
+                ttta.setText("");
+                textField_2a.setText("");
+                lblCourseId_1_1a.setText("");
+
                 lbl_title_kechengguanli_jwadmin_1v.setVisible(true);
                 lbl_title_kechengguanli_jwadmin_1.setVisible(false);
                 lbl_title_kechengguanli_jwadmin.setVisible(false);
 
                 btndeleteC.setVisible(false);
+
+                lblCourseId_1_1afm.setVisible(false);
 
                 panel_course_sub_jwadmin.removeAll();
                 panel_course_sub_jwadmin.add(panel_bianjikecheng);
