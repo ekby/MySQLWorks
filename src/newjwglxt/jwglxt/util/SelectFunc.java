@@ -8,6 +8,8 @@ import newjwglxt.jwglxt.service.idx1.TeacherService;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import static newjwglxt.jwglxt.util.ComboboxStyle.setComboboxStyle;
@@ -263,11 +265,131 @@ public class SelectFunc {
         panel_title_zhuye_jwadmin.add(lblNewLabel_8_1g);
         lblNewLabel_8_1g.setVisible(false);
 
+        ActionListener actionListener0 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String str = textFielda.getText();
+                Vector<Vector<Object>> vectors = null;
+                CourseService courseService = new CourseService();
+                if (str.equals("")) {
+                    vectors = courseService.getAllCourseVector_jwadmin(dbConnector);
+                } else {
+                    if (jComboBox.getSelectedItem().equals("课程编号")) {
+                        if (isNum(str)) {
+                            System.out.println("f");
+                            vectors = courseService.CheckByIdRough_Vector(dbConnector, Integer.parseInt(str));
+                        }
+                    }
+                    if (jComboBox.getSelectedItem().equals("课程名称")) {
+                        vectors = courseService.CheckByNameRough_Vector(dbConnector, str);
+                    }
+                    if (jComboBox.getSelectedItem().equals("开课部门")) {
+                        vectors = courseService.CheckByCollegeRough_Vector(dbConnector, str);
+                    }
+                    if (jComboBox.getSelectedItem().equals("课程类别")) {
+                        vectors = courseService.CheckByKclb_Vector(dbConnector, str);
+                    }
+                    if (jComboBox.getSelectedItem().equals("教师姓名")) {
+                        vectors = courseService.CheckByTnameRough_Vector(dbConnector, str);
+                    }
+                }
+                table_jiaoshiliebiao.setModel(new DefaultTableModel(vectors, table_title0) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                });
+            }
+        };
+
+        ActionListener actionListener1 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String str = textFielda.getText();
+                Vector<Vector<Object>> vectors = null;
+                TeacherService teacherService = new TeacherService();
+                if (str.equals("")) {
+                    vectors = teacherService.getAllTeacherVector_jwadmin(dbConnector);
+                } else {
+                    if (jComboBox.getSelectedItem().equals("教职工号")) {
+                        if (isNum(str)) {
+                            System.out.println("f");
+                            vectors = teacherService.CheckByIdRough_Vector(dbConnector, Integer.parseInt(str));
+                        }
+                    }
+                    if (jComboBox.getSelectedItem().equals("姓名")) {
+                        vectors = teacherService.CheckByNameRough_Vector(dbConnector, str);
+                    }
+                    if (jComboBox.getSelectedItem().equals("入职年份")) {
+                        vectors = teacherService.CheckByFirstYearRough_Vector(dbConnector, str);
+                    }
+                    if (jComboBox.getSelectedItem().equals("职称")) {
+                        vectors = teacherService.CheckByTitleRough_Vector(dbConnector, str);
+                    }
+                    if (jComboBox.getSelectedItem().equals("学部（院）")) {
+                        vectors = teacherService.CheckByCollegeRough_Vector(dbConnector, str);
+                    }
+                }
+                table_jiaoshiliebiao.setModel(new DefaultTableModel(vectors, table_title1) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                });
+            }
+        };
+
+        ActionListener actionListener2 = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String str = textFielda.getText();
+                Vector<Vector<Object>> vectors = null;
+                StudentService studentService = new StudentService();
+                if (str.equals("")) {
+                    vectors = studentService.getAllStudentVector(dbConnector);
+                } else {
+                    if (jComboBox.getSelectedItem().equals("学号")) {
+                        if (isNum(str)) {
+                            System.out.println("f");
+                            vectors = studentService.CheckByIdRough_Vector(dbConnector, Integer.parseInt(str));
+                        }
+                    }
+                    if (jComboBox.getSelectedItem().equals("姓名")) {
+                        vectors = studentService.CheckByNameRough_Vector(dbConnector, str);
+                    }
+                    if (jComboBox.getSelectedItem().equals("入学年份")) {
+                        vectors = studentService.CheckByFirstYearRough_Vector(dbConnector, str);
+                    }
+                    if (jComboBox.getSelectedItem().equals("行政班")) {
+                        vectors = studentService.CheckByClass_Vector(dbConnector, str);
+                    }
+                    if (jComboBox.getSelectedItem().equals("专业")) {
+                        vectors = studentService.CheckByMajorRough_Vector(dbConnector, str);
+                    }
+                    if (jComboBox.getSelectedItem().equals("学部（院）")) {
+                        vectors = studentService.CheckByCollegeRough_Vector(dbConnector, str);
+                    }
+                }
+                table_jiaoshiliebiao.setModel(new DefaultTableModel(vectors, table_title2) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                });
+            }
+        };
+
         // 左侧查找按钮AL
-        btnUnknown8.addActionListener(e -> {
-            CourseService courseService = new CourseService();
-            table_jiaoshiliebiao.setModel(new DefaultTableModel(courseService.getAllCourseVector_jwadmin(dbConnector), table_title0));
+        btnUnknown8.addActionListener(e0 -> {
+            CourseService courseService0 = new CourseService();
+            table_jiaoshiliebiao.setModel(new DefaultTableModel(courseService0.getAllCourseVector_jwadmin(dbConnector), table_title0));
             scrollPane_jiaoshiliebiao.setViewportView(table_jiaoshiliebiao);
+            textFielda.setText("");
+            rdbtnNewRadioButton0.setSelected(true);
+            jComboBox.setModel(defaultComboBoxModel0);
+
+            btnCreateCourse_1a.removeActionListener(actionListener1);
+            btnCreateCourse_1a.addActionListener(actionListener0);
 
             lblNewLabel_8_1g.setVisible(false);
             panel_container.removeAll();
@@ -285,41 +407,9 @@ public class SelectFunc {
             table_jiaoshiliebiao.setModel(new DefaultTableModel(courseService.getAllCourseVector_jwadmin(dbConnector), table_title0));
             table_jiaoshiliebiao.updateUI();
 
-            btnCreateCourse_1a.addActionListener(e1 -> {
-                String str = textFielda.getText();
-                Vector<Vector<Object>> vectors = null;
-
-                if (str.equals("")) {
-                    vectors = courseService.getAllCourseVector_jwadmin(dbConnector);
-                } else {
-                    if (jComboBox.getSelectedItem().equals("课程编号")) {
-                        if (isNum(str)) {
-                            System.out.println("f");
-                            vectors = courseService.CheckByIdRough_Vector(dbConnector, Integer.parseInt(str));
-                        }
-                    }
-                    if (jComboBox.getSelectedItem().equals("课程名称")) {
-                        vectors = courseService.CheckByNameRough_Vector(dbConnector, str);
-                    }
-                    if (jComboBox.getSelectedItem().equals("开课部门")) {
-
-                    }
-                    if (jComboBox.getSelectedItem().equals("课程类别")) {
-
-                    }
-                    if (jComboBox.getSelectedItem().equals("教师姓名")) {
-
-                    }
-
-                }
-                table_jiaoshiliebiao.setModel(new DefaultTableModel(vectors, table_title0) {
-                    @Override
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    }
-                });
-
-            });
+            btnCreateCourse_1a.removeActionListener(actionListener1);
+            btnCreateCourse_1a.removeActionListener(actionListener2);
+            btnCreateCourse_1a.addActionListener(actionListener0);
         });
 
         rdbtnNewRadioButton1.addActionListener(e -> {
@@ -328,6 +418,10 @@ public class SelectFunc {
             TeacherService teacherService = new TeacherService();
             table_jiaoshiliebiao.setModel(new DefaultTableModel(teacherService.getAllTeacherVector_jwadmin(dbConnector), table_title1));
             table_jiaoshiliebiao.updateUI();
+
+            btnCreateCourse_1a.removeActionListener(actionListener0);
+            btnCreateCourse_1a.removeActionListener(actionListener2);
+            btnCreateCourse_1a.addActionListener(actionListener1);
         });
 
         rdbtnNewRadioButton2.addActionListener(e -> {
@@ -336,6 +430,10 @@ public class SelectFunc {
             StudentService studentService = new StudentService();
             table_jiaoshiliebiao.setModel(new DefaultTableModel(studentService.getAllStudentVector(dbConnector), table_title2));
             table_jiaoshiliebiao.updateUI();
+
+            btnCreateCourse_1a.removeActionListener(actionListener0);
+            btnCreateCourse_1a.removeActionListener(actionListener1);
+            btnCreateCourse_1a.addActionListener(actionListener2);
         });
 
     }

@@ -13,6 +13,7 @@ public class Course {
     private String ctime;
     private int csigned_num;
     private int cmax_num;
+    private String tname;
 
     public Course(int cid, String cname, String cdepartment, double ccredit, String ckclb, int cteacherid, String croom, String ctime, int csigned_num, int cmax_num) {
         this.cid = cid;
@@ -26,6 +27,20 @@ public class Course {
         this.csigned_num = csigned_num;
         this.cmax_num = cmax_num;
     }
+
+    public Course(int cid, String cname, String cdepartment, double ccredit, String ckclb, String tname, String croom, String ctime, int csigned_num, int cmax_num) {
+        this.cid = cid;
+        this.cname = cname;
+        this.cdepartment = cdepartment;
+        this.ccredit = ccredit;
+        this.ckclb = ckclb;
+        this.tname = tname;
+        this.croom = croom;
+        this.ctime = ctime;
+        this.csigned_num = csigned_num;
+        this.cmax_num = cmax_num;
+    }
+
 
     public int getCid() {
         return cid;
@@ -134,5 +149,9 @@ public class Course {
                 ", csigned_num=" + csigned_num +
                 ", cmax_num=" + cmax_num +
                 '}';
+    }
+
+    public String getTname() {
+        return tname;
     }
 }

@@ -186,12 +186,12 @@ public class StudentDaoImpl implements Dao_idx1<Student> {
         return arrayList;
     }
 
-    public ArrayList<Student> SelectByClass(Connection connection, int classnum) {
+    public ArrayList<Student> SelectByClassRough(Connection connection, String classnum) {
         DatabaseMetaData databaseMetaData;
         ArrayList<Student> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE sclass=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
-            preparedStatement.setInt(1, classnum);
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE sclass LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setString(1, "%" + classnum + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
             databaseMetaData = connection.getMetaData();
@@ -213,12 +213,12 @@ public class StudentDaoImpl implements Dao_idx1<Student> {
         return arrayList;
     }
 
-    public ArrayList<Student> SelectByMajor(Connection connection, String major) {
+    public ArrayList<Student> SelectByMajorRough(Connection connection, String major) {
         DatabaseMetaData databaseMetaData;
         ArrayList<Student> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE smajor=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
-            preparedStatement.setString(1, major);
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE smajor LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setString(1, "%" + major + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
             databaseMetaData = connection.getMetaData();
@@ -240,12 +240,12 @@ public class StudentDaoImpl implements Dao_idx1<Student> {
         return arrayList;
     }
 
-    public ArrayList<Student> SelectByDepartment(Connection connection, String department) {
+    public ArrayList<Student> SelectByDepartmentRough(Connection connection, String department) {
         DatabaseMetaData databaseMetaData;
         ArrayList<Student> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE scollege=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
-            preparedStatement.setString(1, department);
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM student WHERE scollege LIKE ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            preparedStatement.setString(1, "%" + department + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
             databaseMetaData = connection.getMetaData();
