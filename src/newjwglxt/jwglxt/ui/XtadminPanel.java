@@ -56,7 +56,7 @@ public class XtadminPanel {
 
         JButton btnEditInfo_xtadmin = primaryBorderButton("个人信息修改");
         btnEditInfo_xtadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btnEditInfo_xtadmin.setBounds(10, 100, 130, 35);
+        btnEditInfo_xtadmin.setBounds(10, 145, 130, 35);
         panel_category_xtadmin.add(btnEditInfo_xtadmin);
 
         JButton btnAbout_xtadmin = primaryBorderButton("关于");
@@ -70,8 +70,6 @@ public class XtadminPanel {
         xtadmin.add(panel_container_xtadmin);
         panel_container_xtadmin.setLayout(new CardLayout(0, 0));
 
-        SelectFunc selectFunc = new SelectFunc("xtadmin", dbConnector, panel_category_xtadmin, 200, panel_container_xtadmin);
-
 
         // xtadmin右侧内容区 -> 主页
         JPanel panel_homepage_xtadmin = new JPanel();
@@ -82,17 +80,14 @@ public class XtadminPanel {
         btnExit_xtadmin.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnExit_xtadmin.setBounds(443, 56, 100, 33);
         panel_homepage_xtadmin.add(btnExit_xtadmin);
-        btnExit_xtadmin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                contentPane.removeAll();
-                LoginPanel loginPanel = new LoginPanel();
-                contentPane.add(loginPanel.getPanel());
-                contentPane.validate();
-                contentPane.repaint();
-                loginPanel.getPanel().setVisible(true);
-                dbConnector.closeConnection();
-            }
+        btnExit_xtadmin.addActionListener(e -> {
+            contentPane.removeAll();
+            LoginPanel loginPanel = new LoginPanel();
+            contentPane.add(loginPanel.getPanel());
+            contentPane.validate();
+            contentPane.repaint();
+            loginPanel.getPanel().setVisible(true);
+            dbConnector.closeConnection();
         });
 
         JLabel lblImg_xtadmin = new JLabel("头像");
@@ -946,27 +941,27 @@ public class XtadminPanel {
         btnHomPage_jwadmin_2_2_1_1_2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnHomPage_jwadmin_2_2_1_1_2.setBounds(0, 317, 100, 33);
         panel_tianjiajiaoshi_xtadmin.add(btnHomPage_jwadmin_2_2_1_1_2);
-        btnHomPage_jwadmin_2_2_1_1_2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lbl_tianjia_xtadmin_1_jiaozhigongliebiao.setVisible(true);
-                lbl_tianjia_xtadmin_1_xueshengliebiao.setVisible(false);
-                lbl_tianjia_xtadmin_1_jiaowuliebiao.setVisible(false);
-                lbl_tianjia_xtadmin_1_jiaowuliebiao1.setVisible(false);
+        btnHomPage_jwadmin_2_2_1_1_2.addActionListener(e -> {
+            lbl_tianjia_xtadmin_1_jiaozhigongliebiao.setVisible(true);
+            lbl_tianjia_xtadmin_1_xueshengliebiao.setVisible(false);
+            lbl_tianjia_xtadmin_1_jiaowuliebiao.setVisible(false);
+            lbl_tianjia_xtadmin_1_jiaowuliebiao1.setVisible(false);
 
-                panel_listContainer.removeAll();
-                panel_listContainer.add(scrollPane_6);
-                panel_listContainer.validate();
-                panel_listContainer.repaint();
-                scrollPane_6.setVisible(true);
+            panel_listContainer.removeAll();
+            panel_listContainer.add(scrollPane_6);
+            panel_listContainer.validate();
+            panel_listContainer.repaint();
+            scrollPane_6.setVisible(true);
 
-                panel_userManage_sub_xtadmin.removeAll();
-                panel_userManage_sub_xtadmin.add(panel_1);
-                panel_userManage_sub_xtadmin.validate();
-                panel_userManage_sub_xtadmin.repaint();
-                panel_tianjia_1.setVisible(true);
-            }
+            panel_userManage_sub_xtadmin.removeAll();
+            panel_userManage_sub_xtadmin.add(panel_1);
+            panel_userManage_sub_xtadmin.validate();
+            panel_userManage_sub_xtadmin.repaint();
+            panel_tianjia_1.setVisible(true);
         });
+
+        // 查找
+        SelectFunc selectFunc = new SelectFunc("xtadmin", dbConnector, panel_category_xtadmin, 100, panel_container_xtadmin);
 
 
         ActionListener actionlistenerXtadmin = e -> {

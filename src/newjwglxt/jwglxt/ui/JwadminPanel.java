@@ -7,10 +7,7 @@ import newjwglxt.jwglxt.service.idx1.StudentService;
 import newjwglxt.jwglxt.service.idx1.TeacherService;
 import newjwglxt.jwglxt.service.idx2.ChooseCourseService;
 import newjwglxt.jwglxt.service.idx2.DropCourseService;
-import newjwglxt.jwglxt.util.DbConnector;
-import newjwglxt.jwglxt.util.QuickButton;
-import newjwglxt.jwglxt.util.SHA256;
-import newjwglxt.jwglxt.util.ToPinYin;
+import newjwglxt.jwglxt.util.*;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -19,12 +16,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
 
@@ -75,7 +66,7 @@ public class JwadminPanel {
 
         JButton btn_edit_info = primaryBorderButton("编辑个人信息");
         btn_edit_info.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        btn_edit_info.setBounds(10, 190, 130, 35);
+        btn_edit_info.setBounds(10, 235, 130, 35);
         panel_category_jwadmin.add(btn_edit_info);
 
         JButton btnAbout_2 = primaryBorderButton("关于");
@@ -1968,6 +1959,8 @@ public class JwadminPanel {
             }
         };
 
+        // 查找
+        SelectFunc selectFunc = new SelectFunc("jwadmin", dbConnector, panel_category_jwadmin, 190, panel_container_jwadmin);
 
         ActionListener actionListener_jwamin = e -> {
             if (e.getSource().equals(btnHomPage_jwadmin)) {
