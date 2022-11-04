@@ -57,20 +57,20 @@ public class CourseService implements Service_idx1<Course> {
         return courseDao.SelectByTeacherID(dbConnector.getConnection(), tid);
     }
 
-    public ArrayList<Course> CheckByDepartment(DbConnector dbConnector, String department) {
+    public ArrayList<Course> CheckByDepartmentRough (DbConnector dbConnector, String department) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        return courseDao.SelectedByDepartment(dbConnector.getConnection(), department);
+        return courseDao.SelectedByDepartmentRough(dbConnector.getConnection(), department);
     }
 
-    public ArrayList<Course> CheckByKclb(DbConnector dbConnector, String kclb) {
+    public ArrayList<Course> CheckByKclbRough (DbConnector dbConnector, String kclb) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
-        return courseDao.SelectedByKclb(dbConnector.getConnection(), kclb);
+        return courseDao.SelectedByKclbRough(dbConnector.getConnection(), kclb);
     }
 
-    public ArrayList<Course> CheckByTeacherName(DbConnector dbConnector, String tname) {
+    public ArrayList<Course> CheckByTeacherNameRough (DbConnector dbConnector, String tname) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
         TeacherService teacherService = new TeacherService();
-        return courseDao.SelectByTeacherID(dbConnector.getConnection(), teacherService.CheckByName(dbConnector, tname).get(0).getId());
+        return courseDao.SelectByTeacherID(dbConnector.getConnection(), teacherService.CheckByNameRough(dbConnector, tname).get(0).getId());
     }
 
     // 为studentPanel的可选课程功能返回该学生除去已选的课程之外的课程的信息
@@ -248,7 +248,7 @@ public class CourseService implements Service_idx1<Course> {
     public Vector<Vector<Object>> getSelectedByDepartmentVectorForStudent(DbConnector dbConnector, Student student, String department) {
         CourseService courseService = new CourseService();
         TeacherService teacherService = new TeacherService();
-        ArrayList<Course> courses = courseService.CheckByDepartment(dbConnector, department);
+        ArrayList<Course> courses = courseService.CheckByDepartmentRough(dbConnector, department);
 
         ArrayList<Integer> allCourses_cid = new ArrayList<>();
         for (Course course : courses) {
@@ -306,7 +306,7 @@ public class CourseService implements Service_idx1<Course> {
     public Vector<Vector<Object>> getSelectedByKclbVectorForStudent(DbConnector dbConnector, Student student, String kclb) {
         CourseService courseService = new CourseService();
         TeacherService teacherService = new TeacherService();
-        ArrayList<Course> courses = courseService.CheckByKclb(dbConnector, kclb);
+        ArrayList<Course> courses = courseService.CheckByKclbRough(dbConnector, kclb);
 
         ArrayList<Integer> allCourses_cid = new ArrayList<>();
         for (Course course : courses) {
@@ -364,7 +364,7 @@ public class CourseService implements Service_idx1<Course> {
     public Vector<Vector<Object>> getSelectedByTeacherVectorForStudent(DbConnector dbConnector, Student student, String tname) {
         CourseService courseService = new CourseService();
         TeacherService teacherService = new TeacherService();
-        ArrayList<Course> courses = courseService.CheckByTeacherName(dbConnector, tname);
+        ArrayList<Course> courses = courseService.CheckByTeacherNameRough(dbConnector, tname);
 
         ArrayList<Integer> allCourses_cid = new ArrayList<>();
         for (Course course : courses) {
