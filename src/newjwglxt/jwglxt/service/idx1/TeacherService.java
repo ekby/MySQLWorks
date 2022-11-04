@@ -64,7 +64,7 @@ public class TeacherService implements Service_idx1<Teacher>, LoginService<Teach
     @Override
     public ArrayList<Teacher> CheckByNameRough(DbConnector dbConnector, String name) {
         TeacherDaoImpl teacherDao = new TeacherDaoImpl();
-        return teacherDao.SelectByName(dbConnector.getConnection(), name);
+        return teacherDao.SelectByNameRough(dbConnector.getConnection(), name);
     }
 
     public Vector<Vector<Object>> getAllTeacherVector_jwadmin(DbConnector dbConnector) {
