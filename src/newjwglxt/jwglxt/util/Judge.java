@@ -50,6 +50,7 @@ public class Judge {
         }
         return false;
     }
+
     public static boolean isName(String s) {
         return (s.matches("[\u4E00-\u9FA5]+") || !stringHasExceptLetter(s)) && s.length() != 0 && s.length() != 1;
     }
