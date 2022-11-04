@@ -11,6 +11,7 @@ import java.awt.*;
 import java.util.Vector;
 
 import static newjwglxt.jwglxt.util.ComboboxStyle.setComboboxStyle;
+import static newjwglxt.jwglxt.util.Judge.isNum;
 import static newjwglxt.jwglxt.util.QuickButton.primaryBorderButton;
 
 public class SelectFunc {
@@ -119,8 +120,10 @@ public class SelectFunc {
                 vectors = jwadminService.getAllJwadminVector(dbConnector);
             } else {
                 if (jComboBox.getSelectedItem().equals("教职工号")) {
-                    System.out.println("f");
-                    vectors = jwadminService.CheckByIdRough_Vector(dbConnector, Integer.parseInt(str));
+                    if (isNum(str)) {
+                        System.out.println("f");
+                        vectors = jwadminService.CheckByIdRough_Vector(dbConnector, Integer.parseInt(str));
+                    }
                 }
                 if (jComboBox.getSelectedItem().equals("姓名")) {
                     vectors = jwadminService.CheckByNameRough_Vector(dbConnector, str);
@@ -163,20 +166,20 @@ public class SelectFunc {
         panel_title_zhuye_jwadmin.add(lblNewLabel_8_1);
 
         // radio button
-        JRadioButton rdbtnNewRadioButton0 = new JRadioButton("查找课程");
+        JRadioButton rdbtnNewRadioButton0 = new JRadioButton("课程");
         rdbtnNewRadioButton0.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        rdbtnNewRadioButton0.setBounds(10, 56, 120, 23);
+        rdbtnNewRadioButton0.setBounds(10, 56, 60, 23);
         rdbtnNewRadioButton0.setSelected(true);
         panel_Chazhao.add(rdbtnNewRadioButton0);
 
-        JRadioButton rdbtnNewRadioButton1 = new JRadioButton("查找教师");
+        JRadioButton rdbtnNewRadioButton1 = new JRadioButton("教师");
         rdbtnNewRadioButton1.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        rdbtnNewRadioButton1.setBounds(140, 56, 120, 23);
+        rdbtnNewRadioButton1.setBounds(140 - 35 - 35, 56, 60, 23);
         panel_Chazhao.add(rdbtnNewRadioButton1);
 
-        JRadioButton rdbtnNewRadioButton2 = new JRadioButton("查找学生");
+        JRadioButton rdbtnNewRadioButton2 = new JRadioButton("学生");
         rdbtnNewRadioButton2.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        rdbtnNewRadioButton2.setBounds(270, 56, 120, 23);
+        rdbtnNewRadioButton2.setBounds(270 - 70 - 70, 56, 60, 23);
         panel_Chazhao.add(rdbtnNewRadioButton2);
 
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -188,6 +191,12 @@ public class SelectFunc {
         JComboBox<String> jComboBox = new JComboBox<>();
         DefaultComboBoxModel<String> defaultComboBoxModel0 = new DefaultComboBoxModel<>(new String[]{"课程编号", "课程名称", "开课部门", "课程类别", "教师姓名"});
         jComboBox.setModel(defaultComboBoxModel0);
+        setComboboxStyle(jComboBox);
+        jComboBox.setSelectedIndex(0);
+        jComboBox.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        jComboBox.setBounds(213 + 20, 56, 110, 26);
+        panel_Chazhao.add(jComboBox);
+
 
         DefaultComboBoxModel<String> defaultComboBoxModel1 = new DefaultComboBoxModel<>(new String[]{"教职工号", "姓名", "入职年份", "职称", "学部（院）"});
 
@@ -196,7 +205,7 @@ public class SelectFunc {
         JTextField textFielda = new JTextField();
         textFielda.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textFielda.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        textFielda.setBounds(553 - 70 - 10 - 10 - 140, 56, 140, 26);
+        textFielda.setBounds(553 - 70 - 10 - 10 - 140 + 20, 56, 120, 26);
         panel_Chazhao.add(textFielda);
 
         JButton btnCreateCourse_1a = primaryBorderButton("查找");
@@ -284,14 +293,26 @@ public class SelectFunc {
                     vectors = courseService.getAllCourseVector_jwadmin(dbConnector);
                 } else {
                     if (jComboBox.getSelectedItem().equals("课程编号")) {
-                        System.out.println("f");
-                        vectors =
+                        if (isNum(str)) {
+                            System.out.println("f");
+                            vectors = courseService.CheckByIdRough_Vector(dbConnector, Integer.parseInt(str));
+                        }
                     }
-                    if (jComboBox.getSelectedItem().equals("姓名")) {
-                        vectors = jwadminService.CheckByNameRough_Vector(dbConnector, str);
+                    if (jComboBox.getSelectedItem().equals("课程名称")) {
+                        vectors = courseService.CheckByNameRough_Vector(dbConnector, str);
                     }
+                    if (jComboBox.getSelectedItem().equals("开课部门")) {
+
+                    }
+                    if (jComboBox.getSelectedItem().equals("课程类别")) {
+
+                    }
+                    if (jComboBox.getSelectedItem().equals("教师姓名")) {
+
+                    }
+
                 }
-                table_jiaoshiliebiao.setModel(new DefaultTableModel(vectors, table_title) {
+                table_jiaoshiliebiao.setModel(new DefaultTableModel(vectors, table_title0) {
                     @Override
                     public boolean isCellEditable(int row, int column) {
                         return false;
