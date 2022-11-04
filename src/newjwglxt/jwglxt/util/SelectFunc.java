@@ -259,7 +259,7 @@ public class SelectFunc {
         lblNewLabel_8_1g.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         lblNewLabel_8_1g.setHorizontalAlignment(SwingConstants.RIGHT);
         lblNewLabel_8_1g.setForeground(Color.red);
-        lblNewLabel_8_1g.setBounds(553 - 70 - 10 - 20 - 140 - 90 - 10 - 100 - 10, 56, 100, 30);
+        lblNewLabel_8_1g.setBounds(103, 56, 100, 30);
         panel_title_zhuye_jwadmin.add(lblNewLabel_8_1g);
         lblNewLabel_8_1g.setVisible(false);
 
