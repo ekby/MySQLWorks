@@ -25,6 +25,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.Vector;
 
 import static newjwglxt.jwglxt.ui.MainWindow.contentPane;
@@ -87,7 +88,7 @@ public class StudentPanel {
         btn_dropcoursepresent.setBounds(10, 100, 130, 35);
         panel_category_student.add(btn_dropcoursepresent);
 
-        JButton btnGrade_student = primaryBorderButton("查询成绩");
+        JButton btnGrade_student = primaryBorderButton("成绩查询");
         btnGrade_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnGrade_student.setBounds(10, 145, 130, 35);
         panel_category_student.add(btnGrade_student);
@@ -128,82 +129,83 @@ public class StudentPanel {
         lblImg_student.setHorizontalAlignment(SwingConstants.CENTER);
         lblImg_student.setOpaque(true);
         lblImg_student.setBackground(Color.WHITE);
-        lblImg_student.setBounds(6, 73, 110, 150);
+        lblImg_student.setBounds(10, 56, 110, 150);
         panel_homePage_student.add(lblImg_student);
 
         JLabel lblHello_student_present = new JLabel(String.format("%s,你好！", student_login.getName()));
         lblHello_student_present.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblHello_student_present.setBounds(143, 84, 365, 35);
+        lblHello_student_present.setBounds(149, 56, 365, 35);
         panel_homePage_student.add(lblHello_student_present);
 
         JLabel lblSid_student = new JLabel("学号：");
         lblSid_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblSid_student.setBounds(143, 118, 69, 24);
+        lblSid_student.setBounds(149, 101, 69, 24);
         panel_homePage_student.add(lblSid_student);
 
         JLabel lblSid_present_student = new JLabel(Integer.toString(student_login.getId()));
         lblSid_present_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblSid_present_student.setBounds(213, 118, 88, 24);
+        lblSid_present_student.setBounds(219, 101, 88, 24);
         panel_homePage_student.add(lblSid_present_student);
 
         JLabel lblCollege_student = new JLabel("学部（院）：");
         lblCollege_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblCollege_student.setBounds(311, 118, 78, 24);
+        lblCollege_student.setBounds(317, 101, 78, 24);
         panel_homePage_student.add(lblCollege_student);
 
         JLabel lblCollege_present_student = new JLabel(student_login.getScollege());
         lblCollege_present_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblCollege_present_student.setBounds(394, 118, 134, 24);
+        lblCollege_present_student.setBounds(400, 101, 134, 24);
         panel_homePage_student.add(lblCollege_present_student);
 
         JLabel lblGender_student = new JLabel("性别：");
         lblGender_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblGender_student.setBounds(143, 152, 69, 24);
+        lblGender_student.setBounds(149, 135, 69, 24);
         panel_homePage_student.add(lblGender_student);
 
         JLabel lblGender_present_student = new JLabel(student_login.getGender());
         lblGender_present_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblGender_present_student.setBounds(213, 152, 88, 24);
+        lblGender_present_student.setBounds(219, 135, 88, 24);
         panel_homePage_student.add(lblGender_present_student);
 
+        //todo calculate
         JLabel lblMajor_student = new JLabel("专业：");
         lblMajor_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblMajor_student.setBounds(311, 152, 78, 24);
+        lblMajor_student.setBounds(317, 135, 78, 24);
         panel_homePage_student.add(lblMajor_student);
 
         JLabel lblMajor_present_student = new JLabel(student_login.getSmajor());
         lblMajor_present_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblMajor_present_student.setBounds(394, 152, 134, 24);
+        lblMajor_present_student.setBounds(400, 135, 134, 24);
         panel_homePage_student.add(lblMajor_present_student);
 
         JLabel lblFirstYear_student = new JLabel("入学年份：");
         lblFirstYear_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblFirstYear_student.setBounds(143, 186, 69, 24);
+        lblFirstYear_student.setBounds(149, 169, 69, 24);
         panel_homePage_student.add(lblFirstYear_student);
 
         JLabel lblFirstYear_present_student = new JLabel(Integer.toString(student_login.getSfirstyear()));
         lblFirstYear_present_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblFirstYear_present_student.setBounds(213, 186, 88, 24);
+        lblFirstYear_present_student.setBounds(219, 169, 88, 24);
         panel_homePage_student.add(lblFirstYear_present_student);
 
         JLabel lblContact_student = new JLabel("联系方式：");
         lblContact_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblContact_student.setBounds(143, 220, 69, 24);
+        lblContact_student.setBounds(149, 203, 69, 24);
         panel_homePage_student.add(lblContact_student);
 
         JLabel lblContact_present_student = new JLabel(student_login.getContact());
         lblContact_present_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblContact_present_student.setBounds(213, 220, 88, 24);
+        lblContact_present_student.setBounds(219, 203, 88, 24);
         panel_homePage_student.add(lblContact_present_student);
 
         JLabel lblClasses_student = new JLabel("行政班：");
         lblClasses_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblClasses_student.setBounds(311, 186, 78, 24);
+        lblClasses_student.setBounds(317, 169, 78, 24);
         panel_homePage_student.add(lblClasses_student);
 
         JLabel lblClasses_present_student = new JLabel(Integer.toString(student_login.getSclass()));
         lblClasses_present_student.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        lblClasses_present_student.setBounds(394, 186, 134, 24);
+        lblClasses_present_student.setBounds(400, 169, 134, 24);
         panel_homePage_student.add(lblClasses_present_student);
 
         // student右侧内容区 -> 主页 -> 标题区
@@ -253,13 +255,58 @@ public class StudentPanel {
 
                     // student右侧内容区 -> 我的课程 -> 可选课程
                     JLabel lbl_avaiblecourse = new JLabel("可选课程:");
-                    lbl_avaiblecourse.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    lbl_avaiblecourse.setFont(new Font("微软雅黑", Font.PLAIN, 13));
                     lbl_avaiblecourse.setBounds(10, 46, 77, 34);
                     panel_coursePage_student.add(lbl_avaiblecourse);
+
+                    JLabel lbl_selectcourse = new JLabel("查询课程:");
+                    lbl_selectcourse.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+                    lbl_selectcourse.setBounds(182, 46, 77, 34);
+                    panel_coursePage_student.add(lbl_selectcourse);
+
+                    String[] selectWay = new String[]{"课程名", "开课学部(院)", "课程类别", "任课教师", "全部课程"};
+                    JComboBox comboBox_selectWay = new JComboBox(selectWay);
+                    setComboboxStyle(comboBox_selectWay);
+                    comboBox_selectWay.setSelectedItem(student_login.getGender());
+                    comboBox_selectWay.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+                    comboBox_selectWay.setBounds(247, 48, 115, 34);
+                    panel_coursePage_student.add(comboBox_selectWay);
+
+                    JTextField textField_Select = new JTextField();
+                    textField_Select.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+                    textField_Select.setBounds(372, 46, 80, 34);
+                    panel_coursePage_student.add(textField_Select);
+                    textField_Select.setColumns(10);
+
+                    JButton btnchoose_select = primaryBorderButton("查询");
+                    btnchoose_select.setBounds(460, 48, 80, 30);
+                    panel_coursePage_student.add(btnchoose_select);
 
                     JScrollPane scrollPane_avaiblecourse = new JScrollPane();
                     scrollPane_avaiblecourse.setBounds(10, 80, 529, 141);
                     panel_coursePage_student.add(scrollPane_avaiblecourse);
+
+                    JButton btnchoose_course = primaryBorderButton("选课");
+                    btnchoose_course.setBounds(439, 231, 100, 29);
+                    panel_coursePage_student.add(btnchoose_course);
+
+                    JScrollPane scrollPane_nominatedCourse = new JScrollPane();
+                    scrollPane_nominatedCourse.setBounds(10, 269, 529, 141);
+                    panel_coursePage_student.add(scrollPane_nominatedCourse);
+
+                    JLabel lbl_ccsSuccess = new JLabel("选课成功！");
+                    lbl_ccsSuccess.setFont(new Font("微软雅黑", Font.BOLD, 16));
+                    lbl_ccsSuccess.setBounds(238, 225, 82, 27);
+                    panel_coursePage_student.add(lbl_ccsSuccess);
+                    lbl_ccsSuccess.setForeground(Color.green);
+                    lbl_ccsSuccess.setVisible(false);
+
+                    JLabel lbl_ccsFalse = new JLabel("选课失败！");
+                    lbl_ccsFalse.setFont(new Font("微软雅黑", Font.BOLD, 16));
+                    lbl_ccsFalse.setBounds(238, 225, 82, 27);
+                    panel_coursePage_student.add(lbl_ccsFalse);
+                    lbl_ccsFalse.setForeground(Color.red);
+                    lbl_ccsFalse.setVisible(false);
 
                     Vector<String> title_avaiblecourse = new Vector<>();
                     title_avaiblecourse.add("课程名称");
@@ -272,6 +319,7 @@ public class StudentPanel {
 
                     CourseService courseService = new CourseService();
 
+                    //全部课程的model
                     DefaultTableModel model_availecourse = new DefaultTableModel(courseService.getCourseVector_exceptSelectedCourses(dbConnector, student_login), title_avaiblecourse) {
                         //设置table内容不能改，但能被选中行
                         public boolean isCellEditable(int row, int column) {
@@ -279,31 +327,99 @@ public class StudentPanel {
                         }
                     };
 
+                    //todo 按照老师、课程类别、名称、学部院查询的model
+
+                    //初始设置为全部课程
                     JTable table_avaiblecourse = new JTable(model_availecourse);
                     table_avaiblecourse.getTableHeader().setReorderingAllowed(false);
                     scrollPane_avaiblecourse.setViewportView(table_avaiblecourse);
 
-                    JButton btnchoose_course = primaryBorderButton("选课");
-                    btnchoose_course.setBounds(439, 231, 100, 29);
-                    panel_coursePage_student.add(btnchoose_course);
+                    MouseListener mouseListener_check = new MouseListener() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            //全部课程
+                            if (Objects.equals(comboBox_selectWay.getSelectedItem(), "全部课程") || textField_Select.getText().length() == 0) {
+                                table_avaiblecourse.setModel(model_availecourse);
+                                System.out.println("全部课程");
+                                //todo 把model设置成上面的model
+                            } else if (Objects.equals(comboBox_selectWay.getSelectedItem(), "课程名")) {
+                                Vector<Vector<Object>> data_selectByCname = courseService.getSelectedByCnameVectorForStudent(dbConnector, student_login, textField_Select.getText());
+                                DefaultTableModel modelAvalibleCourseCheckByCname = new DefaultTableModel(data_selectByCname, title_avaiblecourse) {
+                                    //设置table内容不能改，但能被选中行
+                                    public boolean isCellEditable(int row, int column) {
+                                        return false;
+                                    }
+                                };
+                                table_avaiblecourse.setModel(modelAvalibleCourseCheckByCname);
+                                scrollPane_avaiblecourse.setViewportView(table_avaiblecourse);
+                                table_avaiblecourse.updateUI();
+                                System.out.println(textField_Select.getText());
+                                System.out.println("按照课程名查询");
+                            } else if (Objects.equals(comboBox_selectWay.getSelectedItem(), "开课学部(院)")) {
+                                Vector<Vector<Object>> data_selectByDepartment = courseService.getSelectedByDepartmentVectorForStudent(dbConnector, student_login, textField_Select.getText());
+                                DefaultTableModel modelAvalibleCourseCheckByDepartment = new DefaultTableModel(data_selectByDepartment, title_avaiblecourse) {
+                                    //设置table内容不能改，但能被选中行
+                                    public boolean isCellEditable(int row, int column) {
+                                        return false;
+                                    }
+                                };
+                                table_avaiblecourse.setModel(modelAvalibleCourseCheckByDepartment);
+                                scrollPane_avaiblecourse.setViewportView(table_avaiblecourse);
+                                table_avaiblecourse.updateUI();
+                                System.out.println(textField_Select.getText());
+                                System.out.println("按照开课学部(院)查询");
+                            } else if (Objects.equals(comboBox_selectWay.getSelectedItem(), "课程类别")) {
+                                Vector<Vector<Object>> data_selectByKclb = courseService.getSelectedByKclbVectorForStudent(dbConnector, student_login, textField_Select.getText());
+                                DefaultTableModel modelAvalibleCourseCheckByKclb = new DefaultTableModel(data_selectByKclb, title_avaiblecourse) {
+                                    //设置table内容不能改，但能被选中行
+                                    public boolean isCellEditable(int row, int column) {
+                                        return false;
+                                    }
+                                };
+                                table_avaiblecourse.setModel(modelAvalibleCourseCheckByKclb);
+                                scrollPane_avaiblecourse.setViewportView(table_avaiblecourse);
+                                table_avaiblecourse.updateUI();
+                                System.out.println(textField_Select.getText());
+                                System.out.println("按照课程类别查询");
+                            } else if (Objects.equals(comboBox_selectWay.getSelectedItem(), "任课教师")) {
+                                Vector<Vector<Object>> data_selectByTeacherName = courseService.getSelectedByTeacherVectorForStudent(dbConnector, student_login, textField_Select.getText());
+                                DefaultTableModel modelAvalibleCourseCheckByTeacher = new DefaultTableModel(data_selectByTeacherName, title_avaiblecourse) {
+                                    //设置table内容不能改，但能被选中行
+                                    public boolean isCellEditable(int row, int column) {
+                                        return false;
+                                    }
+                                };
+                                table_avaiblecourse.setModel(modelAvalibleCourseCheckByTeacher);
+                                scrollPane_avaiblecourse.setViewportView(table_avaiblecourse);
+                                table_avaiblecourse.updateUI();
+                                System.out.println(textField_Select.getText());
+                                System.out.println("按照任课教师查询");
+                            }
+                        }
 
-                    JScrollPane scrollPane_nominatedCourse = new JScrollPane();
-                    scrollPane_nominatedCourse.setBounds(10, 259, 529, 141);
-                    panel_coursePage_student.add(scrollPane_nominatedCourse);
+                        @Override
+                        public void mousePressed(MouseEvent e) {
 
-                    JLabel lbl_ccsSuccess = new JLabel("选课成功！");
-                    lbl_ccsSuccess.setFont(new Font("Lucida Grande", Font.BOLD, 16));
-                    lbl_ccsSuccess.setBounds(238, 225, 82, 27);
-                    panel_coursePage_student.add(lbl_ccsSuccess);
-                    lbl_ccsSuccess.setForeground(Color.green);
-                    lbl_ccsSuccess.setVisible(false);
+                        }
 
-                    JLabel lbl_ccsFalse = new JLabel("选课失败！");
-                    lbl_ccsFalse.setFont(new Font("Lucida Grande", Font.BOLD, 16));
-                    lbl_ccsFalse.setBounds(238, 225, 82, 27);
-                    panel_coursePage_student.add(lbl_ccsFalse);
-                    lbl_ccsFalse.setForeground(Color.red);
-                    lbl_ccsFalse.setVisible(false);
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+
+                        }
+                    };
+                    btnchoose_select.addMouseListener(mouseListener_check);
+
+
 
                     // student右侧内容区 -> 我的课程 -> 已选课程
                     //todo 名称、时间、类别的select
@@ -396,23 +512,23 @@ public class StudentPanel {
                     btnchoose_course.addMouseListener(mouseListener_choosecourse);
 
                     JLabel lbl_nominatedCourse = new JLabel("已选课程:");
-                    lbl_nominatedCourse.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-                    lbl_nominatedCourse.setBounds(10, 225, 77, 34);
+                    lbl_nominatedCourse.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+                    lbl_nominatedCourse.setBounds(10, 235, 77, 34);
                     panel_coursePage_student.add(lbl_nominatedCourse);
 
                     JButton btn_dropcourse = primaryBorderButton("退选");
-                    btn_dropcourse.setBounds(439, 412, 100, 29);
+                    btn_dropcourse.setBounds(439, 422, 100, 29);
                     panel_coursePage_student.add(btn_dropcourse);
 
                     JLabel lbl_dcsSuccess = new JLabel("操作成功！");
-                    lbl_dcsSuccess.setFont(new Font("Lucida Grande", Font.BOLD, 16));
+                    lbl_dcsSuccess.setFont(new Font("微软雅黑", Font.BOLD, 16));
                     lbl_dcsSuccess.setBounds(238, 421, 82, 24);
                     panel_coursePage_student.add(lbl_dcsSuccess);
                     lbl_dcsSuccess.setForeground(Color.green);
                     lbl_dcsSuccess.setVisible(false);
 
                     JLabel lbl_dcsFalse = new JLabel("退课失败！");
-                    lbl_dcsFalse.setFont(new Font("Lucida Grande", Font.BOLD, 16));
+                    lbl_dcsFalse.setFont(new Font("微软雅黑", Font.BOLD, 16));
                     lbl_dcsFalse.setBounds(238, 421, 82, 24);
                     panel_coursePage_student.add(lbl_dcsFalse);
                     lbl_dcsFalse.setForeground(Color.red);
@@ -487,14 +603,23 @@ public class StudentPanel {
                     //我的成绩界面
                 } else if (e.getSource().equals(btnGrade_student)) {
                     //查看成绩
+                    // student右侧内容区 -> 我的课程 -> 标题区
                     JPanel panel_gradePage_student = new JPanel();
                     panel_container_student.add(panel_gradePage_student, "name_610720492995100");
                     panel_gradePage_student.setLayout(null);
 
-                    JLabel lbl_selectGrade = new JLabel("成绩查询");
-                    lbl_selectGrade.setFont(new Font("Lucida Grande", Font.BOLD, 20));
-                    lbl_selectGrade.setBounds(232, 28, 85, 33);
-                    panel_gradePage_student.add(lbl_selectGrade);
+                    JPanel panel_title_grade_student = new JPanel();
+                    panel_title_grade_student.setLayout(null);
+                    panel_title_grade_student.setForeground(SystemColor.activeCaption);
+                    panel_title_grade_student.setBackground(SystemColor.scrollbar);
+                    panel_title_grade_student.setBounds(0, 0, 553, 46);
+                    panel_gradePage_student.add(panel_title_grade_student);
+
+                    JLabel lbltitle_mygrade = new JLabel("成绩");
+                    lbltitle_mygrade.setFont(new Font("微软雅黑", Font.BOLD, 16));
+                    lbltitle_mygrade.setBounds(10, 10, 64, 22);
+                    panel_title_grade_student.add(lbltitle_mygrade);
+
 
                     JScrollPane scrollPane_selectGrade = new JScrollPane();
                     scrollPane_selectGrade.setBounds(28, 86, 491, 260);
@@ -537,13 +662,21 @@ public class StudentPanel {
                     panel_container_student.add(panel_dropclasspresent_student, "退课管理");
                     panel_dropclasspresent_student.setLayout(null);
 
-                    JLabel lbldropclass = new JLabel("退选课程");
-                    lbldropclass.setFont(new Font("Lucida Grande", Font.BOLD, 20));
-                    lbldropclass.setBounds(232, 53, 92, 32);
-                    panel_dropclasspresent_student.add(lbldropclass);
+                    // student右侧内容区 -> 退课管理 -> 标题区
+                    JPanel panel_title_dropclass_student = new JPanel();
+                    panel_title_dropclass_student.setLayout(null);
+                    panel_title_dropclass_student.setForeground(SystemColor.activeCaption);
+                    panel_title_dropclass_student.setBackground(SystemColor.scrollbar);
+                    panel_title_dropclass_student.setBounds(0, 0, 553, 46);
+                    panel_dropclasspresent_student.add(panel_title_dropclass_student);
+
+                    JLabel lbltitle_dropclass = new JLabel("退选课程");
+                    lbltitle_dropclass.setFont(new Font("微软雅黑", Font.BOLD, 16));
+                    lbltitle_dropclass.setBounds(10, 10, 64, 22);
+                    panel_title_dropclass_student.add(lbltitle_dropclass);
 
                     JScrollPane scrollPane_dropclass = new JScrollPane();
-                    scrollPane_dropclass.setBounds(47, 110, 457, 283);
+                    scrollPane_dropclass.setBounds(28, 86, 491, 260);
                     panel_dropclasspresent_student.add(scrollPane_dropclass);
 
                     JTable table_dropclass = new JTable();
@@ -584,12 +717,22 @@ public class StudentPanel {
                     panel_coursetablePage_student.setLayout(null);
                     panel_container_student.add(panel_coursetablePage_student, "name_610722426758000");
 
-                    JLabel lblCourseTable = new JLabel(String.format("%s课表", student_login.getName()));
-                    lblCourseTable.setBounds(241, 39, 61, 16);
-                    panel_coursetablePage_student.add(lblCourseTable);
+                    // student右侧内容区 -> 生成课表 -> 标题区
+                    JPanel panel_title_coursetable_student = new JPanel();
+                    panel_title_coursetable_student.setLayout(null);
+                    panel_title_coursetable_student.setForeground(SystemColor.activeCaption);
+                    panel_title_coursetable_student.setBackground(SystemColor.scrollbar);
+                    panel_title_coursetable_student.setBounds(0, 0, 553, 46);
+                    panel_coursetablePage_student.add(panel_title_coursetable_student);
+
+                    JLabel lbltitle_coursetable = new JLabel(String.format("%s课表", student_login.getName()));
+                    lbltitle_coursetable.setFont(new Font("微软雅黑", Font.BOLD, 16));
+                    lbltitle_coursetable.setBounds(10, 10, 100, 22);
+                    panel_title_coursetable_student.add(lbltitle_coursetable);
+
 
                     JScrollPane scrollPane_CourseTable = new JScrollPane();
-                    scrollPane_CourseTable.setBounds(35, 85, 476, 321);
+                    scrollPane_CourseTable.setBounds(28, 86, 491, 260);
                     panel_coursetablePage_student.add(scrollPane_CourseTable);
 
                     String[][] courseTableData = {
@@ -711,59 +854,72 @@ public class StudentPanel {
                     panel_container_student.add(panel_changeinfoPage_student, "name_610724537767700");
                     panel_changeinfoPage_student.setLayout(null);
 
+                    // student右侧内容区 -> 个人信息修改 -> 标题区
+                    JPanel panel_title_changeinfo_student = new JPanel();
+                    panel_title_changeinfo_student.setLayout(null);
+                    panel_title_changeinfo_student.setForeground(SystemColor.activeCaption);
+                    panel_title_changeinfo_student.setBackground(SystemColor.scrollbar);
+                    panel_title_changeinfo_student.setBounds(0, 0, 553, 46);
+                    panel_changeinfoPage_student.add(panel_title_changeinfo_student);
+
+                    JLabel lbltitle_changeinfo = new JLabel("个人信息修改");
+                    lbltitle_changeinfo.setFont(new Font("微软雅黑", Font.BOLD, 16));
+                    lbltitle_changeinfo.setBounds(10, 10, 100, 22);
+                    panel_title_changeinfo_student.add(lbltitle_changeinfo);
+
                     JLabel lblChangeInfoTitle = new JLabel("更改个人信息");
-                    lblChangeInfoTitle.setFont(new Font("Lucida Grande", Font.BOLD, 18));
+                    lblChangeInfoTitle.setFont(new Font("微软雅黑", Font.BOLD, 18));
                     lblChangeInfoTitle.setBounds(224, 19, 116, 33);
                     panel_changeinfoPage_student.add(lblChangeInfoTitle);
 
                     JLabel lblSid = new JLabel("学号:");
-                    lblSid.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblSid.setFont(new Font("微软雅黑", Font.BOLD, 13));
                     lblSid.setBounds(39, 102, 61, 16);
                     panel_changeinfoPage_student.add(lblSid);
 
                     JLabel lblSidPresent = new JLabel(String.valueOf(student_login.getId()));
-                    lblSidPresent.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    lblSidPresent.setFont(new Font("微软雅黑", Font.PLAIN, 13));
                     lblSidPresent.setBounds(128, 102, 89, 16);
                     panel_changeinfoPage_student.add(lblSidPresent);
 
                     JLabel lblSname = new JLabel("姓名:");
-                    lblSname.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblSname.setFont(new Font("微软雅黑", Font.BOLD, 13));
                     lblSname.setBounds(39, 154, 61, 16);
                     panel_changeinfoPage_student.add(lblSname);
 
                     JTextField textField_Sname = new JTextField();
                     textField_Sname.setText(String.valueOf(student_login.getName()));
-                    textField_Sname.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    textField_Sname.setFont(new Font("微软雅黑", Font.PLAIN, 13));
                     textField_Sname.setBounds(124, 149, 130, 26);
                     panel_changeinfoPage_student.add(textField_Sname);
                     textField_Sname.setColumns(10);
 
                     JLabel lblPwd = new JLabel("登陆密码:");
-                    lblPwd.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblPwd.setFont(new Font("微软雅黑", Font.BOLD, 13));
                     lblPwd.setBounds(39, 206, 76, 16);
                     panel_changeinfoPage_student.add(lblPwd);
 
                     JPasswordField textField_Spwd = new JPasswordField();
                     textField_Spwd.setBorder(new QuickButton.RoundBorder(Color.black, 0));
-                    textField_Spwd.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    textField_Spwd.setFont(new Font("微软雅黑", Font.PLAIN, 13));
                     textField_Spwd.setBounds(124, 201, 130, 26);
                     panel_changeinfoPage_student.add(textField_Spwd);
                     textField_Spwd.setColumns(10);
 
                     JLabel lblScontact = new JLabel("联系方式:");
-                    lblScontact.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblScontact.setFont(new Font("微软雅黑", Font.BOLD, 13));
                     lblScontact.setBounds(39, 258, 76, 16);
                     panel_changeinfoPage_student.add(lblScontact);
 
                     JTextField textField_Scontact = new JTextField();
                     textField_Scontact.setText(String.valueOf(student_login.getContact()));
-                    textField_Scontact.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    textField_Scontact.setFont(new Font("微软雅黑", Font.PLAIN, 13));
                     textField_Scontact.setBounds(124, 253, 130, 26);
                     panel_changeinfoPage_student.add(textField_Scontact);
                     textField_Scontact.setColumns(10);
 
                     JLabel lblSgender = new JLabel("性别:");
-                    lblSgender.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblSgender.setFont(new Font("微软雅黑", Font.BOLD, 13));
                     lblSgender.setBounds(39, 310, 61, 16);
                     panel_changeinfoPage_student.add(lblSgender);
 
@@ -771,63 +927,63 @@ public class StudentPanel {
                     JComboBox comboBox_Sgender = new JComboBox(genders);
                     setComboboxStyle(comboBox_Sgender);
                     comboBox_Sgender.setSelectedItem(student_login.getGender());
-                    comboBox_Sgender.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
+                    comboBox_Sgender.setFont(new Font("微软雅黑", Font.PLAIN, 13));
                     comboBox_Sgender.setBounds(124, 310, 76, 20);
                     panel_changeinfoPage_student.add(comboBox_Sgender);
 
                     JLabel lblScollege = new JLabel("学院:");
-                    lblScollege.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-                    lblScollege.setBounds(342, 102, 61, 16);
+                    lblScollege.setFont(new Font("微软雅黑", Font.BOLD, 13));
+                    lblScollege.setBounds(332, 102, 61, 16);
                     panel_changeinfoPage_student.add(lblScollege);
 
                     JLabel lblScollegepresent = new JLabel(student_login.getScollege());
-                    lblScollegepresent.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-                    lblScollegepresent.setBounds(428, 102, 120, 16);
+                    lblScollegepresent.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+                    lblScollegepresent.setBounds(413, 102, 120, 16);
                     panel_changeinfoPage_student.add(lblScollegepresent);
 
                     JLabel lblMajor = new JLabel("专业:");
-                    lblMajor.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-                    lblMajor.setBounds(342, 154, 61, 16);
+                    lblMajor.setFont(new Font("微软雅黑", Font.BOLD, 13));
+                    lblMajor.setBounds(332, 154, 61, 16);
                     panel_changeinfoPage_student.add(lblMajor);
 
                     JLabel lblSmajorPresent = new JLabel(student_login.getSmajor());
-                    lblSmajorPresent.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-                    lblSmajorPresent.setBounds(428, 154, 120, 16);
+                    lblSmajorPresent.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+                    lblSmajorPresent.setBounds(413, 154, 130, 16);
                     panel_changeinfoPage_student.add(lblSmajorPresent);
 
                     JLabel lblSclass = new JLabel("班级:");
-                    lblSclass.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-                    lblSclass.setBounds(342, 206, 61, 16);
+                    lblSclass.setFont(new Font("微软雅黑", Font.BOLD, 13));
+                    lblSclass.setBounds(332, 206, 61, 16);
                     panel_changeinfoPage_student.add(lblSclass);
 
                     JLabel lblSclassPresent = new JLabel(String.valueOf(student_login.getSclass()));
-                    lblSclassPresent.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-                    lblSclassPresent.setBounds(428, 206, 76, 16);
+                    lblSclassPresent.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+                    lblSclassPresent.setBounds(413, 206, 76, 16);
                     panel_changeinfoPage_student.add(lblSclassPresent);
 
                     JLabel lblSFirstyear = new JLabel("入学年份:");
-                    lblSFirstyear.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-                    lblSFirstyear.setBounds(340, 258, 76, 16);
+                    lblSFirstyear.setFont(new Font("微软雅黑", Font.BOLD, 13));
+                    lblSFirstyear.setBounds(330, 258, 76, 16);
                     panel_changeinfoPage_student.add(lblSFirstyear);
 
                     JLabel lblFirstYearpresent = new JLabel(String.valueOf(student_login.getSfirstyear()));
-                    lblFirstYearpresent.setFont(new Font("Lucida Grande", Font.PLAIN, 13));
-                    lblFirstYearpresent.setBounds(428, 258, 76, 16);
+                    lblFirstYearpresent.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+                    lblFirstYearpresent.setBounds(413, 258, 76, 16);
                     panel_changeinfoPage_student.add(lblFirstYearpresent);
 
                     JButton btnSubmit = primaryBorderButton("提交修改");
-                    btnSubmit.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    btnSubmit.setFont(new Font("微软雅黑", Font.BOLD, 13));
                     btnSubmit.setBounds(400, 379, 117, 29);
                     panel_changeinfoPage_student.add(btnSubmit);
 
                     JLabel lblFalse_name = new JLabel("用户名不符合格式！");
-                    lblFalse_name.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblFalse_name.setFont(new Font("微软雅黑", Font.BOLD, 13));
                     lblFalse_name.setBounds(130, 179, 140, 16);
                     lblFalse_name.setForeground(Color.red);
                     panel_changeinfoPage_student.add(lblFalse_name);
 
                     JLabel lblFalse_contact = new JLabel("联系方式不符合格式！");
-                    lblFalse_contact.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+                    lblFalse_contact.setFont(new Font("微软雅黑", Font.BOLD, 13));
                     lblFalse_contact.setBounds(130, 283, 140, 16);
                     lblFalse_contact.setForeground(Color.red);
                     panel_changeinfoPage_student.add(lblFalse_contact);

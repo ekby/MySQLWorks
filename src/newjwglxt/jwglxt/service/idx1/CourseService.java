@@ -73,6 +73,7 @@ public class CourseService implements Service_idx1<Course> {
         TeacherService teacherService = new TeacherService();
         return courseDao.SelectByTeacherID(dbConnector.getConnection(), teacherService.CheckByName(dbConnector, tname).get(0).getId());
     }
+
     // 为studentPanel的可选课程功能返回该学生除去已选的课程之外的课程的信息
     public Vector<Vector<Object>> getCourseVector_exceptSelectedCourses(DbConnector dbConnector, Student student) {
         CourseDaoImpl courseDao = new CourseDaoImpl();
@@ -187,6 +188,238 @@ public class CourseService implements Service_idx1<Course> {
         return courseCol;
     }
 
+    public Vector<Vector<Object>> getSelectedByCnameVectorForStudent (DbConnector dbConnector, Student student, String cname) {
+        CourseService courseService = new CourseService();
+        TeacherService teacherService = new TeacherService();
+        ArrayList<Course> courses = courseService.CheckByNameRough(dbConnector, cname);
+
+        ArrayList<Integer> allCourses_cid = new ArrayList<>();
+        for (Course course : courses) {
+            allCourses_cid.add(course.getCid());
+        }
+
+        ChooseCourseService chooseCourseService = new ChooseCourseService();
+        DropCourseService dropCourseService = new DropCourseService();
+
+        ArrayList<ChooseCourse> chosenCourses = chooseCourseService.CheckBySid(dbConnector, student.getId());
+
+        //所有所选课程的id
+        ArrayList<Integer> chosenCourses_cid = new ArrayList<>();
+        for (ChooseCourse chooseCourse : chosenCourses) {
+            chosenCourses_cid.add(chooseCourse.getCccid());
+        }
+
+        ArrayList<DropCourse> dropCourses = dropCourseService.CheckBySid(dbConnector, student.getId());
+
+        //所有退课的id
+        ArrayList<Integer> droppedCourses_cid = new ArrayList<>();
+        for (DropCourse dropCourse : dropCourses) {
+            droppedCourses_cid.add(dropCourse.getDccid());
+        }
+
+        //所有可选课程的id
+        ArrayList<Integer> courses_cid = new ArrayList<>();
+        for (int x : allCourses_cid) {
+            //选课表和退课表都没有
+            if (!chosenCourses_cid.contains(x) && !droppedCourses_cid.contains(x)) {
+                courses_cid.add(x);
+            } else if (!chosenCourses_cid.contains(x) && dropCourseService.CheckBySidAndCid(dbConnector, student.getId(), x).get(0).getDchandle() == 1) {
+                //选课表没有，退课表必须是批准
+                courses_cid.add(x);
+            }
+        }
+
+        Vector<Vector<Object>> courseCol = new Vector<>();
+        for (int cid : courses_cid) {
+            Vector<Object> courseRow = new Vector<>();
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCname());
+            courseRow.add(cid);
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCtime());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCroom());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCcredit());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCkclb());
+            courseRow.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, cid).get(0).getCteacherid()).get(0).getName());
+            courseCol.add(courseRow);
+        }
+        System.out.println(courses);
+        return courseCol;
+
+    }
+
+    public Vector<Vector<Object>> getSelectedByDepartmentVectorForStudent (DbConnector dbConnector, Student student, String department) {
+        CourseService courseService = new CourseService();
+        TeacherService teacherService = new TeacherService();
+        ArrayList<Course> courses = courseService.CheckByDepartment(dbConnector, department);
+
+        ArrayList<Integer> allCourses_cid = new ArrayList<>();
+        for (Course course : courses) {
+            allCourses_cid.add(course.getCid());
+        }
+
+        ChooseCourseService chooseCourseService = new ChooseCourseService();
+        DropCourseService dropCourseService = new DropCourseService();
+
+        ArrayList<ChooseCourse> chosenCourses = chooseCourseService.CheckBySid(dbConnector, student.getId());
+
+        //所有所选课程的id
+        ArrayList<Integer> chosenCourses_cid = new ArrayList<>();
+        for (ChooseCourse chooseCourse : chosenCourses) {
+            chosenCourses_cid.add(chooseCourse.getCccid());
+        }
+
+        ArrayList<DropCourse> dropCourses = dropCourseService.CheckBySid(dbConnector, student.getId());
+
+        //所有退课的id
+        ArrayList<Integer> droppedCourses_cid = new ArrayList<>();
+        for (DropCourse dropCourse : dropCourses) {
+            droppedCourses_cid.add(dropCourse.getDccid());
+        }
+
+        //所有可选课程的id
+        ArrayList<Integer> courses_cid = new ArrayList<>();
+        for (int x : allCourses_cid) {
+            //选课表和退课表都没有
+            if (!chosenCourses_cid.contains(x) && !droppedCourses_cid.contains(x)) {
+                courses_cid.add(x);
+            } else if (!chosenCourses_cid.contains(x) && dropCourseService.CheckBySidAndCid(dbConnector, student.getId(), x).get(0).getDchandle() == 1) {
+                //选课表没有，退课表必须是批准
+                courses_cid.add(x);
+            }
+        }
+
+        Vector<Vector<Object>> courseCol = new Vector<>();
+        for (int cid : courses_cid) {
+            Vector<Object> courseRow = new Vector<>();
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCname());
+            courseRow.add(cid);
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCtime());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCroom());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCcredit());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCkclb());
+            courseRow.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, cid).get(0).getCteacherid()).get(0).getName());
+            courseCol.add(courseRow);
+        }
+        System.out.println(courses);
+        return courseCol;
+
+    }
+
+    public Vector<Vector<Object>> getSelectedByKclbVectorForStudent (DbConnector dbConnector, Student student, String kclb) {
+        CourseService courseService = new CourseService();
+        TeacherService teacherService = new TeacherService();
+        ArrayList<Course> courses = courseService.CheckByKclb(dbConnector, kclb);
+
+        ArrayList<Integer> allCourses_cid = new ArrayList<>();
+        for (Course course : courses) {
+            allCourses_cid.add(course.getCid());
+        }
+
+        ChooseCourseService chooseCourseService = new ChooseCourseService();
+        DropCourseService dropCourseService = new DropCourseService();
+
+        ArrayList<ChooseCourse> chosenCourses = chooseCourseService.CheckBySid(dbConnector, student.getId());
+
+        //所有所选课程的id
+        ArrayList<Integer> chosenCourses_cid = new ArrayList<>();
+        for (ChooseCourse chooseCourse : chosenCourses) {
+            chosenCourses_cid.add(chooseCourse.getCccid());
+        }
+
+        ArrayList<DropCourse> dropCourses = dropCourseService.CheckBySid(dbConnector, student.getId());
+
+        //所有退课的id
+        ArrayList<Integer> droppedCourses_cid = new ArrayList<>();
+        for (DropCourse dropCourse : dropCourses) {
+            droppedCourses_cid.add(dropCourse.getDccid());
+        }
+
+        //所有可选课程的id
+        ArrayList<Integer> courses_cid = new ArrayList<>();
+        for (int x : allCourses_cid) {
+            //选课表和退课表都没有
+            if (!chosenCourses_cid.contains(x) && !droppedCourses_cid.contains(x)) {
+                courses_cid.add(x);
+            } else if (!chosenCourses_cid.contains(x) && dropCourseService.CheckBySidAndCid(dbConnector, student.getId(), x).get(0).getDchandle() == 1) {
+                //选课表没有，退课表必须是批准
+                courses_cid.add(x);
+            }
+        }
+
+        Vector<Vector<Object>> courseCol = new Vector<>();
+        for (int cid : courses_cid) {
+            Vector<Object> courseRow = new Vector<>();
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCname());
+            courseRow.add(cid);
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCtime());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCroom());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCcredit());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCkclb());
+            courseRow.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, cid).get(0).getCteacherid()).get(0).getName());
+            courseCol.add(courseRow);
+        }
+        System.out.println(courses);
+        return courseCol;
+
+    }
+
+    public Vector<Vector<Object>> getSelectedByTeacherVectorForStudent (DbConnector dbConnector, Student student, String tname) {
+        CourseService courseService = new CourseService();
+        TeacherService teacherService = new TeacherService();
+        ArrayList<Course> courses = courseService.CheckByTeacherName(dbConnector, tname);
+
+        ArrayList<Integer> allCourses_cid = new ArrayList<>();
+        for (Course course : courses) {
+            allCourses_cid.add(course.getCid());
+        }
+
+        ChooseCourseService chooseCourseService = new ChooseCourseService();
+        DropCourseService dropCourseService = new DropCourseService();
+
+        ArrayList<ChooseCourse> chosenCourses = chooseCourseService.CheckBySid(dbConnector, student.getId());
+
+        //所有所选课程的id
+        ArrayList<Integer> chosenCourses_cid = new ArrayList<>();
+        for (ChooseCourse chooseCourse : chosenCourses) {
+            chosenCourses_cid.add(chooseCourse.getCccid());
+        }
+
+        ArrayList<DropCourse> dropCourses = dropCourseService.CheckBySid(dbConnector, student.getId());
+
+        //所有退课的id
+        ArrayList<Integer> droppedCourses_cid = new ArrayList<>();
+        for (DropCourse dropCourse : dropCourses) {
+            droppedCourses_cid.add(dropCourse.getDccid());
+        }
+
+        //所有可选课程的id
+        ArrayList<Integer> courses_cid = new ArrayList<>();
+        for (int x : allCourses_cid) {
+            //选课表和退课表都没有
+            if (!chosenCourses_cid.contains(x) && !droppedCourses_cid.contains(x)) {
+                courses_cid.add(x);
+            } else if (!chosenCourses_cid.contains(x) && dropCourseService.CheckBySidAndCid(dbConnector, student.getId(), x).get(0).getDchandle() == 1) {
+                //选课表没有，退课表必须是批准
+                courses_cid.add(x);
+            }
+        }
+
+        Vector<Vector<Object>> courseCol = new Vector<>();
+        for (int cid : courses_cid) {
+            Vector<Object> courseRow = new Vector<>();
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCname());
+            courseRow.add(cid);
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCtime());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCroom());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCcredit());
+            courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCkclb());
+            courseRow.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, cid).get(0).getCteacherid()).get(0).getName());
+            courseCol.add(courseRow);
+        }
+        System.out.println(courses);
+        return courseCol;
+
+    }
+
     public boolean ifIdExist(DbConnector dbConnector, int id) {
         if (Integer.toString(id).length() != 4)
             return false;
@@ -208,4 +441,5 @@ public class CourseService implements Service_idx1<Course> {
 
         return courseDao.Select(dbConnector.getConnection());
     }
+
 }
