@@ -459,9 +459,14 @@ public class JwadminPanel {
                     textField_2a.setText("");
                     lblCourseId_1_1a.setText("");
                 } else {
-                    //todo 判断时间是否冲突
-//                    courseService.Delete();
+                    // 上课时间被改了
+                    // 删course表记录
+                    courseService.Delete(dbConnector, courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0));
+                    // 删choosecourse表记录
                     ChooseCourseService chooseCourseService = new ChooseCourseService();
+                    chooseCourseService.Delete(dbConnector, chooseCourseService.CheckByCid(dbConnector, Integer.parseInt(new_id)).get(0));
+
+                    // 判断时间是否冲突
                     if (chooseCourseService.judgeCourseForTeacher(dbConnector, course)) {
                         lblCourseId_1_1afm.setVisible(false);
                         courseService.Update(dbConnector, course);
