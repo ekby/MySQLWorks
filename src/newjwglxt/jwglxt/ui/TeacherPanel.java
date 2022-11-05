@@ -505,6 +505,77 @@ public class TeacherPanel {
                         System.out.printf("---------> sid=%d, cid=%d, score=%s, gpa=%d%n", sid, selectedCourseID[0], score, getGPA(Integer.parseInt(score)));
                     }
                 }
+            } else if (e.getSource().equals(btnAbout_1)) {
+                JPanel panel_about_teacher = new JPanel();
+                panel_container_teacher.add(panel_about_teacher, "about");
+                panel_about_teacher.setLayout(null);
+
+                JPanel panel_title_about_teacher = new JPanel();
+                panel_title_about_teacher.setLayout(null);
+                panel_title_about_teacher.setForeground(SystemColor.activeCaption);
+                panel_title_about_teacher.setBackground(SystemColor.scrollbar);
+                panel_title_about_teacher.setBounds(0, 0, 553, 46);
+                panel_about_teacher.add(panel_title_about_teacher);
+
+                JLabel lbltitle_about = new JLabel("关于SPWD教务管理系统");
+                lbltitle_about.setFont(new Font("微软雅黑", Font.BOLD, 16));
+                lbltitle_about.setBounds(10, 10, 200, 22);
+                panel_title_about_teacher.add(lbltitle_about);
+
+                JLabel lbl_spa = new JLabel("SPWD教务管理系统");
+                lbl_spa.setFont(new Font("Lucida Grande", Font.BOLD, 16));
+                lbl_spa.setBounds(207, 149, 170, 28);
+                panel_about_teacher.add(lbl_spa);
+
+                JLabel lbl_spa_1 = new JLabel("Version 10.5.608");
+                lbl_spa_1.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
+                lbl_spa_1.setBounds(227, 174, 115, 28);
+                panel_about_teacher.add(lbl_spa_1);
+
+                JLabel lblNewLabel_3_1_1_1 = new JLabel("Developed by:");
+                lblNewLabel_3_1_1_1.setBounds(185, 234, 95, 16);
+                panel_about_teacher.add(lblNewLabel_3_1_1_1);
+
+                JLabel lblNewLabel_3_1_1_1_1 = new JLabel("Xia Runcheng");
+                lblNewLabel_3_1_1_1_1.setBounds(284, 234, 95, 16);
+                panel_about_teacher.add(lblNewLabel_3_1_1_1_1);
+
+                JLabel lblNewLabel_3_1_1_1_1_1 = new JLabel("Wang Handi");
+                lblNewLabel_3_1_1_1_1_1.setBounds(284, 254, 95, 16);
+                panel_about_teacher.add(lblNewLabel_3_1_1_1_1_1);
+
+                JLabel lblNewLabel_3_1_1_1_1_1_1 = new JLabel("Dong Liyao");
+                lblNewLabel_3_1_1_1_1_1_1.setBounds(284, 274, 95, 16);
+                panel_about_teacher.add(lblNewLabel_3_1_1_1_1_1_1);
+
+                JLabel lblNewLabel_3 = new JLabel("Copyright © 2022 SpecialWudi Inc. Practice makes PERFECT.");
+                lblNewLabel_3.setBounds(86, 406, 391, 16);
+                panel_about_teacher.add(lblNewLabel_3);
+
+                JLabel lblNewLabel_3_1 = new JLabel("BJUT-11-B105 版权所有");
+                lblNewLabel_3_1.setBounds(205, 383, 147, 16);
+                panel_about_teacher.add(lblNewLabel_3_1);
+
+                JLabel lblNewLabel_3_1_1 = new JLabel("客服电话：156XXXX9915");
+                lblNewLabel_3_1_1.setBounds(201, 362, 181, 16);
+                panel_about_teacher.add(lblNewLabel_3_1_1);
+
+                ImageIcon img = new ImageIcon("src/newjwglxt/jwglxt/logo.png");
+                Image image = img.getImage();
+                image = image.getScaledInstance(64, 64, Image.SCALE_AREA_AVERAGING);
+                img.setImage(image);
+
+                JLabel label = new JLabel(img);
+                label.setBounds(247, 73, 64, 64);
+                panel_about_teacher.add(label);
+
+                panel_container_teacher.removeAll();
+                panel_container_teacher.add(panel_about_teacher);
+                panel_container_teacher.validate();
+                panel_container_teacher.repaint();
+                System.out.println("about");
+                panel_about_teacher.setVisible(true);
+                
             } else if (e.getSource().equals(btnExit_teacher)) {
                 contentPane.removeAll();
                 LoginPanel loginPanel = new LoginPanel();
@@ -530,6 +601,7 @@ public class TeacherPanel {
         btn_queren_teacher.addActionListener(actionlistenerTeacher);
         btnExit_teacher.addActionListener(actionlistenerTeacher);
         btnEditInfo_teacher.addActionListener(actionlistenerTeacher);
+        btnAbout_1.addActionListener(actionlistenerTeacher);
 
         // 成绩管理JComboBox的监听器
         ItemListener itemListener = new ItemListener() {

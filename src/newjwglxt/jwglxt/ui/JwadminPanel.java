@@ -401,6 +401,14 @@ public class JwadminPanel {
         panel_bianjikecheng.add(lblCourseId_1_1afm);
         lblCourseId_1_1afm.setVisible(false);
 
+        JLabel lblCourseId_1_1asu = new JLabel("修改课程成功!");
+        lblCourseId_1_1asu.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblCourseId_1_1asu.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblCourseId_1_1asu.setForeground(Color.green);
+        lblCourseId_1_1asu.setBounds(358, 236, 165, 26);
+        panel_bianjikecheng.add(lblCourseId_1_1asu);
+        lblCourseId_1_1asu.setVisible(false);
+
         JButton btnCreateCourse_1a = primaryBorderButton("确认");
         btnCreateCourse_1a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnCreateCourse_1a.setBounds(433, 314, 100, 33);
@@ -441,12 +449,12 @@ public class JwadminPanel {
                 CourseService courseService = new CourseService();
                 new_sign = courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0).getCsigned_num();
 
-                Course course = new Course(Integer.parseInt(new_id), new_name, new_dep, Double.parseDouble(new_credit), new_kclb, Integer.parseInt(new_tid), new_room, new_time, new_sign, Integer.parseInt(new_max));
-                String old_time = courseService.CheckById(dbConnector, course.getCid()).get(0).getCtime();
+                Course courseWaitJudge = new Course(Integer.parseInt(new_id), new_name, new_dep, Double.parseDouble(new_credit), new_kclb, Integer.parseInt(new_tid), new_room, new_time, new_sign, Integer.parseInt(new_max));
+                String old_time = courseService.CheckById(dbConnector, courseWaitJudge.getCid()).get(0).getCtime();
                 if (new_time.equals(old_time)) {
                     // 如果时间没被更改，就不判断上课时间是否冲突
-                    lblCourseId_1_1afm.setVisible(false);
-                    courseService.Update(dbConnector, course);
+                    lblCourseId_1_1afm.setVisible(true);
+                    courseService.Update(dbConnector, courseWaitJudge);
 
                     textField_bianhao.setText("");
                     textFielda.setText("");
@@ -458,18 +466,19 @@ public class JwadminPanel {
                     ttta.setText("");
                     textField_2a.setText("");
                     lblCourseId_1_1a.setText("");
-                } else {
-                    // 上课时间被改了
-                    // 删course表记录
-                    courseService.Delete(dbConnector, courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0));
-                    // 删choosecourse表记录
-                    ChooseCourseService chooseCourseService = new ChooseCourseService();
-                    chooseCourseService.Delete(dbConnector, chooseCourseService.CheckByCid(dbConnector, Integer.parseInt(new_id)).get(0));
 
-                    // 判断时间是否冲突
-                    if (chooseCourseService.judgeCourseForTeacher(dbConnector, course)) {
+                //todo 时间被修改了，判断时间是否冲突
+                } else {
+                    Course courseEctype = courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0);
+                    courseService.Delete(dbConnector, courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0));
+                    courseService.Add(dbConnector, courseWaitJudge);
+
+                    ChooseCourseService chooseCourseService = new ChooseCourseService();
+
+                    //时间不冲突，显示成功label
+                    if (chooseCourseService.judgeCourseForTeacher(dbConnector, courseWaitJudge)) {
                         lblCourseId_1_1afm.setVisible(false);
-                        courseService.Update(dbConnector, course);
+                        lblCourseId_1_1asu.setVisible(true);
 
                         // 确认后复位
                         textField_bianhao.setText("");
@@ -482,8 +491,14 @@ public class JwadminPanel {
                         ttta.setText("");
                         textField_2a.setText("");
                         lblCourseId_1_1a.setText("");
+
+                    //时间冲突，将新改的drop，将备份的加回来
                     } else {
+                        courseService.Delete(dbConnector, courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0));
+                        courseService.Add(dbConnector, courseEctype);
+
                         lblCourseId_1_1afm.setVisible(true);
+                        ttta.setText("");
                     }
                 }
             }
@@ -1776,28 +1791,28 @@ public class JwadminPanel {
         comboBox.addItemListener(itemListener_depart);
         comboBox_1.addItemListener(itemListener_kclb);
 
-        // jwadmin右侧内容区 -> 关于
-        JPanel panel_about_jwadmin = new JPanel();
-        panel_about_jwadmin.setLayout(null);
-        panel_container_jwadmin.add(panel_about_jwadmin);
-
-        // jwadmin右侧内容区 -> 关于 -> 标题区
-        JPanel panel_title_about_jwadmin = new JPanel();
-        panel_title_about_jwadmin.setLayout(null);
-        panel_title_about_jwadmin.setForeground(SystemColor.activeCaption);
-        panel_title_about_jwadmin.setBackground(SystemColor.scrollbar);
-        panel_title_about_jwadmin.setBounds(0, 0, 553, 46);
-        panel_about_jwadmin.add(panel_title_about_jwadmin);
-
-        JLabel lblabout = new JLabel("关于");
-        lblabout.setFont(new Font("微软雅黑", Font.BOLD, 16));
-        lblabout.setBounds(10, 10, 64, 22);
-        panel_title_about_jwadmin.add(lblabout);
-
-        JLabel lblabout_1 = new JLabel("教务管理系统 ");
-        lblabout_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
-        lblabout_1.setBounds(10, 56, 150, 22);
-        panel_about_jwadmin.add(lblabout_1);
+//        // jwadmin右侧内容区 -> 关于
+//        JPanel panel_about_jwadmin = new JPanel();
+//        panel_about_jwadmin.setLayout(null);
+//        panel_container_jwadmin.add(panel_about_jwadmin);
+//
+//        // jwadmin右侧内容区 -> 关于 -> 标题区
+//        JPanel panel_title_about_jwadmin = new JPanel();
+//        panel_title_about_jwadmin.setLayout(null);
+//        panel_title_about_jwadmin.setForeground(SystemColor.activeCaption);
+//        panel_title_about_jwadmin.setBackground(SystemColor.scrollbar);
+//        panel_title_about_jwadmin.setBounds(0, 0, 553, 46);
+//        panel_about_jwadmin.add(panel_title_about_jwadmin);
+//
+//        JLabel lblabout = new JLabel("关于");
+//        lblabout.setFont(new Font("微软雅黑", Font.BOLD, 16));
+//        lblabout.setBounds(10, 10, 64, 22);
+//        panel_title_about_jwadmin.add(lblabout);
+//
+//        JLabel lblabout_1 = new JLabel("教务管理系统 ");
+//        lblabout_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
+//        lblabout_1.setBounds(10, 56, 150, 22);
+//        panel_about_jwadmin.add(lblabout_1);
 
         // jwadmin右侧内容区 -> 修改个人信息
         JPanel panel_editInfo_jwadmin = new JPanel();
@@ -2022,6 +2037,7 @@ public class JwadminPanel {
                 panel_container_jwadmin.repaint();
                 panel_homePage_jwadmin.setVisible(true);
                 System.out.println("zhuye");
+
             } else if (e.getSource().equals(btnCoursemanae_jwadmin)) {
                 // 课程管理
                 lbl_title_kechengguanli_jwadmin_1.setVisible(false);
@@ -2055,6 +2071,7 @@ public class JwadminPanel {
                 panel_container_jwadmin.repaint();
                 panel_coursePage_jwadmin.setVisible(true);
                 System.out.println("kechengguanli");
+
             } else if (e.getSource().equals(btnApproval)) {
                 // 人员管理
                 lbl_title_renyuanguanli_jwadmin.setVisible(false);
@@ -2086,6 +2103,7 @@ public class JwadminPanel {
 
                 btnHomPage_jwadmin_2_11h.removeMouseListener(axuesheng);
                 btnHomPage_jwadmin_2_11h.addMouseListener(ajiaoshi);
+
             } else if (e.getSource().equals(btnUnknown8)) {
                 // 退课审批
                 DropCourseService dropCourseService = new DropCourseService();
@@ -2361,18 +2379,84 @@ public class JwadminPanel {
                         courseService.Delete(dbConnector, courseWaitJudge);
                     }
                 }
+
             } else if (e.getSource().equals(btnAbout_2)) {
+                JPanel panel_about_jwadmin = new JPanel();
+                panel_container_jwadmin.add(panel_about_jwadmin, "about");
+                panel_about_jwadmin.setLayout(null);
+
+                JPanel panel_title_about_jwadmin = new JPanel();
+                panel_title_about_jwadmin.setLayout(null);
+                panel_title_about_jwadmin.setForeground(SystemColor.activeCaption);
+                panel_title_about_jwadmin.setBackground(SystemColor.scrollbar);
+                panel_title_about_jwadmin.setBounds(0, 0, 553, 46);
+                panel_about_jwadmin.add(panel_title_about_jwadmin);
+
+                JLabel lbltitle_about = new JLabel("关于SPWD教务管理系统");
+                lbltitle_about.setFont(new Font("微软雅黑", Font.BOLD, 16));
+                lbltitle_about.setBounds(10, 10, 200, 22);
+                panel_title_about_jwadmin.add(lbltitle_about);
+
+                JLabel lbl_spa = new JLabel("SPWD教务管理系统");
+                lbl_spa.setFont(new Font("Lucida Grande", Font.BOLD, 16));
+                lbl_spa.setBounds(207, 149, 170, 28);
+                panel_about_jwadmin.add(lbl_spa);
+
+                JLabel lbl_spa_1 = new JLabel("Version 10.5.608");
+                lbl_spa_1.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
+                lbl_spa_1.setBounds(227, 174, 115, 28);
+                panel_about_jwadmin.add(lbl_spa_1);
+
+                JLabel lblNewLabel_3_1_1_1 = new JLabel("Developed by:");
+                lblNewLabel_3_1_1_1.setBounds(185, 234, 95, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1_1_1);
+
+                JLabel lblNewLabel_3_1_1_1_1 = new JLabel("Xia Runcheng");
+                lblNewLabel_3_1_1_1_1.setBounds(284, 234, 95, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1_1_1_1);
+
+                JLabel lblNewLabel_3_1_1_1_1_1 = new JLabel("Wang Handi");
+                lblNewLabel_3_1_1_1_1_1.setBounds(284, 254, 95, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1_1_1_1_1);
+
+                JLabel lblNewLabel_3_1_1_1_1_1_1 = new JLabel("Dong Liyao");
+                lblNewLabel_3_1_1_1_1_1_1.setBounds(284, 274, 95, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1_1_1_1_1_1);
+
+                JLabel lblNewLabel_321 = new JLabel("Copyright © 2022 SpecialWudi Inc. Practice makes PERFECT.");
+                lblNewLabel_321.setBounds(86, 406, 391, 16);
+                panel_about_jwadmin.add(lblNewLabel_321);
+
+                JLabel lblNewLabel_3_1 = new JLabel("BJUT-11-B105 版权所有");
+                lblNewLabel_3_1.setBounds(205, 383, 147, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1);
+
+                JLabel lblNewLabel_3_1_1 = new JLabel("客服电话：156XXXX9915");
+                lblNewLabel_3_1_1.setBounds(201, 362, 181, 16);
+                panel_about_jwadmin.add(lblNewLabel_3_1_1);
+
+                ImageIcon img = new ImageIcon("src/newjwglxt/jwglxt/logo.png");
+                Image image = img.getImage();
+                image = image.getScaledInstance(64, 64, Image.SCALE_AREA_AVERAGING);
+                img.setImage(image);
+
+                JLabel label = new JLabel(img);
+                label.setBounds(247, 73, 64, 64);
+                panel_about_jwadmin.add(label);
+
                 panel_container_jwadmin.removeAll();
                 panel_container_jwadmin.add(panel_about_jwadmin);
                 panel_container_jwadmin.validate();
                 panel_container_jwadmin.repaint();
-                panel_container_jwadmin.setVisible(true);
+                panel_about_jwadmin.setVisible(true);
+
             } else if (e.getSource().equals(btn_edit_info)) {
                 panel_container_jwadmin.removeAll();
                 panel_container_jwadmin.add(panel_editInfo_jwadmin);
                 panel_container_jwadmin.validate();
                 panel_container_jwadmin.repaint();
                 panel_container_jwadmin.setVisible(true);
+
             } else if (e.getSource().equals(btnCreateCoursea)) {
                 // 课程管理 -> 编辑课程
                 textField_bianhao.setText("");
