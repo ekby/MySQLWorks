@@ -401,6 +401,14 @@ public class JwadminPanel {
         panel_bianjikecheng.add(lblCourseId_1_1afm);
         lblCourseId_1_1afm.setVisible(false);
 
+        JLabel lblCourseId_1_1asu = new JLabel("修改课程成功!");
+        lblCourseId_1_1asu.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblCourseId_1_1asu.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+        lblCourseId_1_1asu.setForeground(Color.green);
+        lblCourseId_1_1asu.setBounds(358, 236, 165, 26);
+        panel_bianjikecheng.add(lblCourseId_1_1asu);
+        lblCourseId_1_1asu.setVisible(false);
+
         JButton btnCreateCourse_1a = primaryBorderButton("确认");
         btnCreateCourse_1a.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         btnCreateCourse_1a.setBounds(433, 314, 100, 33);
@@ -441,12 +449,12 @@ public class JwadminPanel {
                 CourseService courseService = new CourseService();
                 new_sign = courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0).getCsigned_num();
 
-                Course course = new Course(Integer.parseInt(new_id), new_name, new_dep, Double.parseDouble(new_credit), new_kclb, Integer.parseInt(new_tid), new_room, new_time, new_sign, Integer.parseInt(new_max));
-                String old_time = courseService.CheckById(dbConnector, course.getCid()).get(0).getCtime();
+                Course courseWaitJudge = new Course(Integer.parseInt(new_id), new_name, new_dep, Double.parseDouble(new_credit), new_kclb, Integer.parseInt(new_tid), new_room, new_time, new_sign, Integer.parseInt(new_max));
+                String old_time = courseService.CheckById(dbConnector, courseWaitJudge.getCid()).get(0).getCtime();
                 if (new_time.equals(old_time)) {
                     // 如果时间没被更改，就不判断上课时间是否冲突
-                    lblCourseId_1_1afm.setVisible(false);
-                    courseService.Update(dbConnector, course);
+                    lblCourseId_1_1afm.setVisible(true);
+                    courseService.Update(dbConnector, courseWaitJudge);
 
                     textField_bianhao.setText("");
                     textFielda.setText("");
@@ -458,13 +466,19 @@ public class JwadminPanel {
                     ttta.setText("");
                     textField_2a.setText("");
                     lblCourseId_1_1a.setText("");
+
+                //todo 时间被修改了，判断时间是否冲突
                 } else {
-                    //todo 判断时间是否冲突
-//                    courseService.Delete();
+                    Course courseEctype = courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0);
+                    courseService.Delete(dbConnector, courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0));
+                    courseService.Add(dbConnector, courseWaitJudge);
+
                     ChooseCourseService chooseCourseService = new ChooseCourseService();
-                    if (chooseCourseService.judgeCourseForTeacher(dbConnector, course)) {
+
+                    //时间不冲突，显示成功label
+                    if (chooseCourseService.judgeCourseForTeacher(dbConnector, courseWaitJudge)) {
                         lblCourseId_1_1afm.setVisible(false);
-                        courseService.Update(dbConnector, course);
+                        lblCourseId_1_1asu.setVisible(true);
 
                         // 确认后复位
                         textField_bianhao.setText("");
@@ -477,8 +491,14 @@ public class JwadminPanel {
                         ttta.setText("");
                         textField_2a.setText("");
                         lblCourseId_1_1a.setText("");
+
+                    //时间冲突，将新改的drop，将备份的加回来
                     } else {
+                        courseService.Delete(dbConnector, courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0));
+                        courseService.Add(dbConnector, courseEctype);
+
                         lblCourseId_1_1afm.setVisible(true);
+                        ttta.setText("");
                     }
                 }
             }
