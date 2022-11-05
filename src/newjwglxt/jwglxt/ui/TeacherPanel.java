@@ -523,41 +523,48 @@ public class TeacherPanel {
                 panel_title_about_teacher.add(lbltitle_about);
 
                 JLabel lbl_spa = new JLabel("SPWD教务管理系统");
-                lbl_spa.setFont(new Font("Lucida Grande", Font.BOLD, 16));
+                lbl_spa.setFont(new Font("微软雅黑", Font.BOLD, 16));
                 lbl_spa.setBounds(207, 149, 170, 28);
                 panel_about_teacher.add(lbl_spa);
 
                 JLabel lbl_spa_1 = new JLabel("Version 10.5.608");
-                lbl_spa_1.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
+                lbl_spa_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
                 lbl_spa_1.setBounds(227, 174, 115, 28);
                 panel_about_teacher.add(lbl_spa_1);
 
                 JLabel lblNewLabel_3_1_1_1 = new JLabel("Developed by:");
                 lblNewLabel_3_1_1_1.setBounds(185, 234, 95, 16);
+                lblNewLabel_3_1_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
                 panel_about_teacher.add(lblNewLabel_3_1_1_1);
 
                 JLabel lblNewLabel_3_1_1_1_1 = new JLabel("Xia Runcheng");
                 lblNewLabel_3_1_1_1_1.setBounds(284, 234, 95, 16);
+                lblNewLabel_3_1_1_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
                 panel_about_teacher.add(lblNewLabel_3_1_1_1_1);
 
                 JLabel lblNewLabel_3_1_1_1_1_1 = new JLabel("Wang Handi");
                 lblNewLabel_3_1_1_1_1_1.setBounds(284, 254, 95, 16);
+                lblNewLabel_3_1_1_1_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
                 panel_about_teacher.add(lblNewLabel_3_1_1_1_1_1);
 
                 JLabel lblNewLabel_3_1_1_1_1_1_1 = new JLabel("Dong Liyao");
                 lblNewLabel_3_1_1_1_1_1_1.setBounds(284, 274, 95, 16);
+                lblNewLabel_3_1_1_1_1_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
                 panel_about_teacher.add(lblNewLabel_3_1_1_1_1_1_1);
 
                 JLabel lblNewLabel_3 = new JLabel("Copyright © 2022 SpecialWudi Inc. Practice makes PERFECT.");
                 lblNewLabel_3.setBounds(86, 406, 391, 16);
+                lblNewLabel_3.setFont(new Font("微软雅黑", Font.PLAIN, 12));
                 panel_about_teacher.add(lblNewLabel_3);
 
                 JLabel lblNewLabel_3_1 = new JLabel("BJUT-11-B105 版权所有");
                 lblNewLabel_3_1.setBounds(205, 383, 147, 16);
+                lblNewLabel_3_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
                 panel_about_teacher.add(lblNewLabel_3_1);
 
                 JLabel lblNewLabel_3_1_1 = new JLabel("客服电话：156XXXX9915");
                 lblNewLabel_3_1_1.setBounds(201, 362, 181, 16);
+                lblNewLabel_3_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
                 panel_about_teacher.add(lblNewLabel_3_1_1);
 
                 ImageIcon img = new ImageIcon("src/newjwglxt/jwglxt/logo.png");
