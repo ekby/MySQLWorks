@@ -454,6 +454,7 @@ public class JwadminPanel {
                 if (new_time.equals(old_time)) {
                     // 如果时间没被更改，就不判断上课时间是否冲突
                     lblCourseId_1_1afm.setVisible(true);
+                    lblCourseId_1_1asu.setVisible(false);
                     courseService.Update(dbConnector, courseWaitJudge);
 
                     textField_bianhao.setText("");
@@ -497,6 +498,7 @@ public class JwadminPanel {
                         courseService.Delete(dbConnector, courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0));
                         courseService.Add(dbConnector, courseEctype);
 
+                        lblCourseId_1_1asu.setVisible(false);
                         lblCourseId_1_1afm.setVisible(true);
                         ttta.setText("");
                     }
