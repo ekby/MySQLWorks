@@ -222,7 +222,8 @@ public class CourseService implements Service_idx1<Course> {
             //选课表和退课表都没有
             if (!chosenCourses_cid.contains(x) && !droppedCourses_cid.contains(x)) {
                 courses_cid.add(x);
-            } else if (!chosenCourses_cid.contains(x) && dropCourseService.CheckBySidAndCid(dbConnector, student.getId(), x).get(0).getDchandle() == 1) {
+            } else if (!chosenCourses_cid.contains(x) &&
+                    dropCourseService.CheckBySidAndCid(dbConnector, student.getId(), x).get(0).getDchandle() == 1) {
                 //选课表没有，退课表必须是批准
                 courses_cid.add(x);
             }
@@ -237,7 +238,8 @@ public class CourseService implements Service_idx1<Course> {
             courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCroom());
             courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCcredit());
             courseRow.add(courseService.CheckById(dbConnector, cid).get(0).getCkclb());
-            courseRow.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, cid).get(0).getCteacherid()).get(0).getName());
+            courseRow.add(teacherService.CheckById(dbConnector,
+                    courseService.CheckById(dbConnector, cid).get(0).getCteacherid()).get(0).getName());
             courseCol.add(courseRow);
         }
         System.out.println(courses);

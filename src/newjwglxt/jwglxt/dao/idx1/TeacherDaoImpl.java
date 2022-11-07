@@ -77,7 +77,8 @@ public class TeacherDaoImpl implements Dao_idx1<Teacher> {
         DatabaseMetaData databaseMetaData;
         ArrayList<Teacher> arrayList;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher WHERE id=?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM teacher WHERE id=?",
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);  // 为了下文让指针能移动
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             arrayList = new ArrayList<>();
