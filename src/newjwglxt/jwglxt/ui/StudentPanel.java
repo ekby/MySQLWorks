@@ -11,8 +11,6 @@ import newjwglxt.jwglxt.service.idx2.DropCourseService;
 import newjwglxt.jwglxt.util.DbConnector;
 import newjwglxt.jwglxt.util.QuickButton;
 import newjwglxt.jwglxt.util.SHA256;
-import newjwglxt.jwglxt.util.Judge;
-
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -269,17 +267,17 @@ public class StudentPanel {
                     setComboboxStyle(comboBox_selectWay);
                     comboBox_selectWay.setSelectedItem(student_login.getGender());
                     comboBox_selectWay.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-                    comboBox_selectWay.setBounds(247, 48, 115, 34);
+                    comboBox_selectWay.setBounds(247, 48, 115, 30);
                     panel_coursePage_student.add(comboBox_selectWay);
 
                     JTextField textField_Select = new JTextField();
                     textField_Select.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-                    textField_Select.setBounds(372, 46, 80, 34);
+                    textField_Select.setBounds(372, 48, 80, 30);
                     panel_coursePage_student.add(textField_Select);
                     textField_Select.setColumns(10);
 
                     JButton btnchoose_select = primaryBorderButton("查询");
-                    btnchoose_select.setBounds(460, 48, 80, 30);
+                    btnchoose_select.setBounds(459, 48, 80, 30);
                     panel_coursePage_student.add(btnchoose_select);
 
                     JScrollPane scrollPane_avaiblecourse = new JScrollPane();
