@@ -69,7 +69,7 @@ public class SelectFunc {
         JTextField textFielda = new JTextField();
         textFielda.setBorder(new QuickButton.RoundBorder(Color.black, 0));
         textFielda.setFont(new Font("微软雅黑", Font.PLAIN, 13));
-        textFielda.setBounds(553 - 70 - 10 - 10 - 140, 56, 140, 26);
+        textFielda.setBounds(553 - 70 - 10 - 140, 56, 140-10, 26);
         panel_Chazhao.add(textFielda);
 
         JButton btnCreateCourse_1a = primaryBorderButton("查找");
