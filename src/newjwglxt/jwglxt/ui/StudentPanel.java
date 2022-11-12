@@ -538,7 +538,9 @@ public class StudentPanel {
 
                             int flag = table_nominatedCourse.getSelectedRow();
                             System.out.println(flag);
-                            if (flag != -1 && data_nominatedCourse.size() != 0) {
+                            int stuGrade = chooseCourseService.CheckBySidAndCid(dbConnector, student_login.getId(), (Integer)table_nominatedCourse.getValueAt(flag, 1)).get(0).getCcscore();
+
+                            if (flag != -1 && data_nominatedCourse.size() != 0 && stuGrade == 0) {
                                 System.out.println("退课操作完成，待管理员审批！");
                                 lbl_dcsSuccess.setVisible(true);
                                 lbl_dcsFalse.setVisible(false);

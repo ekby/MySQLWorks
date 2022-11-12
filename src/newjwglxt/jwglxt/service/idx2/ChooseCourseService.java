@@ -55,20 +55,20 @@ public class ChooseCourseService implements Service_idx2<ChooseCourse> {
         ArrayList<DropCourse> dropCourses = dropCourseService.CheckBySid(dbConnector, student.getId());
         Vector<Vector<Object>> courseCol = new Vector<>();
 
-        for (DropCourse dropCourse : dropCourses) {
-            //退课被驳回
-            if (dropCourse.getDchandle() == -1) {
-                Vector<Object> courseRowDefeatDrop = new Vector<>();
-                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCname());
-                courseRowDefeatDrop.add(dropCourse.getDccid());
-                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCtime());
-                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCroom());
-                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCcredit());
-                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCkclb());
-                courseRowDefeatDrop.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCteacherid()).get(0).getName());
-                courseCol.add(courseRowDefeatDrop);
-            }
-        }
+//        for (DropCourse dropCourse : dropCourses) {
+//            //退课被驳回
+//            if (dropCourse.getDchandle() == -1) {
+//                Vector<Object> courseRowDefeatDrop = new Vector<>();
+//                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCname());
+//                courseRowDefeatDrop.add(dropCourse.getDccid());
+//                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCtime());
+//                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCroom());
+//                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCcredit());
+//                courseRowDefeatDrop.add(courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCkclb());
+//                courseRowDefeatDrop.add(teacherService.CheckById(dbConnector, courseService.CheckById(dbConnector, dropCourse.getDccid()).get(0).getCteacherid()).get(0).getName());
+//                courseCol.add(courseRowDefeatDrop);
+//            }
+//        }
 
         for (ChooseCourse chooseCourse : chooseCourses) {
             Vector<Object> courseRow = new Vector<>();
