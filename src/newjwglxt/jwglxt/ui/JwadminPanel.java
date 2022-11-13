@@ -454,6 +454,7 @@ public class JwadminPanel {
                 if (new_time.equals(old_time)) {
                     // 如果时间没被更改，就不判断上课时间是否冲突
                     lblCourseId_1_1afm.setVisible(true);
+                    lblCourseId_1_1asu.setVisible(false);
                     courseService.Update(dbConnector, courseWaitJudge);
 
                     textField_bianhao.setText("");
@@ -497,6 +498,7 @@ public class JwadminPanel {
                         courseService.Delete(dbConnector, courseService.CheckById(dbConnector, Integer.parseInt(new_id)).get(0));
                         courseService.Add(dbConnector, courseEctype);
 
+                        lblCourseId_1_1asu.setVisible(false);
                         lblCourseId_1_1afm.setVisible(true);
                         ttta.setText("");
                     }
@@ -1727,6 +1729,7 @@ public class JwadminPanel {
                 int dcid = (int) table_2.getValueAt(table_2.getSelectedRow(), 0);
                 DropCourseService dropCourseService = new DropCourseService();
                 DropCourse dropCourse = dropCourseService.CheckByDcid(dbConnector, dcid).get(0);
+                //同意
                 dropCourse.setDchandle(1);
                 dropCourseService.Update(dbConnector, dropCourse);
 
@@ -1745,9 +1748,21 @@ public class JwadminPanel {
             public void actionPerformed(ActionEvent e) {
                 int dcid = (int) table_2.getValueAt(table_2.getSelectedRow(), 0);
                 DropCourseService dropCourseService = new DropCourseService();
+                ChooseCourseService chooseCourseService = new ChooseCourseService();
+                CourseService courseService = new CourseService();
+
                 DropCourse dropCourse = dropCourseService.CheckByDcid(dbConnector, dcid).get(0);
+                //驳回
                 dropCourse.setDchandle(-1);
+
+                int cccid = (int) table_2.getValueAt(table_2.getSelectedRow(), 3);
+                int sid = (int) table_2.getValueAt(table_2.getSelectedRow(), 1);
+
+                ChooseCourse chooseCourse = new ChooseCourse(0, sid, cccid, 0, 0);
+                //已选课程表中重新添加
+                chooseCourseService.Add(dbConnector, chooseCourse);
                 dropCourseService.Update(dbConnector, dropCourse);
+
 
                 // 更新退课表
                 Vector<Vector<Object>> new_data = dropCourseService.getUnhandledCourses(dbConnector);
@@ -2401,7 +2416,6 @@ public class JwadminPanel {
                 lbl_spa.setFont(new Font("微软雅黑", Font.BOLD, 16));
                 lbl_spa.setBounds(207, 149, 170, 28);
                 panel_about_jwadmin.add(lbl_spa);
-
                 JLabel lbl_spa_1 = new JLabel("Version 10.5.608");
                 lbl_spa_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
                 lbl_spa_1.setBounds(227, 174, 115, 28);
