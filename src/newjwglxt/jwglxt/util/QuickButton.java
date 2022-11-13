@@ -10,26 +10,6 @@ import java.awt.*;
  */
 public class QuickButton {
     /**
-     * 白字蓝底无边框
-     *
-     * @param text
-     * @return
-     */
-    public static JButton primaryButton(String text) {
-        return createBgButton(text, PRIMARY_BG, FONT_COLOR);
-    }
-
-    /**
-     * 白字红底无边框
-     *
-     * @param text
-     * @return
-     */
-    public static JButton dangerButton(String text) {
-        return createBgButton(text, DANGER_BG, FONT_COLOR);
-    }
-
-    /**
      * 白字绿底无边框
      *
      * @param text
@@ -49,38 +29,9 @@ public class QuickButton {
         return createBorderButton(text, Color.BLACK);
     }
 
-    /**
-     * 绿字绿边框透明背景
-     *
-     * @param text
-     * @return
-     */
-    public static JButton greenBorderButton(String text) {
-        return createBorderButton(text, GREEN_BG);
-    }
-
-    /**
-     * 红字红边框透明背景
-     *
-     * @param text
-     * @return
-     */
-    public static JButton dangerBorderButton(String text) {
-        return createBorderButton(text, DANGER_BG);
-    }
-
-
     private static JButton DEFAULT_BUTTON = new JButton();
     /**
-     * #1890FF  蓝色
-     */
-    private static final Color PRIMARY_BG = new Color(24, 144, 255);
-    /**
-     * #FF4D4F  红色
-     */
-    private static final Color DANGER_BG = new Color(255, 77, 79);
-    /*
-     *#009688 墨绿色
+     * #009688 墨绿色
      */
     private static final Color GREEN_BG = new Color(0, 150, 136);
     /**
