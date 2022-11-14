@@ -2456,7 +2456,9 @@ public class JwadminPanel {
                 lblNewLabel_3_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
                 panel_about_jwadmin.add(lblNewLabel_3_1_1);
 
-                ImageIcon img = new ImageIcon("src/newjwglxt/jwglxt/logo.png");
+                java.net.URL fileURL = this.getClass().getResource("/newjwglxt/jwglxt/util/logo.png");
+                assert fileURL != null;
+                ImageIcon img = new ImageIcon(fileURL);
                 Image image = img.getImage();
                 image = image.getScaledInstance(64, 64, Image.SCALE_AREA_AVERAGING);
                 img.setImage(image);

@@ -31,7 +31,9 @@ public class LoginPanel {
         contentPane.add(login, "name_601797172477500");
         login.setLayout(null);
 
-        ImageIcon img = new ImageIcon("src/newjwglxt/jwglxt/Halland.png");
+        java.net.URL fileURL = this.getClass().getResource("/newjwglxt/jwglxt/util/Halland.png");
+        assert fileURL != null;
+        ImageIcon img = new ImageIcon(fileURL);
         Image image = img.getImage();
         image = image.getScaledInstance(515, 471, Image.SCALE_AREA_AVERAGING);
         img.setImage(image);

@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Vector;
 
@@ -1386,7 +1387,9 @@ public class XtadminPanel {
                 lblNewLabel_3_1_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
                 panel_about_xtadmin.add(lblNewLabel_3_1_1);
 
-                ImageIcon img = new ImageIcon("src/newjwglxt/jwglxt/logo.png");
+                java.net.URL fileURL = this.getClass().getResource("/newjwglxt/jwglxt/util/logo.png");
+                assert fileURL != null;
+                ImageIcon img = new ImageIcon(fileURL);
                 Image image = img.getImage();
                 image = image.getScaledInstance(64, 64, Image.SCALE_AREA_AVERAGING);
                 img.setImage(image);
